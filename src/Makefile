@@ -7,7 +7,7 @@
 SHELL	= /bin/sh
 
 SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
-	Renderer.cpp
+	Renderer.cpp ShaderProgram.cpp StaticShader.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 

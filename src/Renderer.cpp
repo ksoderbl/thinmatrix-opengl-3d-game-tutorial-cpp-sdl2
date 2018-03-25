@@ -8,13 +8,13 @@ void Renderer::prepare()
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::render(RawModel *model)
+void Renderer::render(RawModel *model, GLuint shaderProgram)
 {
 	GLuint vaoID = model->getVaoID();
 	
 	//glEnableClientState(GL_VERTEX_ARRAY);
 	
-	glUseProgram(model->getShaderProgram());
+	glUseProgram(shaderProgram);
 	
 	glBindVertexArray(vaoID);
 	

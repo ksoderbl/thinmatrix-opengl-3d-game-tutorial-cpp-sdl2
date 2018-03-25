@@ -4,6 +4,7 @@
 #include "RawModel.h"
 #include "Loader.h"
 #include "Renderer.h"
+#include "StaticShader.h"
 
 #include <cassert>
 #include <cmath>
@@ -126,6 +127,7 @@ int main(int argc, char *argv[])
 	DisplayManager manager;
 	Loader loader;
 	Renderer renderer;
+	StaticShader shader;
 	
 	srand(time(NULL));
   
@@ -148,6 +150,12 @@ int main(int argc, char *argv[])
 		0, 1, 3, // Top left triangle
 		3, 1, 2  // Bottom right triangle
 	};
+
+
+
+
+
+	shader.LoadShaders();
         
     RawModel* model = loader.loadToVAO(vertices, indices);
     
@@ -159,7 +167,7 @@ int main(int argc, char *argv[])
 		// game logic
 		checkEvents();
 		
-		renderer.render(model);
+		renderer.render(model, shader.getShaderProgram());
 		manager.updateDisplay();
 	}
 

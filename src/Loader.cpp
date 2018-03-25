@@ -14,44 +14,12 @@ Loader::~Loader()
 
 RawModel *Loader::loadToVAO(vector<GLfloat>&positions, vector<GLuint>&indices)
 {
-	const char* vertex_shader =
-		"#version 150\n"
-		"in vec3 vp;"
-		"void main() {"
-		"  gl_Position = vec4(vp, 1.0);"
-		"}";
-	
-	const char* fragment_shader =
-		"#version 150\n"
-		"out vec4 frag_color;"
-		"void main() {"
-		"  frag_color = vec4(1.0, 1.0, 1.0, 1.0);"
-		"}";
-    
-    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, NULL);
-	glCompileShader(vs);
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, NULL);
-	glCompileShader(fs);
-    
-    GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, fs);
-	glAttachShader(shaderProgram, vs);
-	glLinkProgram(shaderProgram);
-	
-    glEnableVertexAttribArray( 0 );
-    glEnableVertexAttribArray( 1 );
-
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glVertexAttribPointer( 1, 1, GL_UNSIGNED_INT, GL_FALSE, 0, 0); // ????
-	
 	storeDataInAttributeList(0, positions);
 	GLuint ibo = bindIndicesBuffer(indices);
 	
 	GLuint vao = createVAO();
 			
-	return new RawModel(vao, shaderProgram, ibo, indices.size());
+	return new RawModel(vao, ibo, indices.size());
 }
 
 void Loader::cleanUp()

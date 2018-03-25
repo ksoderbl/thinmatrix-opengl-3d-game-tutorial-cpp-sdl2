@@ -7,11 +7,15 @@
 #include <SDL2/SDL.h>
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 using std::cout;
+using std::cin;
+using std::ios;
 using std::cerr;
 using std::endl;
 using std::string;
+using std::ifstream;
 
 #endif
