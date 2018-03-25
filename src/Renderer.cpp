@@ -1,4 +1,3 @@
-
 #include "Headers.h"
 #include "RawModel.h"
 #include "Renderer.h"
@@ -16,9 +15,20 @@ void Renderer::render(RawModel *model)
 	//glEnableClientState(GL_VERTEX_ARRAY);
 	
 	glUseProgram(model->getShaderProgram());
+	
 	glBindVertexArray(vaoID);
+	
 	glEnableVertexAttribArray(0);
-	glDrawArrays(GL_TRIANGLES, 0, model->getVertexCount());
+	glEnableVertexAttribArray(1);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->getIboID());
+	
+	glDrawElements(
+		GL_TRIANGLES,      // mode
+		model->getVertexCount(), //indices.size(),    // count
+		GL_UNSIGNED_INT,   // type
+		(void*)0           // element array buffer offset
+	);
 	
 	//glDisableVertexAttribArray(0);
 	//glBindVertexArray(0);

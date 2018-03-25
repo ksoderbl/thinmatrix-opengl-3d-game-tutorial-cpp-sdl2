@@ -133,18 +133,23 @@ int main(int argc, char *argv[])
 	
 	cout << "createDisplay OK"  << endl;
 	
-	GLfloat vertices[] = {
-		// left bottom triangle
-		-0.5f, 0.5f, 0.0f, 
-		-0.5f, -0.5f, 0.0f, 
-		0.5f, -0.5f, 0.0f, 
-		// right top triangle
-		0.5f, -0.5f, 0.0f, 
-		0.5f, 0.5f, 0.0f, 
-		-0.5f, 0.5f, 0.0f
+	vector<GLfloat> vertices = {
+		-0.5f, 0.5f, 0.0f,  // V0
+		-0.5f, -0.5f, 0.0f, // V1
+		0.5f, -0.5f, 0.0f,  // V2
+		0.5f, 0.5f, 0.0f    // V3
+	};
+
+	//  V0     V3
+	//
+	//  V1     V2
+
+	vector<GLuint> indices = {
+		0, 1, 3, // Top left triangle
+		3, 1, 2  // Bottom right triangle
 	};
         
-    RawModel* model = loader.loadToVAO(vertices, 6 * 3);
+    RawModel* model = loader.loadToVAO(vertices, indices);
     
     cout << "loadToVao OK"  << endl;
     

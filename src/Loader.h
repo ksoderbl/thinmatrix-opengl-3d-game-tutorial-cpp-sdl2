@@ -13,12 +13,13 @@ class Loader {
 public:
 	Loader();
 	~Loader();
-	RawModel* loadToVAO(GLfloat positions[], int numPositions);
+	RawModel* loadToVAO(vector<GLfloat>&positions, vector<GLuint>&indices);
 	void cleanUp();
 private:
 	GLuint createVAO();
-	GLuint storeDataInAttributeList(int attributeNumber, GLfloat data[], int numData);
+	void storeDataInAttributeList(int attributeNumber, vector<GLfloat>&data);
 	void unbindVAO(GLuint vaoID);
+	GLuint bindIndicesBuffer(vector<GLuint>&indices);
 	
 	vector<GLuint> *vaos;
 	vector<GLuint> *vbos;

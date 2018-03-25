@@ -12,7 +12,7 @@ Loader::~Loader()
 	delete vbos;
 }
 
-RawModel *Loader::loadToVAO(GLfloat positions[], int numPositions)
+RawModel *Loader::loadToVAO(vector<GLfloat>&positions, vector<GLuint>&indices)
 {
 	const char* vertex_shader =
 		"#version 150\n"
@@ -27,7 +27,6 @@ RawModel *Loader::loadToVAO(GLfloat positions[], int numPositions)
 		"void main() {"
 		"  frag_color = vec4(1.0, 1.0, 1.0, 1.0);"
 		"}";
-
     
     GLuint vs = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vs, 1, &vertex_shader, NULL);
@@ -36,21 +35,23 @@ RawModel *Loader::loadToVAO(GLfloat positions[], int numPositions)
 	glShaderSource(fs, 1, &fragment_shader, NULL);
 	glCompileShader(fs);
     
-    
     GLuint shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, fs);
 	glAttachShader(shaderProgram, vs);
 	glLinkProgram(shaderProgram);
 	
     glEnableVertexAttribArray( 0 );
+    glEnableVertexAttribArray( 1 );
 
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	storeDataInAttributeList(0, positions, numPositions);
+    glVertexAttribPointer( 1, 1, GL_UNSIGNED_INT, GL_FALSE, 0, 0); // ????
+	
+	storeDataInAttributeList(0, positions);
+	GLuint ibo = bindIndicesBuffer(indices);
 	
 	GLuint vao = createVAO();
-		
-	return new RawModel(vao, shaderProgram, numPositions / 3);
+			
+	return new RawModel(vao, shaderProgram, ibo, indices.size());
 }
 
 void Loader::cleanUp()
@@ -79,18 +80,26 @@ GLuint Loader::createVAO()
 	return vao;
 }
 
-GLuint Loader::storeDataInAttributeList(int attributeNumber, GLfloat data[], int numData)
+void Loader::storeDataInAttributeList(int attributeNumber, vector<GLfloat>&data)
 {
 	GLuint vbo = 0;
 	glGenBuffers(1, &vbo);
 	vbos->push_back(vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, numData * sizeof(GLfloat), data, GL_STATIC_DRAW);
-	
-	return vbo;
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(GLfloat), &data[0], GL_STATIC_DRAW);
 }
 
 void Loader::unbindVAO(GLuint vao)
 {
 	glDeleteVertexArrays(1, &vao);
+}
+
+GLuint Loader::bindIndicesBuffer(vector<GLuint>&indices)
+{
+	GLuint ibo = 0;
+	glGenBuffers(1, &ibo);
+	vbos->push_back(ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
+	return ibo;
 }
