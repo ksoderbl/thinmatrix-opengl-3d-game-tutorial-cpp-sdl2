@@ -1,9 +1,7 @@
 #ifndef DISPLAYMANAGER_H
 #define DISPLAYMANAGER_H
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <SDL2/SDL.h>
+#include "Headers.h"
 
 class DisplayManager {
 private:

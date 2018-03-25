@@ -1,15 +1,9 @@
-#include <iostream>
-#include <string>
+#define DATADIR "../data"
 
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::string;
-
-#include <GL/gl.h>
-#include <GL/glu.h>
-
-#include <SDL2/SDL.h>
+#include "DisplayManager.h"
+#include "RawModel.h"
+#include "Loader.h"
+#include "Renderer.h"
 
 #include <cassert>
 #include <cmath>
@@ -17,9 +11,6 @@ using std::string;
 #include <csignal>
 #include <cstdarg>
 #include <cstdlib>
-
-#include "MainGameLoop.h"
-#include "DisplayManager.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -120,7 +111,8 @@ void checkEvents(void)
 				break;
 			default:
 				break;
-			}*/
+			}
+			*/
 		}
 	}
 	
@@ -131,21 +123,44 @@ void checkEvents(void)
 
 int main(int argc, char *argv[])
 {
-	DisplayManager dm;
-  
-	srand(time(NULL));
+	DisplayManager manager;
+	Loader loader;
+	Renderer renderer;
 	
-	dm.createDisplay();
+	srand(time(NULL));
+  
+	manager.createDisplay();
+	
+	cout << "createDisplay OK"  << endl;
+	
+	GLfloat vertices[] = {
+		// left bottom triangle
+		-0.5f, 0.5f, 0.0f, 
+		-0.5f, -0.5f, 0.0f, 
+		0.5f, -0.5f, 0.0f, 
+		// right top triangle
+		0.5f, -0.5f, 0.0f, 
+		0.5f, 0.5f, 0.0f, 
+		-0.5f, 0.5f, 0.0f
+	};
+        
+    RawModel* model = loader.loadToVAO(vertices, 6 * 3);
+    
+    cout << "loadToVao OK"  << endl;
     
 	while (!isCloseRequested) {
-
-		checkEvents();
+		renderer.prepare();
+		
 		// game logic
-		// render
-		dm.updateDisplay();
+		checkEvents();
+		
+		renderer.render(model);
+		manager.updateDisplay();
 	}
 
-	dm.closeDisplay();
+	loader.cleanUp();
+
+	manager.closeDisplay();
 	
 	return 0;
 }

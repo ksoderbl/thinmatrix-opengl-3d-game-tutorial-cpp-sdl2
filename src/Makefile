@@ -6,7 +6,8 @@
 
 SHELL	= /bin/sh
 
-SOURCES = MainGameLoop.cpp DisplayManager.cpp
+SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
+	Renderer.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 
@@ -14,7 +15,7 @@ CC	= g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 CFLAGS	= -O2 -g -Wall $(SDL_CFLAGS)
-LDFLAGS	= -L/usr/X11R6/lib -lGLU -lGL -lXt -lXi -lXmu -lXext -lX11 -lm $(SDL_LDFLAGS) -lpng
+LDFLAGS	= -L/usr/X11R6/lib -lGLEW -lGLU -lGL -lXt -lXi -lXmu -lXext -lX11 -lm $(SDL_LDFLAGS) -lpng
 
 
 all: $(TARGET)

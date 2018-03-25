@@ -1,5 +1,7 @@
 //namespace renderEngine;
 
+#include <GL/glew.h>
+
 #include <iostream>
 #include <string>
 
@@ -36,11 +38,15 @@ const string S_APPNAME = "Our First Display!";
 void DisplayManager::createDisplay()
 {
 	int val;
+	GLenum error;
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         cerr << "SDL_Init failed: " << SDL_GetError() << endl;
 		exit(1);
 	}
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     
 	Uint32 flags = SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE;
     
@@ -56,9 +62,21 @@ void DisplayManager::createDisplay()
 		exit(1);
 	}
 	
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+
+
+	// Init GLEW after creating gl context
+	glewExperimental = GL_TRUE; 
+		
+	// $ glewinfo | less
+	error = glewInit();
+	if (error != GLEW_OK) {
+		cerr << "glewInit error: " << glewGetErrorString(error)  << endl;
+		exit(1);
+	}
+	cout << "Using GLEW version " << glewGetString(GLEW_VERSION) << endl;
+
+
 	
 	val = SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	if (val < 0) {
