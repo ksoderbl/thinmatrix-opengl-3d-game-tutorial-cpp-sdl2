@@ -5,6 +5,8 @@
 #include "Loader.h"
 #include "Renderer.h"
 #include "StaticShader.h"
+#include "ModelTexture.h"
+#include "TexturedModel.h"
 
 #include <cassert>
 #include <cmath>
@@ -149,8 +151,17 @@ int main(int argc, char *argv[])
 		0, 1, 3, // Top left triangle
 		3, 1, 2  // Bottom right triangle
 	};
-        
-    RawModel* model = loader.loadToVAO(vertices, indices);
+
+	vector<GLfloat> textureCoords = {
+		0, 0,     // V0
+		0, 1,     // V1
+		1, 1,     // V2
+		1, 0,     // V3
+	};
+
+    RawModel* model = loader.loadToVAO(vertices, textureCoords, indices);
+    ModelTexture *texture = 0;
+    TexturedModel *texturedModel = new TexturedModel(model, texture);
     
     cout << "loadToVao OK"  << endl;
     
@@ -160,7 +171,7 @@ int main(int argc, char *argv[])
 		
 		renderer.prepare();
 		shader.start();
-		renderer.render(model);
+		renderer.render(texturedModel);
 		shader.stop();
 		
 		manager.updateDisplay();

@@ -1,20 +1,27 @@
 #include "Loader.h"
 
+#include <png.h>
+
 Loader::Loader()
 {
 	vaos = new vector<GLuint>();
 	vbos = new vector<GLuint>();
+	textures = new vector<GLuint>();
 }
 
 Loader::~Loader()
 {
 	delete vaos;
 	delete vbos;
+	delete textures;
 }
 
-RawModel *Loader::loadToVAO(vector<GLfloat>&positions, vector<GLuint>&indices)
+RawModel *Loader::loadToVAO(
+	vector<GLfloat>&positions,
+	vector<GLfloat>&textureCoords,
+	vector<GLuint>&indices)
 {
-	storeDataInAttributeList(0, positions);
+	storeDataInAttributeList(0, 3, positions);
 	GLuint ibo = bindIndicesBuffer(indices);
 	
 	GLuint vao = createVAO();
@@ -33,6 +40,10 @@ void Loader::cleanUp()
 	for (p = vbos->begin(); p != vbos->end(); p++)
 		glDeleteBuffers(1, &*p);
 	vbos->clear();
+	
+	for (p = textures->begin(); p != textures->end(); p++)
+		glDeleteTextures(1, &*p);
+	textures->clear();
 }
 
 GLuint Loader::createVAO()
@@ -48,7 +59,10 @@ GLuint Loader::createVAO()
 	return vao;
 }
 
-void Loader::storeDataInAttributeList(int attributeNumber, vector<GLfloat>&data)
+void Loader::storeDataInAttributeList(
+	int attributeNumber,
+	int coordinateSize,
+	vector<GLfloat>&data)
 {
 	GLuint vbo = 0;
 	glGenBuffers(1, &vbo);

@@ -53,6 +53,7 @@ void ShaderProgram::bindAttribute(int attribute, string variableName)
 void ShaderProgram::bindAttributes()
 {
 	bindAttribute(0, "position");
+	bindAttribute(1, "textureCoords");
 }
 
 

@@ -1,5 +1,5 @@
-#ifndef OPENGL_H
-#define OPENGL_H
+#ifndef HEADERS_H
+#define HEADERS_H
 
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::cin;
@@ -17,5 +18,6 @@ using std::cerr;
 using std::endl;
 using std::string;
 using std::ifstream;
+using std::vector;
 
 #endif
