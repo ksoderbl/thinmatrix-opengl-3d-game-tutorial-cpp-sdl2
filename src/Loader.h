@@ -2,6 +2,7 @@
 #define LOADER_H
 
 #include "Headers.h"
+
 #include "RawModel.h"
 
 class Loader {
@@ -12,13 +13,16 @@ public:
 		vector<GLfloat>&positions,
 		vector<GLfloat>&textureCoords,
 		vector<GLuint>&indices);
+	GLuint loadTexture(string fileName);
 	void cleanUp();
 private:
 	GLuint createVAO();
+	GLuint createVBO(GLenum target);
 	void storeDataInAttributeList(int attributeNumber, int coordinateSize, vector<GLfloat>&data);
-	void unbindVAO(GLuint vaoID);
-	GLuint bindIndicesBuffer(vector<GLuint>&indices);
-	
+	void unbindVAO();
+	void bindIndicesBuffer(vector<GLuint>&indices);
+	GLubyte* LoadPNGImage(string imageFile, GLint *width, GLint *height, GLenum *format);
+
 	vector<GLuint> *vaos;
 	vector<GLuint> *vbos;
 	vector<GLuint> *textures;

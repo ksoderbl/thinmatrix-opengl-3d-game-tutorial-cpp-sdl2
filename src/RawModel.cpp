@@ -1,9 +1,8 @@
 
 #include "RawModel.h"
 
-RawModel::RawModel(GLuint vaoID, GLuint iboID, int vertexCount)
+RawModel::RawModel(GLuint vaoID, int vertexCount)
 {
 	this->vaoID = vaoID;
-	this->iboID = iboID;
 	this->vertexCount = vertexCount;
 }

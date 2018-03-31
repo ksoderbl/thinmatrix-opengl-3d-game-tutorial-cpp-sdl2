@@ -61,9 +61,6 @@ void DisplayManager::createDisplay()
 		cerr << "Create GL context failed: " << SDL_GetError() << endl;
 		exit(1);
 	}
-	
-
-
 
 	// Init GLEW after creating gl context
 	glewExperimental = GL_TRUE; 
@@ -74,9 +71,6 @@ void DisplayManager::createDisplay()
 		cerr << "glewInit error: " << glewGetErrorString(error)  << endl;
 		exit(1);
 	}
-	cout << "Using GLEW version " << glewGetString(GLEW_VERSION) << endl;
-
-
 	
 	val = SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	if (val < 0) {

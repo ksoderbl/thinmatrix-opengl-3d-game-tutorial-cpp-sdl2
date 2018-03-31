@@ -6,12 +6,10 @@
 class RawModel {
 private:
 	GLuint vaoID;
-	GLuint iboID;
 	int vertexCount;
 public:
-	RawModel(GLuint vaoID, GLuint iboID, int vertexCount);
+	RawModel(GLuint vaoID, int vertexCount);
 	GLuint getVaoID() { return vaoID; }
-	GLuint getIboID() { return iboID; }
 	int getVertexCount() { return vertexCount; }
 };
 
