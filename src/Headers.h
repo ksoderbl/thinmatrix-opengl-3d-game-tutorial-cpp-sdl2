@@ -6,6 +6,9 @@
 #include <GL/glu.h>
 #include <SDL2/SDL.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <string>

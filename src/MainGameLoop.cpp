@@ -162,12 +162,21 @@ int main(int argc, char *argv[])
 	ModelTexture *texture = new ModelTexture(textureID);
 	TexturedModel *texturedModel = new TexturedModel(model, texture);
 
+	GLfloat m[16] = {
+		1.0f, 1.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+	
+
 	while (!isCloseRequested) {
 		// game logic
 		checkEvents();
 		
 		renderer.prepare();
 		shader.start();
+		shader.loadTransformationMatrix(m);
 		renderer.render(texturedModel);
 		shader.stop();
 		

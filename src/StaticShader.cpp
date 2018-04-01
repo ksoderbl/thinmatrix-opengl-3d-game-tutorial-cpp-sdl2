@@ -6,11 +6,13 @@ const string FRAGMENT_FILE = "shaders/fragmentShader.txt";
 
 StaticShader::StaticShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 {
-	;
+	//ShaderProgram::initialize();
 }
 
+/*
 void StaticShader::bindAttributes()
 {
 	ShaderProgram::bindAttribute(0, "position");
 }
+*/
 

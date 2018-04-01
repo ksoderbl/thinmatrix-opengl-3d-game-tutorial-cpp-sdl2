@@ -5,5 +5,5 @@ class StaticShader: public ShaderProgram
 {
 public:
 	StaticShader();
-	void bindAttributes();
+	//void bindAttributes();
 };

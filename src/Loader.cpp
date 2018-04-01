@@ -101,7 +101,7 @@ GLuint Loader::createVBO(GLenum target)
 
 void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, vector<GLfloat>&data)
 {
-	GLuint vboID = createVBO(GL_ARRAY_BUFFER);
+	createVBO(GL_ARRAY_BUFFER);
 	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(GLfloat), &data[0], GL_STATIC_DRAW);	
 	glVertexAttribPointer(attributeNumber, coordinateSize, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -109,7 +109,7 @@ void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, v
 
 void Loader::bindIndicesBuffer(vector<GLuint>&indices)
 {
-	GLuint vboID = createVBO(GL_ELEMENT_ARRAY_BUFFER);
+	createVBO(GL_ELEMENT_ARRAY_BUFFER);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);
 }
 

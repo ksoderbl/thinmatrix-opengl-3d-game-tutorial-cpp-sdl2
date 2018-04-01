@@ -22,6 +22,12 @@ ShaderProgram::ShaderProgram(string vertexFile, string fragmentFile)
 		cerr << "Could not link shader program" << endl;
 		exit(1);
 	}
+	getAllUniformLocations();
+}
+
+int ShaderProgram::getUniformLocation(string uniformName)
+{
+	return glGetUniformLocation(programID, uniformName.c_str());
 }
 
 void ShaderProgram::start()
@@ -56,6 +62,52 @@ void ShaderProgram::bindAttributes()
 	bindAttribute(1, "textureCoords");
 }
 
+void ShaderProgram::loadFloat(int location, float value)
+{
+	glUniform1f(location, value);
+}
+
+void ShaderProgram::loadVector(int location, vector<GLfloat>& vec)
+{
+	glUniform3f(location, vec[0], vec[1], vec[2]);
+}
+
+void ShaderProgram::loadBoolean(int location, bool value)
+{
+	GLfloat toLoad = (value ? 1 : 0);
+	glUniform1f(location, toLoad);
+}
+
+// value needs to have 16 components for a 4 x 4 matrix
+void ShaderProgram::loadMatrix(int location, GLfloat matrix[16])
+{
+	glUniformMatrix4fv(location, 1, false, matrix);
+}
+
+void ShaderProgram::loadTransformationMatrix(GLfloat matrix[16])
+{
+	loadMatrix(location_transformationMatrix, matrix);
+}
+
+void ShaderProgram::getAllUniformLocations()
+{
+	cout << "getAllUniformLocations()" << endl;
+	
+	location_transformationMatrix = getUniformLocation("transformationMatrix");
+
+	vector<GLfloat> tr = {1, 2, 3};
+
+	glm::mat4 m = createTransformationMatrix(tr, 45.0, 90.0, 135.0, 2.0);
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			cout << "m[" << i << "," << j << "] = " << m[j][i] << " ";
+		}
+		cout << endl;
+	}
+
+	cout << "getAllUniformLocations() done" << endl;
+	
+}
 
 int ShaderProgram::loadShader(string fileName, GLenum type)
 {
