@@ -46,6 +46,15 @@ GLuint Loader::loadTexture(string fileName)
 	}
 
 	glGenTextures(1, &textureID);
+
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, tx_fmt, tx_w, tx_h, 0, tx_fmt, GL_UNSIGNED_BYTE, tx_data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	
 	textures->push_back(textureID);
 	return textureID;
 }
@@ -201,7 +210,7 @@ GLubyte* Loader::LoadPNGImage(string imageFile,
 		return 0;
 	
 	for(int y = 0 ; y < h; y++) {
-		memcpy(buffer + (h - 1 - y) * bytes_per_row,
+		memcpy(buffer + y * bytes_per_row,
 		       row_pointers[y], bytes_per_row);
 		free(row_pointers[y]);
 	}
