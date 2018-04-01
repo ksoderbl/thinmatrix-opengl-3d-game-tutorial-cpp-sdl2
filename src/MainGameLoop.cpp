@@ -162,14 +162,9 @@ int main(int argc, char *argv[])
 	ModelTexture *texture = new ModelTexture(textureID);
 	TexturedModel *texturedModel = new TexturedModel(model, texture);
 
-	GLfloat m[16] = {
-		1.0f, 1.0f, 0.0f, 1.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	};
+	glm::vec3 tr(0.0, 0.0, 0.0);
+	glm::mat4 m = createTransformationMatrix(tr, 45.0, 45.0, 45.0, 1.0);
 	
-
 	while (!isCloseRequested) {
 		// game logic
 		checkEvents();

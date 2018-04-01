@@ -79,34 +79,19 @@ void ShaderProgram::loadBoolean(int location, bool value)
 }
 
 // value needs to have 16 components for a 4 x 4 matrix
-void ShaderProgram::loadMatrix(int location, GLfloat matrix[16])
+void ShaderProgram::loadMatrix(int location, glm::mat4& matrix)
 {
-	glUniformMatrix4fv(location, 1, false, matrix);
+	glUniformMatrix4fv(location, 1, false, &matrix[0][0]);
 }
 
-void ShaderProgram::loadTransformationMatrix(GLfloat matrix[16])
+void ShaderProgram::loadTransformationMatrix(glm::mat4& matrix)
 {
 	loadMatrix(location_transformationMatrix, matrix);
 }
 
 void ShaderProgram::getAllUniformLocations()
 {
-	cout << "getAllUniformLocations()" << endl;
-	
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
-
-	vector<GLfloat> tr = {1, 2, 3};
-
-	glm::mat4 m = createTransformationMatrix(tr, 45.0, 90.0, 135.0, 2.0);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << "m[" << i << "," << j << "] = " << m[j][i] << " ";
-		}
-		cout << endl;
-	}
-
-	cout << "getAllUniformLocations() done" << endl;
-	
 }
 
 int ShaderProgram::loadShader(string fileName, GLenum type)

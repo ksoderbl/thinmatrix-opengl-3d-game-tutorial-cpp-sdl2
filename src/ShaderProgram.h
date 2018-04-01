@@ -18,9 +18,9 @@ public:
 	void loadFloat(int location, float value);
 	void loadVector(int location, vector<GLfloat>& vec);
 	void loadBoolean(int location, bool value);
-	void loadMatrix(int location, GLfloat matrix[16]);
+	void loadMatrix(int location, glm::mat4& matrix);
 	void getAllUniformLocations();
-	void loadTransformationMatrix(GLfloat matrix[16]);
+	void loadTransformationMatrix(glm::mat4& matrix);
 
 private:
 	int loadShader(string fileName, GLenum type);
