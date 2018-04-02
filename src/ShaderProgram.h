@@ -1,4 +1,7 @@
 
+#ifndef SHADERPROGRAM_H
+#define SHADERPROGRAM_H
+
 #include "Headers.h"
 #include "Maths.h"
 
@@ -32,3 +35,5 @@ private:
 
 	int location_transformationMatrix;
 };
+
+#endif

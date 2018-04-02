@@ -14,8 +14,8 @@ static void printMatrix(glm::mat4& m, string name)
 	cout << endl;
 }
 
-glm::mat4 createTransformationMatrix(glm::vec3& translation,
-				     GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)
+glm::mat4 Maths::createTransformationMatrix(glm::vec3& translation,
+					    GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)
 {
 	glm::mat4 unit = glm::mat4(1.0f); // identity matrix
 
@@ -37,7 +37,7 @@ glm::mat4 createTransformationMatrix(glm::vec3& translation,
 	glm::mat4 s = glm::scale(unit, glm::vec3(scale));
 	//printMatrix(s, "s");	
 
-	glm::mat4 m = s * r * t;
+	glm::mat4 m = t * r * s;
 	//printMatrix(m, "m");
 
 	return m;
