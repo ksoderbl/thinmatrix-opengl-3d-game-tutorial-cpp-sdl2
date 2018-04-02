@@ -9,17 +9,17 @@
 
 class TexturedModel {
 public:
-	TexturedModel(RawModel *model, ModelTexture *texture);
-	RawModel *getRawModel() {
+	TexturedModel(RawModel& model, ModelTexture& texture) : rawModel(model), texture(texture) {}
+	RawModel& getRawModel() {
 		return rawModel;
 	}
-	ModelTexture *getTexture() {
+	ModelTexture& getTexture() {
 		return texture;
 	}
-	
+
 private:
-	RawModel *rawModel;
-	ModelTexture *texture;
+	RawModel& rawModel;
+	ModelTexture& texture;
 };
 
 #endif

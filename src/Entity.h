@@ -8,22 +8,27 @@
 
 class Entity {
 public:
-	Entity(	TexturedModel *model,
+	Entity(	TexturedModel &model,
 		glm::vec3 position,
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
-		GLfloat scale);
+		GLfloat scale) : model(model), position(position) {
+		this->rotX = rotX;
+		this->rotY = rotY;
+		this->rotZ = rotZ;
+		this->scale = scale;
+	}
 	void increasePosition(GLfloat dx, GLfloat dy, GLfloat dz);
 	void increaseRotation(GLfloat dx, GLfloat dy, GLfloat dz);
 	
-	TexturedModel *getModel() { return model; }
+	TexturedModel& getModel() { return model; }
 	glm::vec3& getPosition() { return position; }
 	GLfloat getRotX() { return rotX; }
 	GLfloat getRotY() { return rotY; }
 	GLfloat getRotZ() { return rotZ; }
 	GLfloat getScale() { return scale; }
 private:
-	TexturedModel *model;
-	glm::vec3 position;
+	TexturedModel& model;
+	glm::vec3& position;
 	GLfloat rotX, rotY, rotZ;
 	GLfloat scale;
 };

@@ -159,23 +159,20 @@ int main(int argc, char *argv[])
 
 	RawModel* model = loader.loadToVAO(vertices, textureCoords, indices);
 	GLuint textureID = loader.loadTexture("image");
-	ModelTexture *texture = new ModelTexture(textureID);
-	TexturedModel *staticModel = new TexturedModel(model, texture);
-	Entity *entity = new Entity(staticModel, glm::vec3(-1.0f, 0.0f, 0.0f), 0, 0, 0, 1);
+	ModelTexture texture = ModelTexture(textureID);
+	TexturedModel staticModel = TexturedModel(*model, texture);
+	Entity entity = Entity(staticModel, glm::vec3(0.0f, 0.0f, 0.0f), 0, 0, 0, 1);
 
-	//glm::vec3 tr(0.0, 0.0, 0.0);
-	//glm::mat4 m = Maths::createTransformationMatrix(tr, 45.0, 45.0, 45.0, 1.0);
-	
 	while (!isCloseRequested) {
 		checkEvents();
 		// game logic
-		entity->increasePosition(0.002, 0, 0);
-		entity->increaseRotation(0, 1, 0);
+		entity.increasePosition(0, 0, 0);
+		entity.increaseRotation(1, 1, 0);
 
 		
 		renderer.prepare();
 		shader.start();
-		renderer.render(entity, &shader);
+		renderer.render(entity, shader);
 		shader.stop();
 		
 		manager.updateDisplay();

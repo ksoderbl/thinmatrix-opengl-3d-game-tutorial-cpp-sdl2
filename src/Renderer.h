@@ -8,7 +8,7 @@
 class Renderer {
 public:
 	void prepare();
-	void render(Entity *entity, StaticShader *shader);
+	void render(Entity& entity, StaticShader& shader);
 private:
 	
 };

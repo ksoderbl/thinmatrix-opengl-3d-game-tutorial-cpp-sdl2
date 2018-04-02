@@ -2,7 +2,7 @@
 
 #include "Maths.h"
 
-
+/*
 static void printMatrix(glm::mat4& m, string name)
 {
 	for (int i = 0; i < 4; i++) {
@@ -13,6 +13,7 @@ static void printMatrix(glm::mat4& m, string name)
 	}
 	cout << endl;
 }
+*/
 
 glm::mat4 Maths::createTransformationMatrix(glm::vec3& translation,
 					    GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)

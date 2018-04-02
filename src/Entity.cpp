@@ -1,18 +1,5 @@
 #include "Entity.h"
 
-Entity::Entity(	TexturedModel *model,
-		glm::vec3 position,
-		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
-		GLfloat scale)
-{
-	this->model = model;
-	this->position = position;
-	this->rotX = rotX;
-	this->rotY = rotY;
-	this->rotZ = rotZ;
-	this->scale = scale;
-}
-
 void Entity::increasePosition(GLfloat dx, GLfloat dy, GLfloat dz)
 {
 	this->position[0] += dx;
