@@ -2,18 +2,20 @@
 
 #include "Maths.h"
 
-/*
-static void printMatrix(glm::mat4& m, string name)
+
+void Maths::printMatrix(glm::mat4& m, string name)
 {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << name << "[" << i << "," << j << "] = " << m[j][i] << " ";
+	for (int i = 0; i < 4; i++) { // rows
+		for (int j = 0; j < 4; j++) { // columns
+			cout << name << "[" << i << "," << j << "] = ";
+			cout << setiosflags( ios::left ) << setw(10) << setprecision(5);
+			cout << m[i][j] << " ";
 		}
 		cout << endl;
 	}
 	cout << endl;
 }
-*/
+
 
 glm::mat4 Maths::createTransformationMatrix(glm::vec3& translation,
 					    GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)

@@ -1,4 +1,5 @@
 
+
 #
 # Generic Makefile to make one OpenGL based executable.
 # Use GNU make .
@@ -8,7 +9,8 @@ SHELL	= /bin/sh
 
 SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Renderer.cpp ShaderProgram.cpp StaticShader.cpp \
-	ModelTexture.cpp TexturedModel.cpp Maths.cpp Entity.cpp
+	ModelTexture.cpp TexturedModel.cpp Maths.cpp Entity.cpp \
+	Camera.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 

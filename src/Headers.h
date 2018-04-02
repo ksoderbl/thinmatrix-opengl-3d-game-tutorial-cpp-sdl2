@@ -12,15 +12,27 @@
 #include <glm/gtx/transform.hpp> 
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <vector>
 
+#include <cassert>
+#include <cmath>
+#include <ctime>
+#include <csignal>
+#include <cstdarg>
+#include <cstdlib>
+
 using std::cout;
 using std::cin;
-using std::ios;
 using std::cerr;
 using std::endl;
+using std::ios;
+using std::setiosflags;
+using std::resetiosflags;
+using std::setw;
+using std::setprecision;
 using std::string;
 using std::ifstream;
 using std::vector;

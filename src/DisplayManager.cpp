@@ -1,23 +1,5 @@
 //namespace renderEngine;
 
-#include <GL/glew.h>
-
-#include <iostream>
-#include <string>
-
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::string;
-
-
-#include <cassert>
-#include <cmath>
-#include <ctime>
-#include <csignal>
-#include <cstdarg>
-#include <cstdlib>
-
 #include "DisplayManager.h"
 
 

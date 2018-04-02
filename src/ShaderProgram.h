@@ -24,6 +24,7 @@ public:
 	void loadMatrix(int location, glm::mat4& matrix);
 	void getAllUniformLocations();
 	void loadTransformationMatrix(glm::mat4& matrix);
+	void loadProjectionMatrix(glm::mat4& matrix);
 
 private:
 	int loadShader(string fileName, GLenum type);
@@ -34,6 +35,7 @@ private:
 	int fragmentShaderID;
 
 	int location_transformationMatrix;
+	int location_projectionMatrix;
 };
 
 #endif

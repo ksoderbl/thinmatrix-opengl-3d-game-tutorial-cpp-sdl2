@@ -89,9 +89,15 @@ void ShaderProgram::loadTransformationMatrix(glm::mat4& matrix)
 	loadMatrix(location_transformationMatrix, matrix);
 }
 
+void ShaderProgram::loadProjectionMatrix(glm::mat4& matrix)
+{
+	loadMatrix(location_projectionMatrix, matrix);
+}
+
 void ShaderProgram::getAllUniformLocations()
 {
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
+	location_projectionMatrix = getUniformLocation("projectionMatrix");
 }
 
 int ShaderProgram::loadShader(string fileName, GLenum type)
