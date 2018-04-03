@@ -7,43 +7,44 @@
 #include "StaticShader.h"
 #include "ModelTexture.h"
 #include "TexturedModel.h"
+#include "Keyboard.h"
 
-#include <cassert>
-#include <cmath>
-#include <ctime>
-#include <csignal>
-#include <cstdarg>
-#include <cstdlib>
-
-static bool pausing = false;
+//static bool pausing = false;
 static bool isCloseRequested = false;
 
 /* ---------------------------------------------------------------------- */
 
-static void handle_keydown(SDL_KeyboardEvent key)
+static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
 {
-	//cout << "KEYDOWN, current effect = " << currentEffectIndex << endl;
+	keyboard.setKeyDown(key.keysym.sym, true);
+	
+	switch (key.keysym.sym) {
+	case SDLK_ESCAPE:
+		isCloseRequested = true;
+		break;
+	case SDLK_m:
+		//messages_toggle();
+		break;
 
-	if (pausing) {
-		cout << "pause keyboard cb\n";
+	case SDLK_p:
+	case SDLK_PAUSE:
+		// TODO: pause_request();
+		break;
+	case SDLK_r:
+		//if (currentEffect)
+		//	currentEffect->reset();
+		break;
 
-		switch (key.keysym.sym) {
-			/* quit pausing */
-		case SDLK_SPACE:
-		case SDLK_p:
-		case SDLK_PAUSE:
-		case SDLK_ESCAPE:
-			pausing = false;
-			break;
-		default:
-			break;
-		}
-
-		return;
+	default:
+		;
+		//if (currentEffect)
+		//	currentEffect->keyboardEvent(key);
 	}
+}
 
-
-	// not pausing
+static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
+{
+	keyboard.setKeyDown(key.keysym.sym, false);
 	
 	switch (key.keysym.sym) {
 	case SDLK_ESCAPE:
@@ -70,7 +71,7 @@ static void handle_keydown(SDL_KeyboardEvent key)
 }
 
 
-void checkEvents(void)
+void checkEvents(Keyboard& keyboard)
 {
 	SDL_Event event;
 
@@ -81,8 +82,14 @@ void checkEvents(void)
 		
 		else if (event.type == SDL_KEYDOWN)
 		{
-			handle_keydown(event.key);
+			handle_keydown(keyboard, event.key);
 		}
+
+		else if (event.type == SDL_KEYUP)
+		{
+			handle_keyup(keyboard, event.key);
+		}
+
 		
 		else if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
@@ -131,32 +138,12 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
   
 	manager.createDisplay();
-	
+
+	Keyboard keyboard;
 	Loader loader;
 	StaticShader shader;
 	Renderer renderer(shader);
 
-	/*
-	vector<GLfloat> vertices = {
-		-0.5f, 0.5f, 0.0f,  // V0
-		-0.5f, -0.5f, 0.0f, // V1
-		0.5f, -0.5f, 0.0f,  // V2
-		0.5f, 0.5f, 0.0f    // V3
-	};
-
-	vector<GLuint> indices = {
-		0, 1, 3, // Top left triangle
-		3, 1, 2  // Bottom right triangle
-	};
-
-	vector<GLfloat> textureCoords = {
-		0, 0,     // V0
-		0, 1,     // V1
-		1, 1,     // V2
-		1, 0      // V3
-	};
-	*/
-	
 	vector<GLfloat> vertices = {
 		-0.5f,0.5f,-0.5f,
 		-0.5f,-0.5f,-0.5f,
@@ -237,15 +224,18 @@ int main(int argc, char *argv[])
 	ModelTexture texture = ModelTexture(textureID);
 	TexturedModel staticModel = TexturedModel(*model, texture);
 	Entity entity = Entity(staticModel, glm::vec3(0, 0, -1), 0, 0, 0, 1);
+	Camera camera;
 
 	while (!isCloseRequested) {
-		checkEvents();
+		checkEvents(keyboard);
 		// game logic
 		entity.increasePosition(0.0, 0.0, -0.01);
 		entity.increaseRotation(0.1, 0.2, 0.3);
-		
+
+		camera.move(keyboard);
 		renderer.prepare();
 		shader.start();
+		shader.loadViewMatrix(camera);
 		renderer.render(entity, shader);
 		shader.stop();
 		

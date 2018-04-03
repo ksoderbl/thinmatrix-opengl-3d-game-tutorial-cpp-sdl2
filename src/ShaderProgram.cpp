@@ -94,10 +94,17 @@ void ShaderProgram::loadProjectionMatrix(glm::mat4& matrix)
 	loadMatrix(location_projectionMatrix, matrix);
 }
 
+void ShaderProgram::loadViewMatrix(Camera& camera)
+{
+	glm::mat4 viewMatrix = Maths::createViewMatrix(camera);
+	loadMatrix(location_viewMatrix, viewMatrix);
+}
+
 void ShaderProgram::getAllUniformLocations()
 {
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
+	location_viewMatrix = getUniformLocation("viewMatrix");
 }
 
 int ShaderProgram::loadShader(string fileName, GLenum type)

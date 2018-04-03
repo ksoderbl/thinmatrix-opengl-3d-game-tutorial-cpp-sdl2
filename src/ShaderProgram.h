@@ -3,6 +3,7 @@
 #define SHADERPROGRAM_H
 
 #include "Headers.h"
+#include "Camera.h"
 #include "Maths.h"
 
 class ShaderProgram
@@ -25,6 +26,7 @@ public:
 	void getAllUniformLocations();
 	void loadTransformationMatrix(glm::mat4& matrix);
 	void loadProjectionMatrix(glm::mat4& matrix);
+	void loadViewMatrix(Camera& camera);
 
 private:
 	int loadShader(string fileName, GLenum type);
@@ -36,6 +38,7 @@ private:
 
 	int location_transformationMatrix;
 	int location_projectionMatrix;
+	int location_viewMatrix;
 };
 
 #endif
