@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -35,6 +36,7 @@ using std::setw;
 using std::setprecision;
 using std::string;
 using std::ifstream;
+using std::istringstream;
 using std::vector;
 
 #endif
