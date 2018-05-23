@@ -5,6 +5,7 @@
 #include "Headers.h"
 #include "Camera.h"
 #include "Maths.h"
+#include "Light.h"
 
 class ShaderProgram
 {
@@ -20,11 +21,12 @@ public:
 	//protected:
 	int getUniformLocation(string uniformName);
 	void loadFloat(int location, float value);
-	void loadVector(int location, vector<GLfloat>& vec);
+	void loadVector(int location, glm::vec3& vec);
 	void loadBoolean(int location, bool value);
 	void loadMatrix(int location, glm::mat4& matrix);
 	void getAllUniformLocations();
 	void loadTransformationMatrix(glm::mat4& matrix);
+	void loadLight(Light& light);
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
 
@@ -39,6 +41,8 @@ private:
 	int location_transformationMatrix;
 	int location_projectionMatrix;
 	int location_viewMatrix;
+	int location_lightPosition;
+	int location_lightColor;
 };
 
 #endif

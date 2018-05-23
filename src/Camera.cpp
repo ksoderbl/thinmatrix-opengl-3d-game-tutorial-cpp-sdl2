@@ -12,12 +12,12 @@ Camera::Camera()
 void Camera::move(Keyboard &keyboard)
 {
 	if (keyboard.isKeyDown(SDLK_w)) {
-		position.z -= 0.02f;
+		position.z -= 0.1f;
 	}
 	if (keyboard.isKeyDown(SDLK_d)) {
-		position.x += 0.02f;
+		position.x += 0.1f;
 	}
 	if (keyboard.isKeyDown(SDLK_a)) {
-		position.x -= 0.02f;
+		position.x -= 0.1f;
 	}
 }

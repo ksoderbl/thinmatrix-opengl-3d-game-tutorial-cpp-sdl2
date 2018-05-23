@@ -91,6 +91,8 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 		}
 	}
 	
+	int faces = 0;
+
 	// read the faces in a second loop
 	while ( !inFile.eof() ) {
 		if (line == "")
@@ -133,10 +135,13 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 			processVertex(u[0], u[1], u[2], indices, textures, normals, textureArray, normalsArray);
 			processVertex(u[3], u[4], u[5], indices, textures, normals, textureArray, normalsArray);
 			processVertex(u[6], u[7], u[8], indices, textures, normals, textureArray, normalsArray);
+			faces++;
 		}
 		
 		getline(inFile, line);
 	}
+	
+	cout << "OBJLoader: Read " << faces << " faces from " << fileName << endl;
 	
 	//verticesArray.resize(vertices.size() * 3);
 	//indicesArray.resize(indices.size());
@@ -153,5 +158,5 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 		indicesArray.push_back(u);
 	}
 	
-	return loader.loadToVAO(verticesArray, textureArray, indicesArray);
+	return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 }

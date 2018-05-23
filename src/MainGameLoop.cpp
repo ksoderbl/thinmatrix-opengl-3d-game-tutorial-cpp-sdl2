@@ -154,7 +154,8 @@ int main(int argc, char *argv[])
 	
 	TexturedModel staticModel = TexturedModel(*model, texture);
 
-	Entity entity = Entity(staticModel, glm::vec3(0, 0, -20), 0, 0, 0, 1);
+	Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
+	Light light = Light(glm::vec3(0, 0, -20), glm::vec3(1, 1, 1));
 	
 	Camera camera;
 
@@ -167,6 +168,7 @@ int main(int argc, char *argv[])
 		camera.move(keyboard);
 		renderer.prepare();
 		shader.start();
+		shader.loadLight(light);
 		shader.loadViewMatrix(camera);
 		renderer.render(entity, shader);
 		shader.stop();

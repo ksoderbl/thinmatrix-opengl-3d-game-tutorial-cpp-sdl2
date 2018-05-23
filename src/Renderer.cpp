@@ -26,6 +26,7 @@ void Renderer::render(Entity& entity, StaticShader& shader)
 	glBindVertexArray(model.getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 	glm::mat4 transformationMatrix = Maths::createTransformationMatrix(
 		entity.getPosition(),
 		entity.getRotX(), entity.getRotY(), entity.getRotZ(),
@@ -44,6 +45,7 @@ void Renderer::render(Entity& entity, StaticShader& shader)
 	glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);	
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
 

@@ -60,6 +60,7 @@ void ShaderProgram::bindAttributes()
 {
 	bindAttribute(0, "position");
 	bindAttribute(1, "textureCoords");
+	bindAttribute(2, "normal"); // "normal" variable in the vertex shader
 }
 
 void ShaderProgram::loadFloat(int location, float value)
@@ -67,7 +68,7 @@ void ShaderProgram::loadFloat(int location, float value)
 	glUniform1f(location, value);
 }
 
-void ShaderProgram::loadVector(int location, vector<GLfloat>& vec)
+void ShaderProgram::loadVector(int location, glm::vec3& vec)
 {
 	glUniform3f(location, vec[0], vec[1], vec[2]);
 }
@@ -89,6 +90,12 @@ void ShaderProgram::loadTransformationMatrix(glm::mat4& matrix)
 	loadMatrix(location_transformationMatrix, matrix);
 }
 
+void ShaderProgram::loadLight(Light& light)
+{
+	loadVector(location_lightPosition, light.getPosition());
+	loadVector(location_lightColor, light.getColor());
+}
+
 void ShaderProgram::loadProjectionMatrix(glm::mat4& matrix)
 {
 	loadMatrix(location_projectionMatrix, matrix);
@@ -105,6 +112,8 @@ void ShaderProgram::getAllUniformLocations()
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
+	location_lightPosition = getUniformLocation("lightPosition");
+	location_lightColor = getUniformLocation("lightColor");
 }
 
 int ShaderProgram::loadShader(string fileName, GLenum type)

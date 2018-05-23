@@ -19,12 +19,14 @@ Loader::~Loader()
 RawModel *Loader::loadToVAO(
 	vector<GLfloat>&positions,
 	vector<GLfloat>&textureCoords,
+	vector<GLfloat>&normals,
 	vector<GLuint>&indices)
 {
 	GLuint vaoID = createVAO();
 	bindIndicesBuffer(indices);
 	storeDataInAttributeList(0, 3, positions);
 	storeDataInAttributeList(1, 2, textureCoords);
+	storeDataInAttributeList(2, 3, normals);
 	unbindVAO();
 	return new RawModel(vaoID, indices.size());
 }

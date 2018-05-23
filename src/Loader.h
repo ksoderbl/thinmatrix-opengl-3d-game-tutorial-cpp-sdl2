@@ -12,6 +12,7 @@ public:
 	RawModel* loadToVAO(
 		vector<GLfloat>&positions,
 		vector<GLfloat>&textureCoords,
+		vector<GLfloat>&normals,
 		vector<GLuint>&indices);
 	GLuint loadTexture(string fileName);
 	void cleanUp();
