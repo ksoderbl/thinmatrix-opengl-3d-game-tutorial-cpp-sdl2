@@ -20,10 +20,10 @@ void Renderer::prepare()
 
 void Renderer::render(Entity& entity, StaticShader& shader)
 {
-	TexturedModel& texturedModel = entity.getModel();
-	RawModel& model = texturedModel.getRawModel();
+	TexturedModel& model = entity.getModel();
+	RawModel& rawModel = model.getRawModel();
 
-	glBindVertexArray(model.getVaoID());
+	glBindVertexArray(rawModel.getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
@@ -39,10 +39,13 @@ void Renderer::render(Entity& entity, StaticShader& shader)
 	//Maths::printMatrix(transformationMatrix, "T");
 	
 	shader.loadTransformationMatrix(transformationMatrix);
+
+	ModelTexture& texture = model.getTexture();
+	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texturedModel.getTexture().getID());
-	glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
+	glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);	
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

@@ -149,13 +149,13 @@ int main(int argc, char *argv[])
 	RawModel* model = objLoader.loadObjModel("stall", loader);
 	
 	GLuint textureID = loader.loadTexture("stallTexture");
-	
 	ModelTexture texture = ModelTexture(textureID);
-	
 	TexturedModel staticModel = TexturedModel(*model, texture);
+	texture.setShineDamper(10);
+	texture.setReflectivity(1);
 
 	Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
-	Light light = Light(glm::vec3(0, 0, -20), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(200, 200, 100), glm::vec3(1, 1, 1));
 	
 	Camera camera;
 

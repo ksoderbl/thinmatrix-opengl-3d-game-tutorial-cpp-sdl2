@@ -63,7 +63,7 @@ void ShaderProgram::bindAttributes()
 	bindAttribute(2, "normal"); // "normal" variable in the vertex shader
 }
 
-void ShaderProgram::loadFloat(int location, float value)
+void ShaderProgram::loadFloat(int location, GLfloat value)
 {
 	glUniform1f(location, value);
 }
@@ -114,6 +114,14 @@ void ShaderProgram::getAllUniformLocations()
 	location_viewMatrix = getUniformLocation("viewMatrix");
 	location_lightPosition = getUniformLocation("lightPosition");
 	location_lightColor = getUniformLocation("lightColor");
+	location_shineDamper = getUniformLocation("shineDamper");
+	location_reflectivity = getUniformLocation("reflectivity");
+}
+
+void ShaderProgram::loadShineVariables(GLfloat damper, GLfloat reflectivity)
+{
+	loadFloat(location_shineDamper, damper);
+	loadFloat(location_reflectivity, reflectivity);
 }
 
 int ShaderProgram::loadShader(string fileName, GLenum type)
