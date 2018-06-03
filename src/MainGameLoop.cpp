@@ -166,10 +166,10 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
 
 	//Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
-	for (int i = 0; i < 1000; i++) {
-		GLfloat x = my_rand() * 120 - 60;
-		GLfloat y = my_rand() * 90 - 45;
-		GLfloat z = my_rand() * -100;
+	for (int i = 0; i < 2000; i++) {
+		GLfloat x = my_rand() * 200 - 100;
+		GLfloat y = my_rand() * 200 - 100;
+		GLfloat z = my_rand() * -300;
 		allCubes.push_back(new Entity(staticModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 1));
 	}
@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
 		for (it = allCubes.begin(); it != allCubes.end(); it++) {
 			Entity *entity = *it;
 			entity->increasePosition(0.0, 0.0, -0.1);
-			entity->increaseRotation(my_rand() * 3.0, my_rand() * 6.5, my_rand() * 1.0);
+			entity->increaseRotation(3.0, 2.5, 1.0);
 			renderer.render(*entity, shader);
 		}
 
