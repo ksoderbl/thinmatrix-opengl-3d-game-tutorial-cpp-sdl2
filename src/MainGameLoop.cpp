@@ -131,13 +131,17 @@ void checkEvents(Keyboard& keyboard)
 	//	currentEffect->drawFrame();
 }
 
+static GLfloat my_rand()
+{
+	int x = rand();
+	GLfloat f = (GLfloat)x / RAND_MAX;
+	return f;
+}
 
 int main(int argc, char *argv[])
 {
 	DisplayManager manager;
 
-	srand(time(NULL));
-  
 	manager.createDisplay();
 
 	Keyboard keyboard;
@@ -154,23 +158,43 @@ int main(int argc, char *argv[])
 	texture.setShineDamper(10);
 	texture.setReflectivity(1);
 
-	Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
 	Light light = Light(glm::vec3(200, 200, 100), glm::vec3(1, 1, 1));
 	
 	Camera camera;
+
+	vector<Entity*> allCubes;
+	srand(time(NULL));
+
+	//Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
+	for (int i = 0; i < 1000; i++) {
+		GLfloat x = my_rand() * 120 - 60;
+		GLfloat y = my_rand() * 90 - 45;
+		GLfloat z = my_rand() * -100;
+		allCubes.push_back(new Entity(staticModel, glm::vec3(x, y, z),
+			my_rand() * 180, my_rand() * 180, 0, 1));
+	}
+
+	vector<Entity*>::iterator it;
 
 	while (!isCloseRequested) {
 		checkEvents(keyboard);
 		
 		//entity.increasePosition(0.0, 0.0, -0.01);
-		entity.increaseRotation(0.0, 1.0, 0.0);
+		//entity.increaseRotation(0.0, 1.0, 0.0);
 
 		camera.move(keyboard);
 		renderer.prepare();
 		shader.start();
 		shader.loadLight(light);
 		shader.loadViewMatrix(camera);
-		renderer.render(entity, shader);
+
+		for (it = allCubes.begin(); it != allCubes.end(); it++) {
+			Entity *entity = *it;
+			entity->increasePosition(0.0, 0.0, -0.1);
+			entity->increaseRotation(my_rand() * 3.0, my_rand() * 6.5, my_rand() * 1.0);
+			renderer.render(*entity, shader);
+		}
+
 		shader.stop();
 		
 		manager.updateDisplay();

@@ -5,6 +5,8 @@
 
 Renderer::Renderer(StaticShader& shader)
 {
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	createProjectionMatrix();
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);

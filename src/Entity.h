@@ -28,7 +28,7 @@ public:
 	GLfloat getScale() { return scale; }
 private:
 	TexturedModel& model;
-	glm::vec3& position;
+	glm::vec3 position;
 	GLfloat rotX, rotY, rotZ;
 	GLfloat scale;
 };
