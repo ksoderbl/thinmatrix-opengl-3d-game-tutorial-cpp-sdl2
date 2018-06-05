@@ -10,7 +10,7 @@ SHELL	= /bin/sh
 SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Renderer.cpp ShaderProgram.cpp StaticShader.cpp \
 	ModelTexture.cpp TexturedModel.cpp Maths.cpp Entity.cpp \
-	Camera.cpp Keyboard.cpp OBJLoader.cpp Light.cpp
+	Camera.cpp Keyboard.cpp OBJLoader.cpp Light.cpp MasterRenderer.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 

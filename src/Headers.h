@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <map>
 
 #include <cassert>
 #include <cmath>
@@ -38,5 +39,6 @@ using std::string;
 using std::ifstream;
 using std::istringstream;
 using std::vector;
+using std::map;
 
 #endif

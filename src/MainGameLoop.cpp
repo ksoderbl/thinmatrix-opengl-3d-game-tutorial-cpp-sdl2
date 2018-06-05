@@ -9,6 +9,7 @@
 #include "TexturedModel.h"
 #include "Keyboard.h"
 #include "OBJLoader.h"
+#include "MasterRenderer.h"
 
 //static bool pausing = false;
 static bool isCloseRequested = false;
@@ -146,8 +147,8 @@ int main(int argc, char *argv[])
 
 	Keyboard keyboard;
 	Loader loader;
-	StaticShader shader;
-	Renderer renderer(shader);
+	//StaticShader shader;
+	//Renderer renderer(shader);
 	OBJLoader objLoader;
 
 	RawModel* model = objLoader.loadObjModel("stall", loader);
@@ -176,6 +177,11 @@ int main(int argc, char *argv[])
 
 	vector<Entity*>::iterator it;
 
+	time_t oldt = 0, t;
+	int fps = 0;
+
+	MasterRenderer renderer;
+
 	while (!isCloseRequested) {
 		checkEvents(keyboard);
 		
@@ -183,24 +189,36 @@ int main(int argc, char *argv[])
 		//entity.increaseRotation(0.0, 1.0, 0.0);
 
 		camera.move(keyboard);
-		renderer.prepare();
-		shader.start();
-		shader.loadLight(light);
-		shader.loadViewMatrix(camera);
+		//renderer.prepare();
+		//shader.start();
+		//shader.loadLight(light);
+		//shader.loadViewMatrix(camera);
 
 		for (it = allCubes.begin(); it != allCubes.end(); it++) {
 			Entity *entity = *it;
-			entity->increasePosition(0.0, 0.0, 10);
+			entity->increasePosition(0.0, 0.0, 2);
 			entity->increaseRotation(2.0, 1.5, 1.0);
-			renderer.render(*entity, shader);
+			//renderer.render(*entity, shader);
+			renderer.processEntity(*entity);
 		}
 
-		shader.stop();
+		//shader.stop();
 		
+		renderer.render(light, camera);
 		manager.updateDisplay();
+
+		fps++;
+
+		// FPS measurement
+		t = time(NULL);
+		if (t != oldt) {
+			cout << "Current FPS: " << fps << "\n";
+			oldt = t;
+			fps = 0;
+		}
 	}
 
-	shader.cleanUp();
+	renderer.cleanUp();
 	loader.cleanUp();
 	manager.closeDisplay();
 	
