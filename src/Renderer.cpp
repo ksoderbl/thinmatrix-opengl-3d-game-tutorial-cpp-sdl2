@@ -15,7 +15,7 @@ Renderer::Renderer(StaticShader& shader) : shader(shader)
 void Renderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0, 0, 0.5, 1);
+	glClearColor(0, 0, 0.1, 1);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 

@@ -7,9 +7,12 @@
 
 /* some initial values for the application */
 
-const int WIDTH = 1280;
-const int HEIGHT = 720;
+//const int WIDTH = 1280;
+//const int HEIGHT = 720;
 const int FPS_CAP = 120;
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
 // e.g. SDL_WINDOWPOS_CENTERED, or SDL_WINDOWPOS_UNDEFINED
 const int S_XPOS = SDL_WINDOWPOS_UNDEFINED;
 const int S_YPOS = SDL_WINDOWPOS_UNDEFINED;

@@ -110,7 +110,7 @@ void checkEvents(Keyboard& keyboard)
 		
 		else if (event.type == SDL_WINDOWEVENT)
 		{
-			/*
+			
 			int w, h;
 			switch (event.window.event) {
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -118,13 +118,12 @@ void checkEvents(Keyboard& keyboard)
 				w = event.window.data1;
 				h = event.window.data2;
 				
-				//if (currentEffect)
-				//	currentEffect->resize(w, h);
+				glViewport(0,0,w,h);
 				break;
 			default:
 				break;
 			}
-			*/
+			
 		}
 	}
 	
@@ -167,7 +166,7 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
 
 	//Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
-	for (int i = 0; i < 20000; i++) {
+	for (int i = 0; i < 2000; i++) {
 		GLfloat x = my_rand() * 1000 - 500;
 		GLfloat y = my_rand() * 1000 - 500;
 		GLfloat z = my_rand() * -10000;
