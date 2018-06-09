@@ -11,7 +11,7 @@
 #include "OBJLoader.h"
 #include "MasterRenderer.h"
 
-//static bool pausing = false;
+static bool pausing = false;
 static bool isCloseRequested = false;
 
 /* ---------------------------------------------------------------------- */
@@ -28,9 +28,11 @@ static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
 		//messages_toggle();
 		break;
 
+	case SDLK_SPACE:
 	case SDLK_p:
 	case SDLK_PAUSE:
 		// TODO: pause_request();
+		pausing = !pausing;
 		break;
 	case SDLK_r:
 		//if (currentEffect)
@@ -56,6 +58,7 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 		//messages_toggle();
 		break;
 
+	case SDLK_SPACE:
 	case SDLK_p:
 	case SDLK_PAUSE:
 		// TODO: pause_request();
@@ -167,9 +170,9 @@ int main(int argc, char *argv[])
 
 	//Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
 	for (int i = 0; i < 2000; i++) {
-		GLfloat x = my_rand() * 1000 - 500;
-		GLfloat y = my_rand() * 1000 - 500;
-		GLfloat z = my_rand() * -10000;
+		GLfloat x = my_rand() * 1500 - 750;
+		GLfloat y = my_rand() * 1500 - 750;
+		GLfloat z = my_rand() * -3500;
 		allCubes.push_back(new Entity(staticModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 1));
 	}
@@ -193,10 +196,18 @@ int main(int argc, char *argv[])
 		//shader.loadLight(light);
 		//shader.loadViewMatrix(camera);
 
+		
+
 		for (it = allCubes.begin(); it != allCubes.end(); it++) {
 			Entity *entity = *it;
-			entity->increasePosition(0.0, 0.0, 2);
-			entity->increaseRotation(2.0, 1.5, 1.0);
+
+			if (!pausing) {
+				entity->increasePosition(0.0, 0.0, 1.7);
+				glm::vec3& pos = entity->getPosition();
+				if (pos[2] > 10)
+					entity->increasePosition(0.0, 0.0, -3500);
+				entity->increaseRotation(2.0, 1.5, 1.0);
+			}
 			//renderer.render(*entity, shader);
 			renderer.processEntity(*entity);
 		}
