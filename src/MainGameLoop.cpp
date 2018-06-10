@@ -3,7 +3,7 @@
 #include "DisplayManager.h"
 #include "RawModel.h"
 #include "Loader.h"
-#include "Renderer.h"
+#include "EntityRenderer.h"
 #include "StaticShader.h"
 #include "ModelTexture.h"
 #include "TexturedModel.h"
@@ -149,8 +149,6 @@ int main(int argc, char *argv[])
 
 	Keyboard keyboard;
 	Loader loader;
-	//StaticShader shader;
-	//Renderer renderer(shader);
 	OBJLoader objLoader;
 
 	RawModel* model = objLoader.loadObjModel("stall", loader);
@@ -168,7 +166,6 @@ int main(int argc, char *argv[])
 	vector<Entity*> allCubes;
 	srand(time(NULL));
 
-	//Entity entity = Entity(staticModel, glm::vec3(0, -4, -25), 0, 0, 0, 1);
 	for (int i = 0; i < 2000; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 1500 - 750;
@@ -187,16 +184,7 @@ int main(int argc, char *argv[])
 	while (!isCloseRequested) {
 		checkEvents(keyboard);
 		
-		//entity.increasePosition(0.0, 0.0, -0.01);
-		//entity.increaseRotation(0.0, 1.0, 0.0);
-
 		camera.move(keyboard);
-		//renderer.prepare();
-		//shader.start();
-		//shader.loadLight(light);
-		//shader.loadViewMatrix(camera);
-
-		
 
 		for (it = allCubes.begin(); it != allCubes.end(); it++) {
 			Entity *entity = *it;
@@ -208,12 +196,9 @@ int main(int argc, char *argv[])
 					entity->increasePosition(0.0, 0.0, -3500);
 				entity->increaseRotation(2.0, 1.5, 1.0);
 			}
-			//renderer.render(*entity, shader);
 			renderer.processEntity(*entity);
 		}
 
-		//shader.stop();
-		
 		renderer.render(light, camera);
 		manager.updateDisplay();
 

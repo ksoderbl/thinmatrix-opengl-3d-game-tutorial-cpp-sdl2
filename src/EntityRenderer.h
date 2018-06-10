@@ -6,9 +6,9 @@
 #include "Entity.h"
 #include "StaticShader.h"
 
-class Renderer {
+class EntityRenderer {
 public:
-	Renderer(StaticShader& shader);
+	EntityRenderer(StaticShader& shader);
 	void prepare();
 	void render(std::map<TexturedModel*, vector<Entity*>*>* entities);
 	void prepareTexturedModel(TexturedModel &model);

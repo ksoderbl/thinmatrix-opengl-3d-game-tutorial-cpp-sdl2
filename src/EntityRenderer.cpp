@@ -1,8 +1,8 @@
 #include "RawModel.h"
-#include "Renderer.h"
+#include "EntityRenderer.h"
 #include "DisplayManager.h"
 
-Renderer::Renderer(StaticShader& shader) : shader(shader)
+EntityRenderer::EntityRenderer(StaticShader& shader) : shader(shader)
 {
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -12,14 +12,14 @@ Renderer::Renderer(StaticShader& shader) : shader(shader)
 	shader.stop();
 }
 
-void Renderer::prepare()
+void EntityRenderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0.1, 1);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
+void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
 {
 	for (std::map<TexturedModel*, vector<Entity*>*>::iterator it = entities->begin();
 		it != entities->end();
@@ -45,7 +45,7 @@ void Renderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
     }
 }
 
-void Renderer::prepareTexturedModel(TexturedModel &model)
+void EntityRenderer::prepareTexturedModel(TexturedModel &model)
 {
 	RawModel& rawModel = model.getRawModel();
 
@@ -61,7 +61,7 @@ void Renderer::prepareTexturedModel(TexturedModel &model)
 	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
 }
 
-void Renderer::unbindTexturedModel()
+void EntityRenderer::unbindTexturedModel()
 {
 	glDisableVertexAttribArray(0);	
 	glDisableVertexAttribArray(1);
@@ -69,7 +69,7 @@ void Renderer::unbindTexturedModel()
 	glBindVertexArray(0);
 }
 
-void Renderer::prepareInstance(Entity &entity)
+void EntityRenderer::prepareInstance(Entity &entity)
 {
 	glm::mat4 transformationMatrix = Maths::createTransformationMatrix(
 		entity.getPosition(),
@@ -86,7 +86,7 @@ void Renderer::prepareInstance(Entity &entity)
 }
 
 /*
-void Renderer::render(Entity& entity, StaticShader& shader)
+void EntityRenderer::render(Entity& entity, StaticShader& shader)
 {
 	TexturedModel& model = entity.getModel();
 	RawModel& rawModel = model.getRawModel();
@@ -123,7 +123,7 @@ void Renderer::render(Entity& entity, StaticShader& shader)
 }
 */
 
-void Renderer::createProjectionMatrix()
+void EntityRenderer::createProjectionMatrix()
 {
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=7m30s
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=10m10s
