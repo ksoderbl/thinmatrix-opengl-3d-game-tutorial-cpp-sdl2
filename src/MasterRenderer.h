@@ -13,28 +13,25 @@
 
 class MasterRenderer {
 public:
-	MasterRenderer() {
-		shader = new StaticShader();
-		renderer = new EntityRenderer(*shader);
-		entities = new std::map<TexturedModel*, vector<Entity*>*>;
-	}
-	
-	~MasterRenderer() {
-		delete shader;
-	}
-
+	MasterRenderer();
+	~MasterRenderer();
+	void prepare(void);
 	void render(Light& sun, Camera& camera);
-
 	void processEntity(Entity &entity);
-	
-	void cleanUp() {
-		shader->cleanUp();
-	}
+	void cleanUp(void);
 
 private:
+	void createProjectionMatrix(void);
+
+	glm::mat4 projectionMatrix;
+	static constexpr GLfloat FOV = 70;
+	static constexpr GLfloat NEAR_PLANE = 0.1f;
+	static constexpr GLfloat FAR_PLANE = 10000;
+
 	StaticShader* shader;
 	EntityRenderer* renderer;
 	std::map<TexturedModel*, vector<Entity*>*>* entities;
+
 };
 
 #endif
