@@ -1,15 +1,15 @@
 #include "RawModel.h"
-#include "EntityRenderer.h"
+#include "TerrainRenderer.h"
 #include "DisplayManager.h"
 
-EntityRenderer::EntityRenderer(StaticShader& shader, glm::mat4& projectionMatrix) : shader(shader)
+TerrainRenderer::TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMatrix) : shader(shader)
 {
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);
 	shader.stop();
 }
 
-void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
+void TerrainRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
 {
 	for (std::map<TexturedModel*, vector<Entity*>*>::iterator it = entities->begin();
 		it != entities->end();
@@ -35,7 +35,7 @@ void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities
     }
 }
 
-void EntityRenderer::prepareTexturedModel(TexturedModel &model)
+void TerrainRenderer::prepareTexturedModel(TexturedModel &model)
 {
 	RawModel& rawModel = model.getRawModel();
 
@@ -51,7 +51,7 @@ void EntityRenderer::prepareTexturedModel(TexturedModel &model)
 	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
 }
 
-void EntityRenderer::unbindTexturedModel()
+void TerrainRenderer::unbindTexturedModel()
 {
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
@@ -59,7 +59,7 @@ void EntityRenderer::unbindTexturedModel()
 	glBindVertexArray(0);
 }
 
-void EntityRenderer::prepareInstance(Entity &entity)
+void TerrainRenderer::prepareInstance(Entity &entity)
 {
 	glm::mat4 transformationMatrix = Maths::createTransformationMatrix(
 		entity.getPosition(),
