@@ -9,46 +9,30 @@ TerrainRenderer::TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMat
 	shader.stop();
 }
 
-void TerrainRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
+void TerrainRenderer::render(vector<Terrain*>* terrains)
 {
-	for (std::map<TexturedModel*, vector<Entity*>*>::iterator it = entities->begin();
-		it != entities->end();
+	for (vector<Terrain*>::iterator it = terrains->begin();
+		it != terrains->end();
 		it++) {
-    	TexturedModel* model = (*it).first;
-
-    	prepareTexturedModel(*model);
-
-    	it = entities->find(model);
-  		if (it != entities->end()) {
-  			vector<Entity*>* batch = it->second;
-
-  			for (vector<Entity*>::iterator vit = batch->begin();
-  				vit != batch->end();
-  				vit++) {
-  				Entity *entity = *vit;
-  				prepareInstance(*entity);
-  				glDrawElements(GL_TRIANGLES, model->getRawModel().getVertexCount(), GL_UNSIGNED_INT, 0);
-  			}
-  		}
-
-  		unbindTexturedModel();
-    }
+		Terrain* terrain = *it;
+		prepareTerrain(*terrain);
+		loadModelMatrix(*terrain);
+		glDrawElements(GL_TRIANGLES, terrain->getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
+		unbindTexturedModel();
+	}
 }
 
-void TerrainRenderer::prepareTexturedModel(TexturedModel &model)
+void TerrainRenderer::prepareTerrain(Terrain& terrain)
 {
-	RawModel& rawModel = model.getRawModel();
-
+	RawModel& rawModel = terrain.getModel();
 	glBindVertexArray(rawModel.getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-
-	ModelTexture& texture = model.getTexture();
+	ModelTexture& texture = terrain.getTexture();
 	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
-
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
+	glBindTexture(GL_TEXTURE_2D, texture.getID());
 }
 
 void TerrainRenderer::unbindTexturedModel()
@@ -59,12 +43,10 @@ void TerrainRenderer::unbindTexturedModel()
 	glBindVertexArray(0);
 }
 
-void TerrainRenderer::prepareInstance(Entity &entity)
+void TerrainRenderer::loadModelMatrix(Terrain& terrain)
 {
 	glm::mat4 transformationMatrix = Maths::createTransformationMatrix(
-		entity.getPosition(),
-		entity.getRotX(), entity.getRotY(), entity.getRotZ(),
-		entity.getScale());
+		terrain.getPosition(), 0.0f, 0.0f, 0.0f, 1.0f);
 
 	//glm::vec3 pos = entity.getPosition();
 	//cout << "pos = " << pos[0] << ", " << pos[1] << ", " << pos[2] << endl;

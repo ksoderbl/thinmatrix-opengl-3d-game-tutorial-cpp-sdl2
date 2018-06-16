@@ -8,6 +8,9 @@ MasterRenderer::MasterRenderer()
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
 	entities = new std::map<TexturedModel*, vector<Entity*>*>;
+	terrainShader = new TerrainShader();
+	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
+	terrains = new vector<Terrain*>;
 }
 
 MasterRenderer::~MasterRenderer()
@@ -15,11 +18,15 @@ MasterRenderer::~MasterRenderer()
 	delete entities;
 	delete renderer;
 	delete shader;
+	delete terrains;
+	delete terrainRenderer;
+	delete terrainShader;
 }
 
-void MasterRenderer::cleanUp(void)
+void MasterRenderer::cleanUp()
 {
 	shader->cleanUp();
+	terrainShader->cleanUp();
 }
 
 void MasterRenderer::render(Light& sun, Camera& camera)
@@ -30,10 +37,21 @@ void MasterRenderer::render(Light& sun, Camera& camera)
 	shader->loadViewMatrix(camera);
 	renderer->render(entities);
 	shader->stop();
+	terrainShader->start();
+	terrainShader->loadLight(sun);
+	terrainShader->loadViewMatrix(camera);
+	terrainRenderer->render(terrains);
+	terrainShader->stop();
 	entities->clear();
+	terrains->clear();
 }
 
-void MasterRenderer::processEntity(Entity &entity)
+void MasterRenderer::processTerrain(Terrain& terrain)
+{
+	terrains->push_back(&terrain);
+}
+
+void MasterRenderer::processEntity(Entity& entity)
 {
 	TexturedModel& entityModel = entity.getModel();
 	std::map<TexturedModel*, vector<Entity*>*>::iterator it;
@@ -49,14 +67,14 @@ void MasterRenderer::processEntity(Entity &entity)
   	}
 }
 
-void MasterRenderer::prepare(void)
+void MasterRenderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0, 0, 0.1, 1);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-void MasterRenderer::createProjectionMatrix(void)
+void MasterRenderer::createProjectionMatrix()
 {
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=7m30s
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=10m10s

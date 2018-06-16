@@ -10,13 +10,23 @@
 
 class Terrain {
 public:
-	Terrain(int gridX, int gridY, Loader &loader, ModelTexture &texture);
+	Terrain(int gridX, int gridZ, Loader &loader, ModelTexture &texture);
 	RawModel* generateTerrain(Loader &loader);
+	glm::vec3& getPosition() { 
+		return position;
+	}
+	RawModel& getModel() {
+		return *model;
+	}
+	ModelTexture& getTexture() {
+		return texture;
+	}
+	
 
 private:
-	static constexpr GLfloat SIZE = 800;
-	static constexpr int VERTEX_COUNT = 128;
-	GLfloat x, y;
+	static constexpr GLfloat SIZE = 10000; //800;
+	static constexpr int VERTEX_COUNT = 64; //128;
+	glm::vec3 position;
 	RawModel* model;
 	ModelTexture& texture;
 };

@@ -10,18 +10,22 @@
 #include "Entity.h"
 #include "Light.h"
 #include "Camera.h"
+#include "Terrain.h"
+#include "TerrainShader.h"
+#include "TerrainRenderer.h"
 
 class MasterRenderer {
 public:
 	MasterRenderer();
 	~MasterRenderer();
-	void prepare(void);
+	void prepare();
 	void render(Light& sun, Camera& camera);
-	void processEntity(Entity &entity);
-	void cleanUp(void);
+	void processTerrain(Terrain& terrain);
+	void processEntity(Entity& entity);
+	void cleanUp();
 
 private:
-	void createProjectionMatrix(void);
+	void createProjectionMatrix();
 
 	glm::mat4 projectionMatrix;
 	static constexpr GLfloat FOV = 70;
@@ -32,6 +36,9 @@ private:
 	EntityRenderer* renderer;
 	std::map<TexturedModel*, vector<Entity*>*>* entities;
 
+	TerrainShader* terrainShader;
+	TerrainRenderer* terrainRenderer;
+	vector<Terrain*>* terrains;
 };
 
 #endif

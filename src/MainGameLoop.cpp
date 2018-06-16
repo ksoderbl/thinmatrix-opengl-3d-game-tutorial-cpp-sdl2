@@ -31,18 +31,14 @@ static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
 	case SDLK_SPACE:
 	case SDLK_p:
 	case SDLK_PAUSE:
-		// TODO: pause_request();
 		pausing = !pausing;
 		break;
 	case SDLK_r:
-		//if (currentEffect)
-		//	currentEffect->reset();
+		//reset
 		break;
 
 	default:
 		;
-		//if (currentEffect)
-		//	currentEffect->keyboardEvent(key);
 	}
 }
 
@@ -61,17 +57,13 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 	case SDLK_SPACE:
 	case SDLK_p:
 	case SDLK_PAUSE:
-		// TODO: pause_request();
 		break;
 	case SDLK_r:
-		//if (currentEffect)
-		//	currentEffect->reset();
+		//reset
 		break;
 
 	default:
 		;
-		//if (currentEffect)
-		//	currentEffect->keyboardEvent(key);
 	}
 }
 
@@ -98,16 +90,13 @@ void checkEvents(Keyboard& keyboard)
 		
 		else if (event.type == SDL_MOUSEBUTTONDOWN)
 		{
-			//cout << "mouse button down, current effect is " << currentEffectIndex << endl;
-			//if (currentEffect)
-			//	currentEffect->mouseButtonDownEvent(event.button);
+			;
 		}
 		
 		else if (event.type == SDL_MOUSEMOTION)
 		{
 			if (event.motion.state & SDL_BUTTON_LMASK) {
-				//if (currentEffect)
-				//		currentEffect->mouseMotionEvent(event.motion);
+				; //mouseMotionEvent(event.motion);
 			}
 		}
 		
@@ -129,9 +118,6 @@ void checkEvents(Keyboard& keyboard)
 			
 		}
 	}
-	
-	//if (currentEffect)
-	//	currentEffect->drawFrame();
 }
 
 static GLfloat my_rand()
@@ -159,18 +145,26 @@ int main(int argc, char *argv[])
 	texture.setShineDamper(10);
 	texture.setReflectivity(1);
 
-	Light light = Light(glm::vec3(200, 200, 100), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(0, 1000, 0), glm::vec3(1, 1, 1));
+
+	GLuint terrainTextureID = loader.loadTexture("grass");
+	ModelTexture terrainTexture = ModelTexture(terrainTextureID);
+	Terrain terrain(0, 0, loader, terrainTexture);
+	Terrain terrain2(-1, 0, loader, terrainTexture);
+	Terrain terrain3(-1, -1, loader, terrainTexture);
+	Terrain terrain4(0, -1, loader, terrainTexture);
 	
 	Camera camera;
 
-	vector<Entity*> allCubes;
+	vector<Entity*> allEntities;
 	srand(time(NULL));
 
 	for (int i = 0; i < 2000; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
-		GLfloat y = my_rand() * 1500 - 750;
-		GLfloat z = my_rand() * -3500;
-		allCubes.push_back(new Entity(staticModel, glm::vec3(x, y, z),
+		GLfloat y = my_rand() * 3000;
+		GLfloat z = my_rand() * 1500 - 750;
+		
+		allEntities.push_back(new Entity(staticModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 1));
 	}
 
@@ -186,14 +180,19 @@ int main(int argc, char *argv[])
 		
 		camera.move(keyboard);
 
-		for (it = allCubes.begin(); it != allCubes.end(); it++) {
-			Entity *entity = *it;
+		renderer.processTerrain(terrain);
+		renderer.processTerrain(terrain2);
+		renderer.processTerrain(terrain3);
+		renderer.processTerrain(terrain4);
 
+		for (it = allEntities.begin(); it != allEntities.end(); it++) {
+			Entity *entity = *it;
+			
 			if (!pausing) {
-				entity->increasePosition(0.0, 0.0, 1.7);
+				entity->increasePosition(0.0, -2, 0.0);
 				glm::vec3& pos = entity->getPosition();
-				if (pos[2] > 10)
-					entity->increasePosition(0.0, 0.0, -3500);
+				if (pos[1] < 0)
+					entity->increasePosition(0.0, 3000, 0.0);
 				entity->increaseRotation(2.0, 1.5, 1.0);
 			}
 			renderer.processEntity(*entity);

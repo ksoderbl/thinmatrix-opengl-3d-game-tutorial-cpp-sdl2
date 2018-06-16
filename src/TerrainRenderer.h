@@ -5,15 +5,15 @@
 #include "TexturedModel.h"
 #include "Entity.h"
 #include "TerrainShader.h"
+#include "Terrain.h"
 
 class TerrainRenderer {
 public:
 	TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMatrix);
-	void render(std::map<TexturedModel*, vector<Entity*>*>* entities);
-	void prepareTexturedModel(TexturedModel &model);
+	void render(vector<Terrain*>* terrains);
+	void prepareTerrain(Terrain& terrain);
+	void loadModelMatrix(Terrain& terrain);
 	void unbindTexturedModel();
-	void prepareInstance(Entity &entity);
-	//void render(Entity& entity, StaticShader& shader);
 private:
 	TerrainShader& shader;
 };

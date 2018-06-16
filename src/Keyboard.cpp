@@ -2,33 +2,27 @@
 
 Keyboard::Keyboard()
 {
-	for (int i = 0; i < NUM_KEYS; i++)
-		keyIsDown[i] = false;
+	keys = new map<SDL_Keycode,bool>;
 }
 
 bool Keyboard::isKeyDown(SDL_Keycode sym)
 {
-	int num = (int) sym;
-	bool ret = false;
-
-	if (num >= NUM_KEYS)
+	map<SDL_Keycode,bool>::iterator it = keys->find(sym);
+	if (it == keys->end()) {
 		return false;
-	ret = keyIsDown[num];
-	//if (ret)
-	//	cout << "key " << num << " is down." << endl;
-	return ret;
+	}
+	return it->second == true;
 }
 
 void Keyboard::setKeyDown(SDL_Keycode sym, bool isDown)
 {
-	int num = (int) sym;
-
-	if (num >= NUM_KEYS) {
-		cerr << "warning: setKeyDown: " << num << " >= " << NUM_KEYS << endl;
-		return;
+	map<SDL_Keycode,bool>::iterator it = keys->find(sym);
+	
+	if (it == keys->end()) {
+		// was not in map, insert it
+		keys->insert( std::pair<SDL_Keycode, bool>(sym,isDown) );
 	}
-
-	//cout << "key " << num << " pressed" << endl;
-	//cout << "is down: " << (isDown ? "true" : "false") << endl;
-	keyIsDown[num] = isDown;
+	else {
+		keys->at( sym ) = isDown;
+	}
 }

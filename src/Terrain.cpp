@@ -1,5 +1,15 @@
 #include "Terrain.h"
 
+Terrain::Terrain(int gridX, int gridZ, Loader &loader, ModelTexture &texture) : texture(texture)
+{
+	this->position[0] = gridX * SIZE;
+	this->position[1] = 0;
+	this->position[2] = gridZ * SIZE;
+	this->model = generateTerrain(loader);
+}
+
+// Based on Terrain Generation Code from
+// https://www.dropbox.com/s/47qk4yrz5v9lb61/Terrain%20Generation%20Code.txt?dl=0
 /*
 MAKE SURE THAT YOUR CAMERA IS IN A POSITION THAT ALLOWS YOU TO SEE THE TERRAIN! MAKE SURE THE CAMERA'S Y
 POSITION IS ABOVE 0, AND MAKE SURE THAT THE TERRAIN IS INFRONT OF THE CAMERA (EITHER MOVE THE
@@ -46,16 +56,6 @@ COPY AND PASTE INTO TERRAIN CLASS:
 		return loader.loadToVAO(vertices, textureCoords, normals, indices);
 	}
 */
-
-Terrain::Terrain(int gridX, int gridY, Loader &loader, ModelTexture &texture) : texture(texture)
-{
-	this->x = gridX * SIZE;
-	this->y = gridY * SIZE;
-	this->model = generateTerrain(loader);
-}
-
-// Based on Terrain Generation Code from
-// https://www.dropbox.com/s/47qk4yrz5v9lb61/Terrain%20Generation%20Code.txt?dl=0
 RawModel* Terrain::generateTerrain(Loader &loader)
 {
 	vector<GLfloat> verticesArray;

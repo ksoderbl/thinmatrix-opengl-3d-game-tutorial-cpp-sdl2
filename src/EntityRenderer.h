@@ -13,7 +13,6 @@ public:
 	void prepareTexturedModel(TexturedModel &model);
 	void unbindTexturedModel();
 	void prepareInstance(Entity &entity);
-	//void render(Entity& entity, StaticShader& shader);
 private:
 	StaticShader& shader;
 };

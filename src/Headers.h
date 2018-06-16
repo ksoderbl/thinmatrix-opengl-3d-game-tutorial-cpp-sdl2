@@ -40,5 +40,6 @@ using std::ifstream;
 using std::istringstream;
 using std::vector;
 using std::map;
+using std::pair;
 
 #endif

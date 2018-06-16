@@ -17,10 +17,12 @@ public:
 	int getShaderProgram() { return programID; }
 	//protected:
 	int getUniformLocation(string uniformName);
+	/*
 	void loadFloat(int location, GLfloat value);
 	void loadVector(int location, glm::vec3& vec);
 	void loadBoolean(int location, bool value);
 	void loadMatrix(int location, glm::mat4& matrix);
+	*/
 	void getAllUniformLocations();
 	void loadShineVariables(GLfloat damper, GLfloat reflectivity);
 	void loadTransformationMatrix(glm::mat4& matrix);
@@ -30,9 +32,6 @@ public:
 
 
 private:
-	int loadShader(string fileName, GLenum type);
-	string readShaderSource(string fileName);
-	
 	int programID;
 	int vertexShaderID;
 	int fragmentShaderID;
