@@ -33,7 +33,7 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 	ifstream inFile(fileName, ios::in);
 	
 	if (!inFile) {
-		cerr << "File " << fileName << " could not be opened" << endl;
+		cerr << "OBJLoader: File " << fileName << " could not be opened" << endl;
 		exit(1);
 	}
 

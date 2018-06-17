@@ -3,7 +3,7 @@
 
 Camera::Camera()
 {
-	this->position = glm::vec3(0, 50, 0);
+	this->position = glm::vec3(0, 20, 0);
 	this->pitch = 7.0f;
 	this->yaw = 140.0f;
 	this->roll = 0.0f;

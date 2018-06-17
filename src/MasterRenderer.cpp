@@ -70,7 +70,7 @@ void MasterRenderer::processEntity(Entity& entity)
 void MasterRenderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0, 0, 0.1, 1);
+	glClearColor(128.0f/255, 204.0f/255, 204.0f/255, 1);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 

@@ -1,8 +1,8 @@
 
 #include "TerrainShader.h"
 
-const string VERTEX_FILE = "shaders/terrainVertexShader.txt";
-const string FRAGMENT_FILE = "shaders/terrainFragmentShader.txt";
+const string VERTEX_FILE = "shaders/terrainVertexShader.glsl";
+const string FRAGMENT_FILE = "shaders/terrainFragmentShader.glsl";
 
 TerrainShader::TerrainShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 {

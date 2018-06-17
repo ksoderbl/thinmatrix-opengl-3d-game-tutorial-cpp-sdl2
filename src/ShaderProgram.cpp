@@ -59,7 +59,7 @@ string ShaderProgram::readShaderSource(string fileName)
 	ifstream inFile(fileName, ios::in);
 
 	if (!inFile) {
-		cerr << "File " << fileName << " could not be opened" << endl;
+		cerr << "ShaderProgram: File " << fileName << " could not be opened" << endl;
 		exit(1);
 	}
 
