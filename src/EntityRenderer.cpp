@@ -1,6 +1,7 @@
 #include "RawModel.h"
 #include "EntityRenderer.h"
 #include "DisplayManager.h"
+#include "MasterRenderer.h"
 
 EntityRenderer::EntityRenderer(StaticShader& shader, glm::mat4& projectionMatrix) : shader(shader)
 {
@@ -38,21 +39,23 @@ void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities
 void EntityRenderer::prepareTexturedModel(TexturedModel &model)
 {
 	RawModel& rawModel = model.getRawModel();
-
 	glBindVertexArray(rawModel.getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-
 	ModelTexture& texture = model.getTexture();
+	if (texture.getHasTransparency()) {
+		MasterRenderer::disableCulling();
+	}
+	shader.loadFakeLightingVariable(texture.getUseFakeLighting());
 	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
 }
 
 void EntityRenderer::unbindTexturedModel()
 {
+	MasterRenderer::enableCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

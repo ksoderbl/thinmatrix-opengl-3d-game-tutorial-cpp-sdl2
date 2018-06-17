@@ -27,12 +27,31 @@ public:
 	void setReflectivity(GLfloat reflectivity) {
 		this->reflectivity = reflectivity;
 	}
+	
+	bool getHasTransparency() {
+		return hasTransparency;
+	}
+	
+	void setHasTransparency(bool hasTransparency) {
+		this->hasTransparency = hasTransparency;
+	}
+	
+	bool getUseFakeLighting() {
+		return useFakeLighting;
+	}
+	
+	void setUseFakeLighting(bool useFakeLighting) {
+		this->useFakeLighting = useFakeLighting;
+	}
+	
 
 
 private:
 	GLuint textureID;
 	GLfloat shineDamper = 1;
 	GLfloat reflectivity = 0;
+	bool hasTransparency = false;
+	bool useFakeLighting = false;
 };
 
 #endif

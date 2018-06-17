@@ -18,6 +18,8 @@ class MasterRenderer {
 public:
 	MasterRenderer();
 	~MasterRenderer();
+	static void enableCulling();
+	static void disableCulling();
 	void prepare();
 	void render(Light& sun, Camera& camera);
 	void processTerrain(Terrain& terrain);

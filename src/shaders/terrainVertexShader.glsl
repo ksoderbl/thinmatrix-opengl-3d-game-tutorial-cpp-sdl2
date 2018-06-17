@@ -17,7 +17,7 @@ uniform vec3 lightPosition;
 void main() {
   vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
   gl_Position = projectionMatrix * viewMatrix * worldPosition;
-  pass_textureCoords = textureCoords * 40.0;
+  pass_textureCoords = textureCoords * 10.0;
   
   surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
   toLightVector = lightPosition - worldPosition.xyz;

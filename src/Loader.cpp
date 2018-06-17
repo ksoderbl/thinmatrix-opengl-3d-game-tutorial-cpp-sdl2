@@ -59,7 +59,7 @@ GLuint Loader::loadTexture(string fileName)
 	
 	textures->push_back(textureID);
 	
-	cout << "Loader: Read texture file \"" << fileName << "\"" << endl;
+	cout << "Loader: Read texture file " << fileName << endl;
 	
 	return textureID;
 }

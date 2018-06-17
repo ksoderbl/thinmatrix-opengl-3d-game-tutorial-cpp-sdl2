@@ -60,7 +60,6 @@ void StaticShader::bindAttribute(int attribute, string variableName)
 	glBindAttribLocation(programID, attribute, variableName.c_str());
 }
 
-// should be virtual
 void StaticShader::bindAttributes()
 {
 	bindAttribute(0, "position");
@@ -68,29 +67,17 @@ void StaticShader::bindAttributes()
 	bindAttribute(2, "normal"); // "normal" variable in the vertex shader
 }
 
-/*
-void StaticShader::loadFloat(int location, GLfloat value)
+void StaticShader::getAllUniformLocations()
 {
-	glUniform1f(location, value);
+	location_transformationMatrix = getUniformLocation("transformationMatrix");
+	location_projectionMatrix = getUniformLocation("projectionMatrix");
+	location_viewMatrix = getUniformLocation("viewMatrix");
+	location_lightPosition = getUniformLocation("lightPosition");
+	location_lightColor = getUniformLocation("lightColor");
+	location_shineDamper = getUniformLocation("shineDamper");
+	location_reflectivity = getUniformLocation("reflectivity");
+	location_useFakeLighting = getUniformLocation("useFakeLighting");
 }
-
-void StaticShader::loadVector(int location, glm::vec3& vec)
-{
-	glUniform3f(location, vec[0], vec[1], vec[2]);
-}
-
-void StaticShader::loadBoolean(int location, bool value)
-{
-	GLfloat toLoad = (value ? 1 : 0);
-	glUniform1f(location, toLoad);
-}
-
-// value needs to have 16 components for a 4 x 4 matrix
-void StaticShader::loadMatrix(int location, glm::mat4& matrix)
-{
-	glUniformMatrix4fv(location, 1, false, &matrix[0][0]);
-}
-*/
 
 void StaticShader::loadTransformationMatrix(glm::mat4& matrix)
 {
@@ -114,15 +101,9 @@ void StaticShader::loadViewMatrix(Camera& camera)
 	loadMatrix(location_viewMatrix, viewMatrix);
 }
 
-void StaticShader::getAllUniformLocations()
+void StaticShader::loadFakeLightingVariable(bool useFakeLighting)
 {
-	location_transformationMatrix = getUniformLocation("transformationMatrix");
-	location_projectionMatrix = getUniformLocation("projectionMatrix");
-	location_viewMatrix = getUniformLocation("viewMatrix");
-	location_lightPosition = getUniformLocation("lightPosition");
-	location_lightColor = getUniformLocation("lightColor");
-	location_shineDamper = getUniformLocation("shineDamper");
-	location_reflectivity = getUniformLocation("reflectivity");
+	loadBoolean(location_useFakeLighting, useFakeLighting);
 }
 
 void StaticShader::loadShineVariables(GLfloat damper, GLfloat reflectivity)

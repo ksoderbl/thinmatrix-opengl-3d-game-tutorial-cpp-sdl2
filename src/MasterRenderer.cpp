@@ -2,8 +2,7 @@
 
 MasterRenderer::MasterRenderer()
 {
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	enableCulling();
 	createProjectionMatrix();
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
@@ -21,6 +20,17 @@ MasterRenderer::~MasterRenderer()
 	delete terrains;
 	delete terrainRenderer;
 	delete terrainShader;
+}
+
+void MasterRenderer::enableCulling()
+{
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+}
+
+void MasterRenderer::disableCulling()
+{
+	glDisable(GL_CULL_FACE);
 }
 
 void MasterRenderer::cleanUp()

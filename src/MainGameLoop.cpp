@@ -165,12 +165,12 @@ int main(int argc, char *argv[])
 	//treeModelTexture.setShineDamper(4);
 	//treeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 800 - 400;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 800 - 400;
 		allEntities.push_back(new Entity(treeTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 2 + 3));
+			0, 0, 0, my_rand() * 4 + 4));
 	}
 
 	// grass
@@ -178,16 +178,38 @@ int main(int argc, char *argv[])
 	GLuint grassTextureID = loader.loadTexture("grassTexture");
 	ModelTexture grassModelTexture = ModelTexture(grassTextureID);
 	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
-	//treeModelTexture.setShineDamper(1);
-	//treeModelTexture.setReflectivity(0.5);
+	grassTexturedModel.getTexture().setHasTransparency(true);
+	grassTexturedModel.getTexture().setUseFakeLighting(true);
+	//grassModelTexture.setShineDamper(1);
+	//grassModelTexture.setReflectivity(0.5);
 	
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 500; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1800 - 900;
 		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 1 + 0.5));
+			0, 0, 0, my_rand() * 3 + 1));
 	}
+	
+	// fern
+	RawModel* fernRawModel = objLoader.loadObjModel("fern", loader);
+	GLuint fernTextureID = loader.loadTexture("fern");
+	ModelTexture fernModelTexture = ModelTexture(fernTextureID);
+	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernModelTexture);
+	fernTexturedModel.getTexture().setHasTransparency(true);
+	fernTexturedModel.getTexture().setUseFakeLighting(true);
+	fernModelTexture.setShineDamper(1);
+	fernModelTexture.setReflectivity(0);
+	
+	for (int i = 0; i < 500; i++) {
+		GLfloat x = my_rand() * 1400 - 700;
+		GLfloat y = 0;
+		GLfloat z = my_rand() * 1400 - 700;
+		allEntities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * 0.5 + 1));
+	}
+	
+	
 
 	Light light = Light(glm::vec3(3000, 2000, 2000), glm::vec3(1, 1, 1));
 	Camera camera;
