@@ -3,7 +3,7 @@ My implementation of ThinMatrix OpenGL 3D Game Tutorial, in C++, SDL2 and GLM.
 
 The tutorial's playlist is on the ThinMatrix youtube channel at
 
-https://www.youtube.com/playlist?annotation_id=annotation_1740916501&feature=iv&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&src_vid=HusvGeEDU_U
+https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP
 
 I'm attempting translate the LWJGL code to C++. The implementation will aim to
 get the OpenGL specific parts working flawlessly as the tutorial is mainly about
