@@ -43,7 +43,7 @@ GLuint Loader::loadTexture(string fileName)
 
 	tx_data = LoadPNGImage(fileName, &tx_w, &tx_h, &tx_fmt);
 	if (!tx_data) {
-		cerr << "loadTexture failed for " << fileName << "\n";
+		cerr << "Loader: loadTexture failed for " << fileName << "\n";
 		exit(1);
 	}
 
@@ -58,6 +58,9 @@ GLuint Loader::loadTexture(string fileName)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 	textures->push_back(textureID);
+	
+	cout << "Loader: Read texture file \"" << fileName << "\"" << endl;
+	
 	return textureID;
 }
 
@@ -142,7 +145,7 @@ GLubyte* Loader::LoadPNGImage(string imageFile,
 	//cout << "Loading " << imageFile.c_str() << endl;
 
 	if (!fp) {
-		cerr << "LoadPNGImage: fopen of "
+		cerr << "Loader: LoadPNGImage: fopen of "
 		     << imageFile.c_str() << " failed." << endl;
 		return 0;
 	}

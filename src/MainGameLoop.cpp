@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 3000;
 		GLfloat z = my_rand() * 1500 - 750;
@@ -162,20 +162,34 @@ int main(int argc, char *argv[])
 	GLuint treeTextureID = loader.loadTexture("tree");
 	ModelTexture treeModelTexture = ModelTexture(treeTextureID);
 	TexturedModel treeTexturedModel = TexturedModel(*treeRawModel, treeModelTexture);
-	treeModelTexture.setShineDamper(40);
-	treeModelTexture.setReflectivity(0.3);
+	//treeModelTexture.setShineDamper(4);
+	//treeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 1000; i++) {
-		GLfloat x = my_rand() * 8000 - 4000;
+	for (int i = 0; i < 500; i++) {
+		GLfloat x = my_rand() * 800 - 400;
 		GLfloat y = 0;
-		GLfloat z = my_rand() * 8000 - 4000;
+		GLfloat z = my_rand() * 800 - 400;
 		allEntities.push_back(new Entity(treeTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 15 + 5));
+			0, 0, 0, my_rand() * 2 + 3));
 	}
 
 	// grass
+	RawModel* grassRawModel = objLoader.loadObjModel("grassModel", loader);
+	GLuint grassTextureID = loader.loadTexture("grassTexture");
+	ModelTexture grassModelTexture = ModelTexture(grassTextureID);
+	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
+	//treeModelTexture.setShineDamper(1);
+	//treeModelTexture.setReflectivity(0.5);
+	
+	for (int i = 0; i < 1000; i++) {
+		GLfloat x = my_rand() * 1800 - 900;
+		GLfloat y = 0;
+		GLfloat z = my_rand() * 1800 - 900;
+		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * 1 + 0.5));
+	}
 
-	Light light = Light(glm::vec3(0, 1000, 0), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(3000, 2000, 2000), glm::vec3(1, 1, 1));
 	Camera camera;
 
 	vector<Entity*>::iterator it;

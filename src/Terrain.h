@@ -24,8 +24,8 @@ public:
 	
 
 private:
-	static constexpr GLfloat SIZE = 10000; //800;
-	static constexpr int VERTEX_COUNT = 64; //128;
+	static constexpr GLfloat SIZE = 800;
+	static constexpr int VERTEX_COUNT = 128;
 	glm::vec3 position;
 	RawModel* model;
 	ModelTexture& texture;
