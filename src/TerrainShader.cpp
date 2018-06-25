@@ -123,10 +123,17 @@ void TerrainShader::getAllUniformLocations()
 	location_lightColor = getUniformLocation("lightColor");
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
+	location_skyColor = getUniformLocation("skyColor");
 }
 
 void TerrainShader::loadShineVariables(GLfloat damper, GLfloat reflectivity)
 {
 	loadFloat(location_shineDamper, damper);
 	loadFloat(location_reflectivity, reflectivity);
+}
+
+void TerrainShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
+{
+	glm::vec3 vec(r, g, b);
+	loadVector(location_skyColor, vec);
 }

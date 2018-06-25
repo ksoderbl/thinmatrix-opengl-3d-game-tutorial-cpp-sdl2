@@ -30,6 +30,7 @@ public:
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
 	void loadFakeLightingVariable(bool useFakeLighting);
+	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
 
 private:
 	int programID;
@@ -44,6 +45,7 @@ private:
 	int location_shineDamper;
 	int location_reflectivity;
 	int location_useFakeLighting;
+	int location_skyColor;
 };
 
 #endif

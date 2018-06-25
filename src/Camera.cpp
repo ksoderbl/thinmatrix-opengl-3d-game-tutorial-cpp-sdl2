@@ -17,11 +17,11 @@ void Camera::move(Keyboard &keyboard)
 
 	if (keyboard.isKeyDown(SDLK_w)) {
 		pitch += 1.0f;
-		cout << "pitch : " << pitch << endl;
+		//cout << "pitch : " << pitch << endl;
 	}
 	if (keyboard.isKeyDown(SDLK_s)) {
 		pitch -= 1.0f;
-		cout << "pitch : " << pitch << endl;
+		//cout << "pitch : " << pitch << endl;
 	}
 	if (keyboard.isKeyDown(SDLK_a)) {
 		position.x -= c;

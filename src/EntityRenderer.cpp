@@ -13,19 +13,19 @@ EntityRenderer::EntityRenderer(StaticShader& shader, glm::mat4& projectionMatrix
 void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
 {
 	for (std::map<TexturedModel*, vector<Entity*>*>::iterator it = entities->begin();
-		it != entities->end();
-		it++) {
-    	TexturedModel* model = (*it).first;
+	     it != entities->end();
+	     it++) {
+		TexturedModel* model = (*it).first;
 
-    	prepareTexturedModel(*model);
+		prepareTexturedModel(*model);
 
-    	it = entities->find(model);
+		it = entities->find(model);
   		if (it != entities->end()) {
   			vector<Entity*>* batch = it->second;
 
   			for (vector<Entity*>::iterator vit = batch->begin();
-  				vit != batch->end();
-  				vit++) {
+			     vit != batch->end();
+			     vit++) {
   				Entity *entity = *vit;
   				prepareInstance(*entity);
   				glDrawElements(GL_TRIANGLES, model->getRawModel().getVertexCount(), GL_UNSIGNED_INT, 0);
@@ -33,7 +33,7 @@ void EntityRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities
   		}
 
   		unbindTexturedModel();
-    }
+	}
 }
 
 void EntityRenderer::prepareTexturedModel(TexturedModel &model)

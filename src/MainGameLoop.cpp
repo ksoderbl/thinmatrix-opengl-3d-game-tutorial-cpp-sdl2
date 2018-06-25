@@ -173,6 +173,23 @@ int main(int argc, char *argv[])
 			0, 0, 0, my_rand() * 4 + 4));
 	}
 
+	// low poly tree
+	RawModel* lowPolyTreeRawModel = objLoader.loadObjModel("lowPolyTree", loader);
+	GLuint lowPolyTreeTextureID = loader.loadTexture("lowPolyTree");
+	ModelTexture lowPolyTreeModelTexture = ModelTexture(lowPolyTreeTextureID);
+	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
+	//lowPolyTreeModelTexture.setShineDamper(4);
+	//lowPolyTreeModelTexture.setReflectivity(0.3);
+
+	for (int i = 0; i < 150; i++) {
+		GLfloat x = my_rand() * 800 - 200;
+		GLfloat y = 0;
+		GLfloat z = my_rand() * 800 - 500;
+		allEntities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * 0.5 + 0.3));
+	}
+
+
 	// grass
 	RawModel* grassRawModel = objLoader.loadObjModel("grassModel", loader);
 	GLuint grassTextureID = loader.loadTexture("grassTexture");

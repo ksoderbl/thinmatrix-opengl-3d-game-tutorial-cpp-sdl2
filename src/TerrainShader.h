@@ -29,14 +29,9 @@ public:
 	void loadLight(Light& light);
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
-
+	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
 
 private:
-	/*
-	int loadShader(string fileName, GLenum type);
-	string readShaderSource(string fileName);
-	*/
-	
 	int programID;
 	int vertexShaderID;
 	int fragmentShaderID;
@@ -48,6 +43,7 @@ private:
 	int location_lightColor;
 	int location_shineDamper;
 	int location_reflectivity;
+	int location_skyColor;
 };
 
 #endif

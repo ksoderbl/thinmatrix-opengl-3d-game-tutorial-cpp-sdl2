@@ -77,6 +77,7 @@ void StaticShader::getAllUniformLocations()
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_useFakeLighting = getUniformLocation("useFakeLighting");
+	location_skyColor = getUniformLocation("skyColor");
 }
 
 void StaticShader::loadTransformationMatrix(glm::mat4& matrix)
@@ -110,4 +111,10 @@ void StaticShader::loadShineVariables(GLfloat damper, GLfloat reflectivity)
 {
 	loadFloat(location_shineDamper, damper);
 	loadFloat(location_reflectivity, reflectivity);
+}
+
+void StaticShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
+{
+	glm::vec3 vec(r, g, b);
+	loadVector(location_skyColor, vec);
 }
