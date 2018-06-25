@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 	grassTexturedModel.getTexture().setUseFakeLighting(true);
 	//grassModelTexture.setShineDamper(1);
 	//grassModelTexture.setReflectivity(0.5);
-	
+
 	for (int i = 0; i < 500; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat y = 0;
@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
 		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 3 + 1));
 	}
-	
+
 	// fern
 	RawModel* fernRawModel = objLoader.loadObjModel("fern", loader);
 	GLuint fernTextureID = loader.loadTexture("fern");
@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 	fernModelTexture.setShineDamper(1);
 	fernModelTexture.setReflectivity(0);
-	
+
 	for (int i = 0; i < 500; i++) {
 		GLfloat x = my_rand() * 1400 - 700;
 		GLfloat y = 0;
@@ -225,8 +225,24 @@ int main(int argc, char *argv[])
 		allEntities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 0.5 + 1));
 	}
-	
-	
+
+	// flower, using fern as raw model, seems to work
+	RawModel* flowerRawModel = objLoader.loadObjModel("fern", loader);
+	GLuint flowerTextureID = loader.loadTexture("flower");
+	ModelTexture flowerModelTexture = ModelTexture(flowerTextureID);
+	TexturedModel flowerTexturedModel = TexturedModel(*flowerRawModel, flowerModelTexture);
+	flowerTexturedModel.getTexture().setHasTransparency(true);
+	flowerTexturedModel.getTexture().setUseFakeLighting(true);
+	//flowerModelTexture.setShineDamper(1);
+	//flowerModelTexture.setReflectivity(0.5);
+
+	for (int i = 0; i < 500; i++) {
+		GLfloat x = my_rand() * 1200 - 300;
+		GLfloat y = 0;
+		GLfloat z = my_rand() * 1700 - 900;
+		allEntities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * .3 + .1));
+	}
 
 	Light light = Light(glm::vec3(3000, 2000, 2000), glm::vec3(1, 1, 1));
 	Camera camera;
