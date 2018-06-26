@@ -8,7 +8,7 @@
 #include "ModelTexture.h"
 #include "TexturedModel.h"
 #include "Keyboard.h"
-#include "OBJLoader.h"
+#include "OBJFileLoader.h"
 #include "MasterRenderer.h"
 
 static bool pausing = false;
@@ -130,18 +130,21 @@ int main(int argc, char *argv[])
 
 	Keyboard keyboard;
 	Loader loader;
-	OBJLoader objLoader;
+	OBJFileLoader objLoader;
 	vector<Entity*> allEntities;
 
 	// stall
-	RawModel* stallRawModel = objLoader.loadObjModel("stall", loader);
+	//RawModel* stallRawModel = objLoader.loadObjModel("stall", loader);
+	ModelData *stallModelData = objLoader.loadOBJ("stall");
+	RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
+		stallModelData->getNormals(), stallModelData->getIndices());
 	GLuint stallTextureID = loader.loadTexture("stallTexture");
 	ModelTexture stallModelTexture = ModelTexture(stallTextureID);
 	TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 3000;
 		GLfloat z = my_rand() * 1500 - 750;
@@ -158,14 +161,17 @@ int main(int argc, char *argv[])
 	Terrain terrain4(0, -1, loader, terrainModelTexture);
 
 	// tree
-	RawModel* treeRawModel = objLoader.loadObjModel("tree", loader);
+	//RawModel* treeRawModel = objLoader.loadObjModel("tree", loader);
+	ModelData *treeModelData = objLoader.loadOBJ("tree");
+	RawModel* treeRawModel = loader.loadToVAO(treeModelData->getVertices(), treeModelData->getTextureCoords(),
+		treeModelData->getNormals(), treeModelData->getIndices());
 	GLuint treeTextureID = loader.loadTexture("tree");
 	ModelTexture treeModelTexture = ModelTexture(treeTextureID);
 	TexturedModel treeTexturedModel = TexturedModel(*treeRawModel, treeModelTexture);
 	//treeModelTexture.setShineDamper(4);
 	//treeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 800 - 400;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 800 - 400;
@@ -174,14 +180,17 @@ int main(int argc, char *argv[])
 	}
 
 	// low poly tree
-	RawModel* lowPolyTreeRawModel = objLoader.loadObjModel("lowPolyTree", loader);
+	//RawModel* lowPolyTreeRawModel = objLoader.loadObjModel("lowPolyTree", loader);
+	ModelData *lowPolyTreeModelData = objLoader.loadOBJ("lowPolyTree");
+	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
+		lowPolyTreeModelData->getNormals(), lowPolyTreeModelData->getIndices());
 	GLuint lowPolyTreeTextureID = loader.loadTexture("lowPolyTree");
 	ModelTexture lowPolyTreeModelTexture = ModelTexture(lowPolyTreeTextureID);
 	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
 	//lowPolyTreeModelTexture.setShineDamper(4);
 	//lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 150; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 800 - 200;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 800 - 500;
@@ -189,9 +198,11 @@ int main(int argc, char *argv[])
 			0, 0, 0, my_rand() * 0.5 + 0.3));
 	}
 
-
 	// grass
-	RawModel* grassRawModel = objLoader.loadObjModel("grassModel", loader);
+	//RawModel* grassRawModel = objLoader.loadObjModel("grassModel", loader);
+	ModelData *grassModelData = objLoader.loadOBJ("grassModel");
+	RawModel* grassRawModel = loader.loadToVAO(grassModelData->getVertices(), grassModelData->getTextureCoords(),
+		grassModelData->getNormals(), grassModelData->getIndices());
 	GLuint grassTextureID = loader.loadTexture("grassTexture");
 	ModelTexture grassModelTexture = ModelTexture(grassTextureID);
 	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
@@ -200,7 +211,7 @@ int main(int argc, char *argv[])
 	//grassModelTexture.setShineDamper(1);
 	//grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1800 - 900;
@@ -209,7 +220,10 @@ int main(int argc, char *argv[])
 	}
 
 	// fern
-	RawModel* fernRawModel = objLoader.loadObjModel("fern", loader);
+	//RawModel* fernRawModel = objLoader.loadObjModel("fern", loader);
+	ModelData *fernModelData = objLoader.loadOBJ("fern");
+	RawModel* fernRawModel = loader.loadToVAO(fernModelData->getVertices(), fernModelData->getTextureCoords(),
+		fernModelData->getNormals(), fernModelData->getIndices());
 	GLuint fernTextureID = loader.loadTexture("fern");
 	ModelTexture fernModelTexture = ModelTexture(fernTextureID);
 	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernModelTexture);
@@ -218,7 +232,7 @@ int main(int argc, char *argv[])
 	fernModelTexture.setShineDamper(1);
 	fernModelTexture.setReflectivity(0);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 1400 - 700;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1400 - 700;
@@ -227,7 +241,10 @@ int main(int argc, char *argv[])
 	}
 
 	// flower, using fern as raw model, seems to work
-	RawModel* flowerRawModel = objLoader.loadObjModel("fern", loader);
+	//RawModel* flowerRawModel = objLoader.loadObjModel("fern", loader);
+	ModelData *flowerModelData = objLoader.loadOBJ("fern");
+	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
+		flowerModelData->getNormals(), flowerModelData->getIndices());
 	GLuint flowerTextureID = loader.loadTexture("flower");
 	ModelTexture flowerModelTexture = ModelTexture(flowerTextureID);
 	TexturedModel flowerTexturedModel = TexturedModel(*flowerRawModel, flowerModelTexture);
@@ -236,7 +253,7 @@ int main(int argc, char *argv[])
 	//flowerModelTexture.setShineDamper(1);
 	//flowerModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 1200 - 300;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1700 - 900;

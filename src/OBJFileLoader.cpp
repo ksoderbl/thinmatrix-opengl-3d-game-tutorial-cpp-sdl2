@@ -1,6 +1,4 @@
-#include "OBJLoader.h"
-
-
+#include "OBJFileLoader.h"
 
 static void processVertex(
 	GLuint u0,
@@ -26,14 +24,20 @@ static void processVertex(
 // OBJ file format is explained in
 // https://www.youtube.com/watch?v=KMWUjNE0fYI&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=8
 
-RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
+ModelData *OBJFileLoader::loadOBJ(string objFileName)
 {
-	fileName = "../res/" + fileName + ".obj";
-	
+	vector<GLfloat> verticesArray;
+	vector<GLfloat> normalsArray;
+	vector<GLfloat> texturesArray;
+	vector<GLuint> indicesArray;
+	GLfloat furthest = 0.0f;
+
+	string RES_LOC = "../res/";
+	string fileName = RES_LOC + objFileName + ".obj";
 	ifstream inFile(fileName, ios::in);
-	
+
 	if (!inFile) {
-		cerr << "OBJLoader: File " << fileName << " could not be opened" << endl;
+		cerr << "OBJFileLoader: File " << fileName << " could not be opened" << endl;
 		exit(1);
 	}
 
@@ -42,23 +46,19 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 	vector<glm::vec2> textures;
 	vector<glm::vec3> normals;
 	vector<GLuint> indices;
-	vector<GLfloat> verticesArray;
-	vector<GLfloat> normalsArray;
-	vector<GLfloat> textureArray;
-	vector<GLuint> indicesArray;
-	
+
 	// This loop collects the vertices, texture coords and normals from
 	// the obj file.
 	while ( !inFile.eof() ) {
 		getline(inFile, line);
-		
+
 		istringstream iss(line);
 		string starts;
 		GLfloat x, y, z;
-		
+
 		// starts contains e.g. v, vt, tv, s, f
 		iss >> starts;
-		
+
 		if (starts == "v") {
 			// e.g. v 3.227124 -0.065127 -1.000000
 			iss >> x >> y >> z;
@@ -82,28 +82,28 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 		}
 		else if (starts == "f") {
 			// break when faces start
-			cout << "OBJLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
-			cout << "OBJLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
-			cout << "OBJLoader: Read " << normals.size() << " normals from " << fileName << endl;
-			textureArray.resize(vertices.size() * 2);
+			cout << "OBJFileLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
+			cout << "OBJFileLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
+			cout << "OBJFileLoader: Read " << normals.size() << " normals from " << fileName << endl;
+			texturesArray.resize(vertices.size() * 2);
 			normalsArray.resize(vertices.size() * 3);
 			break;
 		}
 	}
-	
+
 	int faces = 0;
 
 	// read the faces in a second loop
 	while ( !inFile.eof() ) {
 		if (line == "")
 			break;
-		
+
 		istringstream iss(line);
 		string starts;
 		GLuint u[9];
-		
+
 		iss >> starts;
-		
+
 		if (starts == "f") {
 			// e.g. f 41/1/1 38/2/1 45/3/1
 			string tmp, f = "";
@@ -113,7 +113,7 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 			f += tmp + " ";
 			iss >> tmp;
 			f += tmp;
-					
+
 			// replace /'s with space.
 			size_t x = f.find("/");
 			while (x < string::npos) {
@@ -124,7 +124,7 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 			for (int i = 0; i < 9; i++) {
 				iss2 >> u[i];
 			}
-			
+
 			/*
 			cout << "f ";
 			for (int i = 0; i < 9; i++) {
@@ -132,31 +132,45 @@ RawModel *OBJLoader::loadObjModel(string fileName, Loader& loader)
 			}
 			cout << endl;
 			*/
-			processVertex(u[0], u[1], u[2], indices, textures, normals, textureArray, normalsArray);
-			processVertex(u[3], u[4], u[5], indices, textures, normals, textureArray, normalsArray);
-			processVertex(u[6], u[7], u[8], indices, textures, normals, textureArray, normalsArray);
+			processVertex(u[0], u[1], u[2], indices, textures, normals, texturesArray, normalsArray);
+			processVertex(u[3], u[4], u[5], indices, textures, normals, texturesArray, normalsArray);
+			processVertex(u[6], u[7], u[8], indices, textures, normals, texturesArray, normalsArray);
 			faces++;
 		}
-		
+
 		getline(inFile, line);
 	}
-	
-	cout << "OBJLoader: Read " << faces << " faces from " << fileName << endl;
-	
+
+	cout << "OBJFileLoader: Read " << faces << " faces from " << fileName << endl;
+
 	//verticesArray.resize(vertices.size() * 3);
 	//indicesArray.resize(indices.size());
-	
+
 	for (int i = 0; i < (int) vertices.size(); i++) {
 		glm::vec3 v = vertices[i];
 		verticesArray.push_back(v[0]);
 		verticesArray.push_back(v[1]);
 		verticesArray.push_back(v[2]);
 	}
-	
+
 	for (int i = 0; i < (int) indices.size(); i++) {
 		GLuint u = indices[i];
 		indicesArray.push_back(u);
 	}
-	
-	return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
+
+	ModelData *data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
+	return data;
+}
+
+void OBJFileLoader::removeUnusedVertices(vector<Vertex>& vertices)
+{
+	vector<Vertex>::iterator it;
+
+	for (it = vertices.begin(); it != vertices.end(); it++) {
+		Vertex& vertex = *it;
+		if (!vertex.isSet()) {
+			vertex.setTextureIndex(0);
+			vertex.setNormalIndex(0);
+		}
+	}
 }
