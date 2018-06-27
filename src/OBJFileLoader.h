@@ -25,6 +25,13 @@ private:
 		vector<GLfloat>& texturesArray,
 		vector<GLfloat>& normalsArray);
 
+	void dealWithAlreadyProcessedVertex(
+		Vertex *previousVertex,
+		int newTextureIndex,
+		int newNormalIndex,
+		vector<GLuint>& indices,
+		vector<Vertex*>& vertices);
+
 	void removeUnusedVertices(vector<Vertex*>& vertices);
 };
 

@@ -125,6 +125,11 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 		GLuint u = indices[i];
 		indicesArray.push_back(u);
 	}
+	
+	// free allocated Vertex objects
+	for (int i = 0; i < (int) vertices.size(); i++) {
+		delete vertices[i];
+	}
 
 	ModelData *data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
 	return data;
@@ -138,15 +143,14 @@ void OBJFileLoader::processVertex(
 	vector<GLuint>& indices)
 {
 	Vertex* currentVertex = vertices[index];
-	//if (!currentVertex->isSet()) {
+	if (!currentVertex->isSet()) {
 		currentVertex->setTextureIndex(textureIndex);
 		currentVertex->setNormalIndex(normalIndex);
 		indices.push_back(index);
-	//}
-	//else {
-		// TODO else
-		//cout << "Vertex at index " << index << " is set." << endl;
-	//}
+	}
+	else {
+		dealWithAlreadyProcessedVertex(currentVertex, textureIndex, normalIndex, indices, vertices);
+	}
 }
 
 GLfloat OBJFileLoader::convertDataToArrays(
@@ -180,18 +184,40 @@ GLfloat OBJFileLoader::convertDataToArrays(
 	return furthestPoint;
 }
 
+void OBJFileLoader::dealWithAlreadyProcessedVertex(
+	Vertex *previousVertex,
+	int newTextureIndex,
+	int newNormalIndex,
+	vector<GLuint>& indices,
+	vector<Vertex*>& vertices)
+{
+	if (previousVertex->hasSameTextureAndNormal(newTextureIndex, newNormalIndex)) {
+		indices.push_back(previousVertex->getIndex());
+	} else {
+		Vertex* anotherVertex = previousVertex->getDuplicateVertex();
+		if (anotherVertex != nullptr) {
+			dealWithAlreadyProcessedVertex(anotherVertex, newTextureIndex, newNormalIndex,
+				indices, vertices);
+		} else {
+			Vertex* duplicateVertex = new Vertex(vertices.size(), previousVertex->getPosition());
+			duplicateVertex->setTextureIndex(newTextureIndex);
+			duplicateVertex->setNormalIndex(newNormalIndex);
+			previousVertex->setDuplicateVertex(duplicateVertex);
+			vertices.push_back(duplicateVertex);
+			indices.push_back(duplicateVertex->getIndex());
+		}
+	}
+}
+
 void OBJFileLoader::removeUnusedVertices(vector<Vertex*>& vertices)
 {
 	vector<Vertex*>::iterator it;
-	int i = 0;
 
 	for (it = vertices.begin(); it != vertices.end(); it++) {
 		Vertex* vertex = *it;
 		if (!vertex->isSet()) {
-			cout << "found vertex that is not set at index " << i << endl;
 			vertex->setTextureIndex(0);
 			vertex->setNormalIndex(0);
 		}
-		i++;
 	}
 }
