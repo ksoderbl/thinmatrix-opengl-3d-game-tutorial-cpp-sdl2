@@ -12,7 +12,7 @@ int Vertex::getIndex()
 	return index;
 }
 
-GLfloat Vertex::getLength()     
+GLfloat Vertex::getLength()
 {
 	return length;
 }
@@ -54,7 +54,7 @@ int Vertex::getNormalIndex()
  
 Vertex* Vertex::getDuplicateVertex()
 {
-        return duplicateVertex;
+	return duplicateVertex;
 }
  
 void Vertex::setDuplicateVertex(Vertex* duplicateVertex)

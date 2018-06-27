@@ -1,37 +1,10 @@
 #include "OBJFileLoader.h"
 
-static void processVertex(
-	GLuint u0,
-	GLuint u1,
-	GLuint u2,
-	vector<GLuint>& indices,
-	vector<glm::vec2>& textures,
-	vector<glm::vec3>& normals,
-	vector<GLfloat>& textureArray,
-	vector<GLfloat>& normalsArray)
-{
-	GLuint currentVertexPointer = u0 - 1;
-	indices.push_back(currentVertexPointer);
-	glm::vec2 currentTex = textures[u1 - 1];
-	textureArray[currentVertexPointer * 2] = currentTex[0];
-	textureArray[currentVertexPointer * 2 + 1] = 1 - currentTex[1];
-	glm::vec3 currentNorm = normals[u2 - 1];
-	normalsArray[currentVertexPointer * 3] = currentNorm[0];
-	normalsArray[currentVertexPointer * 3 + 1] = currentNorm[1];
-	normalsArray[currentVertexPointer * 3 + 2] = currentNorm[2];
-}
-
 // OBJ file format is explained in
 // https://www.youtube.com/watch?v=KMWUjNE0fYI&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=8
 
 ModelData *OBJFileLoader::loadOBJ(string objFileName)
 {
-	vector<GLfloat> verticesArray;
-	vector<GLfloat> normalsArray;
-	vector<GLfloat> texturesArray;
-	vector<GLuint> indicesArray;
-	GLfloat furthest = 0.0f;
-
 	string RES_LOC = "../res/";
 	string fileName = RES_LOC + objFileName + ".obj";
 	ifstream inFile(fileName, ios::in);
@@ -42,7 +15,7 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 	}
 
 	string line;
-	vector<glm::vec3> vertices;
+	vector<Vertex*> vertices;
 	vector<glm::vec2> textures;
 	vector<glm::vec3> normals;
 	vector<GLuint> indices;
@@ -64,7 +37,8 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 			iss >> x >> y >> z;
 			// cout << "got: v " << setprecision(8) << x << " " << y << " " << z << endl;
 			glm::vec3 vertex(x, y, z);
-			vertices.push_back(vertex);
+			Vertex* newVertex = new Vertex(vertices.size(), vertex);
+			vertices.push_back(newVertex);
 		}
 		else if (starts == "vt") {
 			// e.g. vt 0.905299 0.942320
@@ -85,11 +59,14 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 			cout << "OBJFileLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
 			cout << "OBJFileLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
 			cout << "OBJFileLoader: Read " << normals.size() << " normals from " << fileName << endl;
-			texturesArray.resize(vertices.size() * 2);
-			normalsArray.resize(vertices.size() * 3);
 			break;
 		}
 	}
+
+	vector<GLfloat> verticesArray;
+	vector<GLfloat> normalsArray;
+	vector<GLfloat> texturesArray;
+	vector<GLuint> indicesArray;
 
 	int faces = 0;
 
@@ -123,18 +100,14 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 			istringstream iss2(f);
 			for (int i = 0; i < 9; i++) {
 				iss2 >> u[i];
+				// the indices in the obj file start from 1, ours start from 0
+				u[i]--;
 			}
 
-			/*
-			cout << "f ";
-			for (int i = 0; i < 9; i++) {
-				cout << u[i] << " ";
-			}
-			cout << endl;
-			*/
-			processVertex(u[0], u[1], u[2], indices, textures, normals, texturesArray, normalsArray);
-			processVertex(u[3], u[4], u[5], indices, textures, normals, texturesArray, normalsArray);
-			processVertex(u[6], u[7], u[8], indices, textures, normals, texturesArray, normalsArray);
+			processVertex(u[0], u[1], u[2], vertices, indices);
+			processVertex(u[3], u[4], u[5], vertices, indices);
+			processVertex(u[6], u[7], u[8], vertices, indices);
+
 			faces++;
 		}
 
@@ -143,15 +116,10 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 
 	cout << "OBJFileLoader: Read " << faces << " faces from " << fileName << endl;
 
-	//verticesArray.resize(vertices.size() * 3);
-	//indicesArray.resize(indices.size());
+	removeUnusedVertices(vertices);
 
-	for (int i = 0; i < (int) vertices.size(); i++) {
-		glm::vec3 v = vertices[i];
-		verticesArray.push_back(v[0]);
-		verticesArray.push_back(v[1]);
-		verticesArray.push_back(v[2]);
-	}
+	GLfloat furthest = convertDataToArrays(vertices, textures, normals,
+		verticesArray, texturesArray, normalsArray);
 
 	for (int i = 0; i < (int) indices.size(); i++) {
 		GLuint u = indices[i];
@@ -162,15 +130,68 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 	return data;
 }
 
-void OBJFileLoader::removeUnusedVertices(vector<Vertex>& vertices)
+void OBJFileLoader::processVertex(
+	int index,
+	int textureIndex,
+	int normalIndex,
+	vector<Vertex*>& vertices,
+	vector<GLuint>& indices)
 {
-	vector<Vertex>::iterator it;
+	Vertex* currentVertex = vertices[index];
+	//if (!currentVertex->isSet()) {
+		currentVertex->setTextureIndex(textureIndex);
+		currentVertex->setNormalIndex(normalIndex);
+		indices.push_back(index);
+	//}
+	//else {
+		// TODO else
+		//cout << "Vertex at index " << index << " is set." << endl;
+	//}
+}
+
+GLfloat OBJFileLoader::convertDataToArrays(
+	vector<Vertex*>& vertices,
+	vector<glm::vec2>& textures,
+	vector<glm::vec3>& normals,
+	vector<GLfloat>& verticesArray,
+	vector<GLfloat>& texturesArray,
+	vector<GLfloat>& normalsArray)
+{
+	GLfloat furthestPoint = 0;
+
+	for (int i = 0; i < (int) vertices.size(); i++) {
+		Vertex* currentVertex = vertices[i];
+		if (currentVertex->getLength() > furthestPoint) {
+			furthestPoint = currentVertex->getLength();
+		}
+		glm::vec3 position = currentVertex->getPosition();
+		glm::vec2 textureCoord = textures[currentVertex->getTextureIndex()];
+		glm::vec3 normalVector = normals[currentVertex->getNormalIndex()];
+
+		verticesArray.push_back(position[0]);
+		verticesArray.push_back(position[1]);
+		verticesArray.push_back(position[2]);
+		texturesArray.push_back(textureCoord[0]);
+		texturesArray.push_back(1.0 - textureCoord[1]);
+		normalsArray.push_back(normalVector[0]);
+		normalsArray.push_back(normalVector[1]);
+		normalsArray.push_back(normalVector[2]);
+	}
+	return furthestPoint;
+}
+
+void OBJFileLoader::removeUnusedVertices(vector<Vertex*>& vertices)
+{
+	vector<Vertex*>::iterator it;
+	int i = 0;
 
 	for (it = vertices.begin(); it != vertices.end(); it++) {
-		Vertex& vertex = *it;
-		if (!vertex.isSet()) {
-			vertex.setTextureIndex(0);
-			vertex.setNormalIndex(0);
+		Vertex* vertex = *it;
+		if (!vertex->isSet()) {
+			cout << "found vertex that is not set at index " << i << endl;
+			vertex->setTextureIndex(0);
+			vertex->setNormalIndex(0);
 		}
+		i++;
 	}
 }
