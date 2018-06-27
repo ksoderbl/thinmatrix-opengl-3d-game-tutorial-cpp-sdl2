@@ -24,6 +24,8 @@ TerrainShader::TerrainShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
 		string s(infoLog);
 		cerr << s << endl;
+		cerr << "Vertex shader: " << vertexFile << endl;
+		cerr << "Fragment shader: " << fragmentFile << endl;
 		cerr << "Could not link shader program" << endl;
 		exit(1);
 	}
@@ -68,30 +70,6 @@ void TerrainShader::bindAttributes()
 	bindAttribute(2, "normal"); // "normal" variable in the vertex shader
 }
 
-/*
-void TerrainShader::loadFloat(int location, GLfloat value)
-{
-	glUniform1f(location, value);
-}
-
-void TerrainShader::loadVector(int location, glm::vec3& vec)
-{
-	glUniform3f(location, vec[0], vec[1], vec[2]);
-}
-
-void TerrainShader::loadBoolean(int location, bool value)
-{
-	GLfloat toLoad = (value ? 1 : 0);
-	glUniform1f(location, toLoad);
-}
-
-// value needs to have 16 components for a 4 x 4 matrix
-void TerrainShader::loadMatrix(int location, glm::mat4& matrix)
-{
-	glUniformMatrix4fv(location, 1, false, &matrix[0][0]);
-}
-*/
-
 void TerrainShader::loadTransformationMatrix(glm::mat4& matrix)
 {
 	loadMatrix(location_transformationMatrix, matrix);
@@ -124,6 +102,20 @@ void TerrainShader::getAllUniformLocations()
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_skyColor = getUniformLocation("skyColor");
+	location_backgroundTexture = getUniformLocation("backgroundTexture");
+	location_rTexture = getUniformLocation("rTexture");
+	location_gTexture = getUniformLocation("gTexture");
+	location_bTexture = getUniformLocation("bTexture");
+	location_blendMap = getUniformLocation("blendMap");
+}
+
+void TerrainShader::connectTextureUnits()
+{
+	loadInt(location_backgroundTexture, 0);
+	loadInt(location_rTexture, 1);
+	loadInt(location_gTexture, 2);
+	loadInt(location_bTexture, 3);
+	loadInt(location_blendMap, 4);
 }
 
 void TerrainShader::loadShineVariables(GLfloat damper, GLfloat reflectivity)

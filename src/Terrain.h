@@ -5,12 +5,14 @@
 
 #include "Headers.h"
 #include "RawModel.h"
-#include "ModelTexture.h"
 #include "Loader.h"
+#include "TerrainTexturePack.h"
+#include "TerrainTexture.h"
 
 class Terrain {
 public:
-	Terrain(int gridX, int gridZ, Loader &loader, ModelTexture &texture);
+	Terrain(int gridX, int gridZ, Loader &loader,
+		TerrainTexturePack &texturePack, TerrainTexture& blendMap);
 	RawModel* generateTerrain(Loader &loader);
 	glm::vec3& getPosition() { 
 		return position;
@@ -18,8 +20,11 @@ public:
 	RawModel& getModel() {
 		return *model;
 	}
-	ModelTexture& getTexture() {
-		return texture;
+	TerrainTexturePack& getTexturePack() {
+		return texturePack;
+	}
+	TerrainTexture& getBlendMap() {
+		return blendMap;
 	}
 	
 
@@ -28,7 +33,8 @@ private:
 	static constexpr int VERTEX_COUNT = 128;
 	glm::vec3 position;
 	RawModel* model;
-	ModelTexture& texture;
+	TerrainTexturePack& texturePack;
+	TerrainTexture& blendMap;
 };
 
 #endif

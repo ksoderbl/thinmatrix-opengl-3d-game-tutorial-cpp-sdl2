@@ -6,6 +6,7 @@ TerrainRenderer::TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMat
 {
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);
+	shader.connectTextureUnits();
 	shader.stop();
 }
 
@@ -29,10 +30,23 @@ void TerrainRenderer::prepareTerrain(Terrain& terrain)
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	ModelTexture& texture = terrain.getTexture();
-	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
+	bindTextures(terrain);
+	shader.loadShineVariables(1, 0);
+}
+
+void TerrainRenderer::bindTextures(Terrain& terrain)
+{
+	TerrainTexturePack& texturePack = terrain.getTexturePack();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture.getID());
+	glBindTexture(GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureId());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texturePack.getrTexture().getTextureId());
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, texturePack.getgTexture().getTextureId());
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, texturePack.getbTexture().getTextureId());
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, terrain.getBlendMap().getTextureId());
 }
 
 void TerrainRenderer::unbindTexturedModel()

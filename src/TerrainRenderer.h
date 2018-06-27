@@ -12,6 +12,7 @@ public:
 	TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMatrix);
 	void render(vector<Terrain*>* terrains);
 	void prepareTerrain(Terrain& terrain);
+	void bindTextures(Terrain& terrain);
 	void loadModelMatrix(Terrain& terrain);
 	void unbindTexturedModel();
 private:

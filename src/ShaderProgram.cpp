@@ -5,6 +5,11 @@ ShaderProgram::ShaderProgram(string vertexFile, string fragmentFile)
 {
 }
 
+void ShaderProgram::loadInt(int location, GLint value)
+{
+	glUniform1i(location, value);
+}
+
 void ShaderProgram::loadFloat(int location, GLfloat value)
 {
 	glUniform1f(location, value);

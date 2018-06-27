@@ -10,6 +10,8 @@
 #include "Keyboard.h"
 #include "OBJFileLoader.h"
 #include "MasterRenderer.h"
+#include "TerrainTexture.h"
+#include "TerrainTexturePack.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -130,6 +132,15 @@ int main(int argc, char *argv[])
 
 	Keyboard keyboard;
 	Loader loader;
+	
+	// terrain texture stuff
+	TerrainTexture backgroundTexture(loader.loadTexture("grass"));
+	TerrainTexture rTexture(loader.loadTexture("dirt"));
+	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
+	TerrainTexture bTexture(loader.loadTexture("path"));
+	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
+	TerrainTexture blendMap(loader.loadTexture("blendMap"));
+
 	OBJFileLoader objLoader;
 	vector<Entity*> allEntities;
 
@@ -151,14 +162,6 @@ int main(int argc, char *argv[])
 		allEntities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 2));
 	}
-
-	// terrain
-	GLuint terrainTextureID = loader.loadTexture("grass");
-	ModelTexture terrainModelTexture = ModelTexture(terrainTextureID);
-	Terrain terrain(0, 0, loader, terrainModelTexture);
-	Terrain terrain2(-1, 0, loader, terrainModelTexture);
-	Terrain terrain3(-1, -1, loader, terrainModelTexture);
-	Terrain terrain4(0, -1, loader, terrainModelTexture);
 
 	// tree
 	//RawModel* treeRawModel = objLoader.loadObjModel("tree", loader);
@@ -261,7 +264,13 @@ int main(int argc, char *argv[])
 			0, 0, 0, my_rand() * .3 + .1));
 	}
 
-	Light light = Light(glm::vec3(3000, 2000, 2000), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(20000, 40000, 20000), glm::vec3(1, 1, 1));
+
+	Terrain terrain(0, 0, loader, texturePack, blendMap);
+	Terrain terrain2(-1, 0, loader, texturePack, blendMap);
+	Terrain terrain3(-1, -1, loader, texturePack, blendMap);
+	Terrain terrain4(0, -1, loader, texturePack, blendMap);	
+
 	Camera camera;
 
 	vector<Entity*>::iterator it;

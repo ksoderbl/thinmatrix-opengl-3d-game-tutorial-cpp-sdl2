@@ -24,6 +24,8 @@ StaticShader::StaticShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
 		string s(infoLog);
 		cerr << s << endl;
+		cerr << "Vertex shader: " << vertexFile << endl;
+		cerr << "Fragment shader: " << fragmentFile << endl;
 		cerr << "Could not link shader program" << endl;
 		exit(1);
 	}
