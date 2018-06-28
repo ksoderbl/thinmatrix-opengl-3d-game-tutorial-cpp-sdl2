@@ -3,9 +3,9 @@
 
 Camera::Camera()
 {
-	this->position = glm::vec3(0, 5.0f, 0);
-	this->pitch = 12.0f;
-	this->yaw = 0.0f;
+	this->position = glm::vec3(0, 20, -50);
+	this->pitch = 20.0f;
+	this->yaw = 90.0f;
 	this->roll = 0.0f;
 }
 
@@ -15,28 +15,28 @@ void Camera::move(Keyboard &keyboard)
 	double s = 2 * sin(angle);
 	double c = 2 * cos(angle);
 
-	if (keyboard.isKeyDown(SDLK_w)) {
-		pitch += 1.0f;
+	if (keyboard.isKeyDown(SDLK_p)) {
+		pitch += 2.0f;
 		//cout << "pitch : " << pitch << endl;
 	}
-	if (keyboard.isKeyDown(SDLK_s)) {
-		pitch -= 1.0f;
+	if (keyboard.isKeyDown(SDLK_o)) {
+		pitch -= 2.0f;
 		//cout << "pitch : " << pitch << endl;
 	}
-	if (keyboard.isKeyDown(SDLK_a)) {
+	if (keyboard.isKeyDown(SDLK_HOME)) {
 		position.x -= c;
 		position.z -= s;
 	}
-	if (keyboard.isKeyDown(SDLK_d)) {
+	if (keyboard.isKeyDown(SDLK_END)) {
 		position.x += c;
 		position.z += s;
 	}
 
 	if (keyboard.isKeyDown(SDLK_PAGEUP)) {
-		position.y += 0.5f;
+		position.y += 1.5f;
 	}
 	if (keyboard.isKeyDown(SDLK_PAGEDOWN)) {
-		position.y -= 0.5f;
+		position.y -= 1.5f;
 		if (position.y < 0.1f) {
 			position.y = 0.1f;
 		}
@@ -59,5 +59,5 @@ void Camera::move(Keyboard &keyboard)
 	if (keyboard.isKeyDown(SDLK_RIGHT)) {
 		yaw += 2.0f;
 	}
-	
+
 }

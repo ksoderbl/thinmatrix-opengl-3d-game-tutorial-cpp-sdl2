@@ -12,6 +12,7 @@
 #include "MasterRenderer.h"
 #include "TerrainTexture.h"
 #include "TerrainTexturePack.h"
+#include "Player.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -278,10 +279,26 @@ int main(int argc, char *argv[])
 	int fps = 0;
 
 	MasterRenderer renderer;
+	
+	
+	ModelData *playerModelData = objLoader.loadOBJ("stanfordBunny");
+	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
+		playerModelData->getNormals(), playerModelData->getIndices());
+	GLuint playerTextureID = loader.loadTexture("white");
+	ModelTexture playerModelTexture = ModelTexture(playerTextureID);
+	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
+	playerModelTexture.setShineDamper(10);
+	playerModelTexture.setReflectivity(1);
+	
+	Player player(playerTexturedModel, glm::vec3(100, 0, -50), 0, 0, 0, 1);
+
 
 	while (!isCloseRequested) {
 		checkEvents(keyboard);
 		camera.move(keyboard);
+		player.move(keyboard, manager);
+
+		renderer.processEntity(player);
 
 		renderer.processTerrain(terrain);
 		renderer.processTerrain(terrain2);

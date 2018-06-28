@@ -4,15 +4,29 @@
 #include "Headers.h"
 
 class DisplayManager {
+public:
+	void createDisplay();
+	void updateDisplay();
+	void closeDisplay();
+	long getCurrentTime();
+	GLfloat getFrameTimeSeconds();
+
 private:
 	SDL_Window *window;
 	SDL_GLContext glContext;
-public:
-	void createDisplay();
 
-	void updateDisplay();
+	int FPS_CAP = 120;
+	int WIDTH = 1280;
+	int HEIGHT = 720;
 
-	void closeDisplay();
+	// e.g. SDL_WINDOWPOS_CENTERED, or SDL_WINDOWPOS_UNDEFINED
+	int S_XPOS = SDL_WINDOWPOS_UNDEFINED;
+	int S_YPOS = SDL_WINDOWPOS_UNDEFINED;
+	string S_APPNAME = "Our First Display!";
+	
+	long lastFrameTime;
+	// render time of previous frame
+	GLfloat delta;
 };
 
 #endif

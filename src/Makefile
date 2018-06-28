@@ -1,5 +1,3 @@
-
-
 #
 # Generic Makefile to make one OpenGL based executable.
 # Use GNU make .
@@ -13,7 +11,7 @@ SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Camera.cpp Keyboard.cpp Light.cpp MasterRenderer.cpp \
 	Terrain.cpp TerrainShader.cpp TerrainRenderer.cpp \
 	Vertex.cpp ModelData.cpp OBJFileLoader.cpp \
-	TerrainTexture.cpp TerrainTexturePack.cpp
+	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 
