@@ -31,8 +31,6 @@ static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
 		//messages_toggle();
 		break;
 
-	case SDLK_SPACE:
-	case SDLK_p:
 	case SDLK_PAUSE:
 		pausing = !pausing;
 		break;
@@ -57,8 +55,6 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 		//messages_toggle();
 		break;
 
-	case SDLK_SPACE:
-	case SDLK_p:
 	case SDLK_PAUSE:
 		break;
 	case SDLK_r:
@@ -215,7 +211,7 @@ int main(int argc, char *argv[])
 	//grassModelTexture.setShineDamper(1);
 	//grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1800 - 900;
@@ -236,7 +232,7 @@ int main(int argc, char *argv[])
 	fernModelTexture.setShineDamper(1);
 	fernModelTexture.setReflectivity(0);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1400 - 700;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1400 - 700;
@@ -257,7 +253,7 @@ int main(int argc, char *argv[])
 	//flowerModelTexture.setShineDamper(1);
 	//flowerModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1200 - 300;
 		GLfloat y = 0;
 		GLfloat z = my_rand() * 1700 - 900;
