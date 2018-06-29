@@ -42,10 +42,10 @@ void Player::move(Keyboard &keyboard, DisplayManager &manager)
 	upwardsSpeed += GRAVITY * manager.getFrameTimeSeconds();
 	increasePosition(0, upwardsSpeed * manager.getFrameTimeSeconds(), 0);
 	glm::vec3& pos = getPosition();
-	if (pos[1] < TERRAIN_HEIGHT) {
+	if (pos.y < TERRAIN_HEIGHT) {
 		upwardsSpeed = 0;
 		isInAir = false;
-		pos[1] = TERRAIN_HEIGHT;
+		pos.y = TERRAIN_HEIGHT;
 	}
 }
 

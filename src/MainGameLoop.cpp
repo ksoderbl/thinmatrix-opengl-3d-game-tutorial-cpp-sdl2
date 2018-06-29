@@ -13,6 +13,7 @@
 #include "TerrainTexture.h"
 #include "TerrainTexturePack.h"
 #include "Player.h"
+#include "Mouse.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -67,7 +68,7 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 }
 
 
-void checkEvents(Keyboard& keyboard)
+void checkEvents(Keyboard& keyboard, Mouse& mouse)
 {
 	SDL_Event event;
 
@@ -86,14 +87,78 @@ void checkEvents(Keyboard& keyboard)
 			handle_keyup(keyboard, event.key);
 		}
 
-		else if (event.type == SDL_MOUSEBUTTONDOWN)
-		{
-			;
+		else if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP) {
+			/*
+			string eventType = "";
+
+			if (event.type == SDL_MOUSEBUTTONDOWN)
+				eventType = "SDL_MOUSEBUTTONDOWN";
+			if (event.type == SDL_MOUSEBUTTONUP)
+				eventType = "SDL_MOUSEBUTTONUP";
+
+			string type = "";
+			if (event.button.type == SDL_MOUSEBUTTONDOWN)
+				type = "SDL_MOUSEBUTTONDOWN";
+			if (event.button.type == SDL_MOUSEBUTTONUP)
+				type = "SDL_MOUSEBUTTONUP";
+
+			cout << eventType << " event: type=" <<type<< "\n";
+
+			string button = "";
+			switch (event.button.button) {
+				case SDL_BUTTON_LEFT: button = "SDL_BUTTON_LEFT"; break;
+				case SDL_BUTTON_MIDDLE: button = "SDL_BUTTON_MIDDLE"; break;
+				case SDL_BUTTON_RIGHT: button = "SDL_BUTTON_RIGHT"; break;
+				case SDL_BUTTON_X1: button = "SDL_BUTTON_X1"; break;
+				case SDL_BUTTON_X2: button = "SDL_BUTTON_X2"; break;
+				default: break;
+			}
+			cout << eventType << " event: button=" <<button<< "\n";
+
+			string state = "";
+			switch (event.button.state) {
+				case SDL_PRESSED: state = "SDL_PRESSED"; break;
+				case SDL_RELEASED: state = "SDL_RELEASED"; break;
+				default: break;
+			}
+
+			cout << eventType << " event: state=" <<state<< "\n";
+			*/
+
+			mouse.setButtonState(
+				event.button.button, // SDL_BUTTON_LEFT etc.
+				event.button.state == SDL_PRESSED);
 		}
+
 		else if (event.type == SDL_MOUSEMOTION)
 		{
-			if (event.motion.state & SDL_BUTTON_LMASK) {
-				; //mouseMotionEvent(event.motion);
+			Uint32 state = event.motion.state;
+			
+			//if (event.motion.state & SDL_BUTTON_LMASK) {
+			//	; //mouseMotionEvent(event.motion);
+			//}
+			
+			// for now: ignore mouse movement if a button is not pressed {
+			if ((state & SDL_BUTTON_LMASK)
+				|| (state & SDL_BUTTON_MMASK)
+				|| (state & SDL_BUTTON_RMASK)) {
+				mouse.move(event.motion.xrel, event.motion.yrel);
+			}
+			
+						
+			//int x = event.motion.x;
+			//int y = event.motion.y;
+			//mouse.setPosition(x, y);
+		}
+		else if (event.type == SDL_MOUSEWHEEL) {
+			int x = event.wheel.x;
+			int y = event.wheel.y;
+			// ignore possibility of SDL_MOUSEWHEEL_FLIPPED at the moment
+			if (y != 0) {
+				mouse.incWheelUp(y);
+			}
+			if (x != 0) {
+				mouse.incWheelRight(x);
 			}
 		}
 		else if (event.type == SDL_WINDOWEVENT)
@@ -128,8 +193,9 @@ int main(int argc, char *argv[])
 	srand(time(NULL));
 
 	Keyboard keyboard;
+	Mouse mouse;
 	Loader loader;
-	
+
 	// terrain texture stuff
 	TerrainTexture backgroundTexture(loader.loadTexture("grass"));
 	TerrainTexture rTexture(loader.loadTexture("dirt"));
@@ -211,10 +277,10 @@ int main(int argc, char *argv[])
 	//grassModelTexture.setShineDamper(1);
 	//grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 1800 - 900;
+	for (int i = 0; i < 500; i++) {
+		GLfloat x = my_rand() * 2000 - 1000;
 		GLfloat y = 0;
-		GLfloat z = my_rand() * 1800 - 900;
+		GLfloat z = my_rand() * 2000 - 800;
 		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 3 + 1));
 	}
@@ -266,32 +332,29 @@ int main(int argc, char *argv[])
 	Terrain terrain(0, 0, loader, texturePack, blendMap);
 	Terrain terrain2(-1, 0, loader, texturePack, blendMap);
 	Terrain terrain3(-1, -1, loader, texturePack, blendMap);
-	Terrain terrain4(0, -1, loader, texturePack, blendMap);	
+	Terrain terrain4(0, -1, loader, texturePack, blendMap);
 
-	Camera camera;
+	ModelData *playerModelData = objLoader.loadOBJ("person");
+	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
+		playerModelData->getNormals(), playerModelData->getIndices());
+	GLuint playerTextureID = loader.loadTexture("playerTexture");
+	ModelTexture playerModelTexture = ModelTexture(playerTextureID);
+	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
+	playerModelTexture.setShineDamper(10);
+	playerModelTexture.setReflectivity(1);
+
+	Player player(playerTexturedModel, glm::vec3(100, 0, -50), 0, 180, 0, 0.6f);
+	Camera camera(player);
 
 	vector<Entity*>::iterator it;
 	time_t oldt = 0, t;
 	int fps = 0;
 
 	MasterRenderer renderer;
-	
-	
-	ModelData *playerModelData = objLoader.loadOBJ("stanfordBunny");
-	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
-		playerModelData->getNormals(), playerModelData->getIndices());
-	GLuint playerTextureID = loader.loadTexture("white");
-	ModelTexture playerModelTexture = ModelTexture(playerTextureID);
-	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
-	playerModelTexture.setShineDamper(10);
-	playerModelTexture.setReflectivity(1);
-	
-	Player player(playerTexturedModel, glm::vec3(100, 0, -50), 0, 0, 0, 1);
-
 
 	while (!isCloseRequested) {
-		checkEvents(keyboard);
-		camera.move(keyboard);
+		checkEvents(keyboard, mouse);
+		camera.move(keyboard, mouse);
 		player.move(keyboard, manager);
 
 		renderer.processEntity(player);

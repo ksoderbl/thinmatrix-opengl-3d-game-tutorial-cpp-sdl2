@@ -11,7 +11,8 @@ SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Camera.cpp Keyboard.cpp Light.cpp MasterRenderer.cpp \
 	Terrain.cpp TerrainShader.cpp TerrainRenderer.cpp \
 	Vertex.cpp ModelData.cpp OBJFileLoader.cpp \
-	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp
+	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp \
+	Mouse.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 

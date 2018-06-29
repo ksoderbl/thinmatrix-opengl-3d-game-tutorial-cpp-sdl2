@@ -1,16 +1,26 @@
 
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(Player& player) : player(player)
 {
-	this->position = glm::vec3(0, 20, -50);
-	this->pitch = 20.0f;
-	this->yaw = 90.0f;
-	this->roll = 0.0f;
+	position = glm::vec3(0, 0, 0);
+	pitch = 20.0f;
+	yaw = 0.0f;
+	roll = 0.0f;
+	distanceFromPlayer = 50;
+	angleAroundPlayer = 0;
 }
 
-void Camera::move(Keyboard &keyboard)
+void Camera::move(Keyboard& keyboard, Mouse& mouse)
 {
+	calculateZoom(mouse);
+	calculatePitch(mouse);
+	calculateAngleAroundPlayer(mouse);
+	GLfloat horizontalDistance = calculateHorizontalDistance();
+	GLfloat verticalDistance = calculateVerticalDistance();
+	calculateCameraPosition(horizontalDistance, verticalDistance);
+	yaw = 180 - (player.getRotY() + angleAroundPlayer);
+	/*
 	double angle = glm::radians(yaw);
 	double s = 2 * sin(angle);
 	double c = 2 * cos(angle);
@@ -59,5 +69,53 @@ void Camera::move(Keyboard &keyboard)
 	if (keyboard.isKeyDown(SDLK_RIGHT)) {
 		yaw += 2.0f;
 	}
+	*/
+}
 
+void Camera::calculateCameraPosition(GLfloat horizDistance, GLfloat verticDistance)
+{
+	GLfloat theta = player.getRotY() + angleAroundPlayer;
+	GLfloat offsetX = horizDistance * sin(glm::radians(theta));
+	GLfloat offsetZ = horizDistance * cos(glm::radians(theta));
+	position.x = player.getPosition().x - offsetX;
+	position.z = player.getPosition().z - offsetZ;
+	position.y = player.getPosition().y + verticDistance;
+}
+
+GLfloat Camera::calculateHorizontalDistance()
+{
+	return distanceFromPlayer * cos(glm::radians(pitch));
+}
+
+GLfloat Camera::calculateVerticalDistance()
+{
+	return distanceFromPlayer * sin(glm::radians(pitch));
+}
+
+void Camera::calculateZoom(Mouse& mouse)
+{
+	GLfloat factor = 3.0f;
+	GLfloat zoomLevel = mouse.getDWheel() * factor;
+	distanceFromPlayer -= zoomLevel;
+	if (distanceFromPlayer < 10) {
+		distanceFromPlayer = 10;
+	}
+}
+
+void Camera::calculatePitch(Mouse& mouse)
+{
+	GLfloat factor = 0.3f;
+	if (mouse.isRightButtonDown()) {
+		GLfloat pitchChange = mouse.getDY() * factor;
+		pitch += pitchChange;
+	}
+}
+
+void Camera::calculateAngleAroundPlayer(Mouse& mouse)
+{
+	GLfloat factor = 0.3f;
+	if (mouse.isLeftButtonDown()) {
+		GLfloat angleChange = mouse.getDX() * factor;
+		angleAroundPlayer -= angleChange;
+	}
 }
