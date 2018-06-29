@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
 	Loader loader;
 
 	// terrain texture stuff
-	TerrainTexture backgroundTexture(loader.loadTexture("grass"));
+	TerrainTexture backgroundTexture(loader.loadTexture("grassy3"));
 	TerrainTexture rTexture(loader.loadTexture("dirt"));
 	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
 	TerrainTexture bTexture(loader.loadTexture("path"));

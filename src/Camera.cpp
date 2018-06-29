@@ -7,7 +7,7 @@ Camera::Camera(Player& player) : player(player)
 	pitch = 20.0f;
 	yaw = 0.0f;
 	roll = 0.0f;
-	distanceFromPlayer = 50;
+	distanceFromPlayer = 100;
 	angleAroundPlayer = 0;
 }
 
@@ -94,7 +94,7 @@ GLfloat Camera::calculateVerticalDistance()
 
 void Camera::calculateZoom(Mouse& mouse)
 {
-	GLfloat factor = 3.0f;
+	GLfloat factor = 5.0f;
 	GLfloat zoomLevel = mouse.getDWheel() * factor;
 	distanceFromPlayer -= zoomLevel;
 	if (distanceFromPlayer < 10) {
