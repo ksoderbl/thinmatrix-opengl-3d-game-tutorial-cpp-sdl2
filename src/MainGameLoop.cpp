@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 10; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 3000;
 		GLfloat z = my_rand() * 1500 - 750;
@@ -329,10 +329,10 @@ int main(int argc, char *argv[])
 
 	Light light = Light(glm::vec3(20000, 40000, 20000), glm::vec3(1, 1, 1));
 
-	Terrain terrain(0, 0, loader, texturePack, blendMap);
-	Terrain terrain2(-1, 0, loader, texturePack, blendMap);
-	Terrain terrain3(-1, -1, loader, texturePack, blendMap);
-	Terrain terrain4(0, -1, loader, texturePack, blendMap);
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),

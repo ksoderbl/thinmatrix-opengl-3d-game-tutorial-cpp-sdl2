@@ -15,6 +15,7 @@ public:
 		vector<GLfloat>&normals,
 		vector<GLuint>&indices);
 	GLuint loadTexture(string fileName);
+	GLubyte* LoadPNGImage(string imageFile, GLint *width, GLint *height, GLenum *format);
 	void cleanUp();
 private:
 	GLuint createVAO();
@@ -22,7 +23,6 @@ private:
 	void storeDataInAttributeList(int attributeNumber, int coordinateSize, vector<GLfloat>&data);
 	void unbindVAO();
 	void bindIndicesBuffer(vector<GLuint>&indices);
-	GLubyte* LoadPNGImage(string imageFile, GLint *width, GLint *height, GLenum *format);
 
 	vector<GLuint> *vaos;
 	vector<GLuint> *vbos;
