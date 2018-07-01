@@ -23,6 +23,8 @@ public:
 	void loadViewMatrix(Camera& camera);
 	void loadFakeLightingVariable(bool useFakeLighting);
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
+	void loadNumberOfRows(int numberOfRows);
+	void loadTextureOffset(GLfloat x, GLfloat y);
 
 private:
 	int programID;
@@ -38,6 +40,8 @@ private:
 	int location_reflectivity;
 	int location_useFakeLighting;
 	int location_skyColor;
+	int location_numberOfRows;
+	int location_textureOffset;
 };
 
 #endif

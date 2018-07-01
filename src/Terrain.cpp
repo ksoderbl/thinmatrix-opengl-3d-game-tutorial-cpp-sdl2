@@ -23,10 +23,6 @@ GLfloat Terrain::getHeightOfTerrain(GLfloat worldX, GLfloat worldZ)
 	}
 	GLfloat xCoord = fmod(terrainX, gridSquareSize) / gridSquareSize;
 	GLfloat zCoord = fmod(terrainZ, gridSquareSize) / gridSquareSize;
-	assert(xCoord >= 0.0);
-	assert(xCoord <= 1.0);
-	assert(zCoord >= 0.0);
-	assert(zCoord <= 1.0);
 	GLfloat answer;
 	glm::vec3 topLeft(0.0f, heights[gridX][gridZ], 0.0f);
 	glm::vec3 topRight(1.0f, heights[gridX + 1][gridZ], 0.0f);

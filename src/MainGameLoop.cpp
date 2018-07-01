@@ -133,19 +133,18 @@ void checkEvents(Keyboard& keyboard, Mouse& mouse)
 		else if (event.type == SDL_MOUSEMOTION)
 		{
 			Uint32 state = event.motion.state;
-			
+
 			//if (event.motion.state & SDL_BUTTON_LMASK) {
 			//	; //mouseMotionEvent(event.motion);
 			//}
-			
+
 			// for now: ignore mouse movement if a button is not pressed {
 			if ((state & SDL_BUTTON_LMASK)
 				|| (state & SDL_BUTTON_MMASK)
 				|| (state & SDL_BUTTON_RMASK)) {
 				mouse.move(event.motion.xrel, event.motion.yrel);
 			}
-			
-						
+
 			//int x = event.motion.x;
 			//int y = event.motion.y;
 			//mouse.setPosition(x, y);
@@ -197,7 +196,7 @@ int main(int argc, char *argv[])
 	Loader loader;
 
 	// terrain texture stuff
-	TerrainTexture backgroundTexture(loader.loadTexture("grassy3"));
+	TerrainTexture backgroundTexture(loader.loadTexture("grassy2"));
 	TerrainTexture rTexture(loader.loadTexture("dirt"));
 	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
 	TerrainTexture bTexture(loader.loadTexture("path"));
@@ -261,12 +260,12 @@ int main(int argc, char *argv[])
 	//lowPolyTreeModelTexture.setShineDamper(4);
 	//lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 800 - 200;
-		GLfloat z = my_rand() * 800 - 500;
+	for (int i = 0; i < 200; i++) {
+		GLfloat x = my_rand() * 1800 - 900;
+		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 0.5 + 0.3));
+			0, my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
 	// grass
@@ -282,12 +281,12 @@ int main(int argc, char *argv[])
 	//grassModelTexture.setShineDamper(1);
 	//grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 0; i++) {
 		GLfloat x = my_rand() * 2000 - 1000;
 		GLfloat z = my_rand() * 2000 - 800;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 3 + 1));
+			0, my_rand() * 360, 0, my_rand() * 3 + 1));
 	}
 
 	// fern
@@ -296,19 +295,20 @@ int main(int argc, char *argv[])
 	RawModel* fernRawModel = loader.loadToVAO(fernModelData->getVertices(), fernModelData->getTextureCoords(),
 		fernModelData->getNormals(), fernModelData->getIndices());
 	GLuint fernTextureID = loader.loadTexture("fern");
-	ModelTexture fernModelTexture = ModelTexture(fernTextureID);
-	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernModelTexture);
+	ModelTexture fernTextureAtlas = ModelTexture(fernTextureID);
+	fernTextureAtlas.setShineDamper(1);
+	fernTextureAtlas.setReflectivity(0);
+	fernTextureAtlas.setNumberOfRows(2);
+	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernTextureAtlas);
 	fernTexturedModel.getTexture().setHasTransparency(true);
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
-	fernModelTexture.setShineDamper(1);
-	fernModelTexture.setReflectivity(0);
 
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 1400 - 700;
-		GLfloat z = my_rand() * 1400 - 700;
+	for (int i = 0; i < 200; i++) {
+		GLfloat x = my_rand() * 1000 - 500;
+		GLfloat z = my_rand() * 1000 - 500;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 0.5 + 1));
+			rand() % 4, 0,  my_rand() * 360, 0, my_rand() * 0.5 + 1));
 	}
 
 	// flower, using fern as raw model, seems to work
@@ -316,20 +316,19 @@ int main(int argc, char *argv[])
 	ModelData *flowerModelData = objLoader.loadOBJ("fern");
 	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
 		flowerModelData->getNormals(), flowerModelData->getIndices());
-	GLuint flowerTextureID = loader.loadTexture("flower");
-	ModelTexture flowerModelTexture = ModelTexture(flowerTextureID);
-	TexturedModel flowerTexturedModel = TexturedModel(*flowerRawModel, flowerModelTexture);
+	GLuint flowerTextureID = loader.loadTexture("diffuse");
+	ModelTexture flowerTextureAtlas = ModelTexture(flowerTextureID);
+	flowerTextureAtlas.setNumberOfRows(4);
+	TexturedModel flowerTexturedModel = TexturedModel(*flowerRawModel, flowerTextureAtlas);
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
-	//flowerModelTexture.setShineDamper(1);
-	//flowerModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 1200 - 300;
-		GLfloat z = my_rand() * 1700 - 900;
+	for (int i = 0; i < 400; i++) {
+		GLfloat x = my_rand() * 1200 - 600;
+		GLfloat z = my_rand() * 1200 - 600;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * .3 + .1));
+			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
 	Light light = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1, 1, 1));

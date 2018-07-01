@@ -14,6 +14,7 @@ public:
 	void loadInt(int location, GLint value);
 	void loadFloat(int location, GLfloat value);
 	void loadVector(int location, glm::vec3& vec);
+	void load2DVector(int location, glm::vec2& vec);
 	void loadBoolean(int location, bool value);
 	void loadMatrix(int location, glm::mat4& matrix);
 

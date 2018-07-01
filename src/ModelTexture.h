@@ -44,6 +44,13 @@ public:
 		this->useFakeLighting = useFakeLighting;
 	}
 	
+	int getNumberOfRows() {
+		return numberOfRows;
+	}
+	
+	void setNumberOfRows(int numberOfRows) {
+		this->numberOfRows = numberOfRows;
+	}
 
 
 private:
@@ -52,6 +59,8 @@ private:
 	GLfloat reflectivity = 0;
 	bool hasTransparency = false;
 	bool useFakeLighting = false;
+	int numberOfRows = 1;
+	
 };
 
 #endif

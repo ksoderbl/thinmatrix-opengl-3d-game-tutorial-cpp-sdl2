@@ -17,7 +17,12 @@ void ShaderProgram::loadFloat(int location, GLfloat value)
 
 void ShaderProgram::loadVector(int location, glm::vec3& vec)
 {
-	glUniform3f(location, vec[0], vec[1], vec[2]);
+	glUniform3f(location, vec.x, vec.y, vec.z);
+}
+
+void ShaderProgram::load2DVector(int location, glm::vec2& vec)
+{
+	glUniform2f(location, vec.x, vec.y);
 }
 
 void ShaderProgram::loadBoolean(int location, bool value)

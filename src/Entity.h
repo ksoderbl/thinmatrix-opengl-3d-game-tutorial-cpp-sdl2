@@ -11,15 +11,20 @@ public:
 	Entity(	TexturedModel &model,
 		glm::vec3 position,
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
-		GLfloat scale) : model(model), position(position) {
-		this->rotX = rotX;
-		this->rotY = rotY;
-		this->rotZ = rotZ;
-		this->scale = scale;
-	}
+		GLfloat scale);
+
+	Entity(	TexturedModel &model,
+		glm::vec3 position,
+		int textureIndex,
+		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
+		GLfloat scale);
+
+	GLfloat getTextureXOffset();
+	GLfloat getTextureYOffset();
+
 	void increasePosition(GLfloat dx, GLfloat dy, GLfloat dz);
 	void increaseRotation(GLfloat dx, GLfloat dy, GLfloat dz);
-	
+
 	TexturedModel& getModel() { return model; }
 	glm::vec3& getPosition() { return position; }
 	GLfloat getRotX() { return rotX; }
@@ -31,6 +36,7 @@ private:
 	glm::vec3 position;
 	GLfloat rotX, rotY, rotZ;
 	GLfloat scale;
+	int textureIndex = 0;
 };
 
 #endif
