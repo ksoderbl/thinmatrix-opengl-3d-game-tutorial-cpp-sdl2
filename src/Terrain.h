@@ -13,6 +13,7 @@ class Terrain {
 public:
 	Terrain(int gridX, int gridZ, Loader &loader,
 		TerrainTexturePack &texturePack, TerrainTexture& blendMap, string heightMap);
+	GLfloat getHeightOfTerrain(GLfloat worldX, GLfloat worldZ);
 	RawModel* generateTerrain(Loader &loader, string heightMap);
 	glm::vec3& getPosition() {
 		return position;
@@ -36,6 +37,8 @@ private:
 	RawModel* model;
 	TerrainTexturePack& texturePack;
 	TerrainTexture& blendMap;
+	GLfloat **heights;
+	int heightsLength;
 
 	GLfloat getHeight(
 		int x, int z,

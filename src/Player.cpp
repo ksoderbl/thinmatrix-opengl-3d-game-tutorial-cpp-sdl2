@@ -31,7 +31,7 @@ void Player::checkInputs(Keyboard& keyboard)
 	}
 }
 
-void Player::move(Keyboard &keyboard, DisplayManager &manager)
+void Player::move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain)
 {
 	checkInputs(keyboard);
 	increaseRotation(0, currentTurnSpeed * manager.getFrameTimeSeconds(), 0);
@@ -42,10 +42,11 @@ void Player::move(Keyboard &keyboard, DisplayManager &manager)
 	upwardsSpeed += GRAVITY * manager.getFrameTimeSeconds();
 	increasePosition(0, upwardsSpeed * manager.getFrameTimeSeconds(), 0);
 	glm::vec3& pos = getPosition();
-	if (pos.y < TERRAIN_HEIGHT) {
+	GLfloat terrainHeight = terrain.getHeightOfTerrain(pos.x, pos.z);
+	if (pos.y < terrainHeight) {
 		upwardsSpeed = 0;
 		isInAir = false;
-		pos.y = TERRAIN_HEIGHT;
+		pos.y = terrainHeight;
 	}
 }
 

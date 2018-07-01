@@ -204,6 +204,11 @@ int main(int argc, char *argv[])
 	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
 	TerrainTexture blendMap(loader.loadTexture("blendMap"));
 
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
+
 	OBJFileLoader objLoader;
 	vector<Entity*> allEntities;
 
@@ -239,8 +244,8 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 800 - 400;
-		GLfloat y = 0;
 		GLfloat z = my_rand() * 800 - 400;
+		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(treeTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 4 + 4));
 	}
@@ -258,8 +263,8 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 800 - 200;
-		GLfloat y = 0;
 		GLfloat z = my_rand() * 800 - 500;
+		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 0.5 + 0.3));
 	}
@@ -279,8 +284,8 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 500; i++) {
 		GLfloat x = my_rand() * 2000 - 1000;
-		GLfloat y = 0;
 		GLfloat z = my_rand() * 2000 - 800;
+		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 3 + 1));
 	}
@@ -300,8 +305,8 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1400 - 700;
-		GLfloat y = 0;
 		GLfloat z = my_rand() * 1400 - 700;
+		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 0.5 + 1));
 	}
@@ -321,18 +326,13 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1200 - 300;
-		GLfloat y = 0;
 		GLfloat z = my_rand() * 1700 - 900;
+		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * .3 + .1));
 	}
 
-	Light light = Light(glm::vec3(20000, 40000, 20000), glm::vec3(1, 1, 1));
-
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
+	Light light = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1, 1, 1));
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
@@ -355,13 +355,13 @@ int main(int argc, char *argv[])
 	while (!isCloseRequested) {
 		checkEvents(keyboard, mouse);
 		camera.move(keyboard, mouse);
-		player.move(keyboard, manager);
+		player.move(keyboard, manager, terrain4);
 
 		renderer.processEntity(player);
 
-		renderer.processTerrain(terrain);
-		renderer.processTerrain(terrain2);
-		renderer.processTerrain(terrain3);
+		//renderer.processTerrain(terrain);
+		//renderer.processTerrain(terrain2);
+		//renderer.processTerrain(terrain3);
 		renderer.processTerrain(terrain4);
 
 		for (it = allEntities.begin(); it != allEntities.end(); it++) {

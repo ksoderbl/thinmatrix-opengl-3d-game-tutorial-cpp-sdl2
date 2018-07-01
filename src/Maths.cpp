@@ -16,6 +16,14 @@ void Maths::printMatrix(glm::mat4& m, string name)
 	cout << endl;
 }
 
+GLfloat Maths::barycentric(glm::vec3& p1, glm::vec3& p2, glm::vec3& p3, glm::vec2& pos)
+{
+	GLfloat det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+	GLfloat l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
+	GLfloat l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
+	GLfloat l3 = 1.0f - l1  - l2;
+	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+}
 
 glm::mat4 Maths::createTransformationMatrix(glm::vec3& translation,
 					    GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)
