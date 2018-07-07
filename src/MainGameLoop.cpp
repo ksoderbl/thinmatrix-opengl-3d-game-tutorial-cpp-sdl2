@@ -14,6 +14,8 @@
 #include "TerrainTexturePack.h"
 #include "Player.h"
 #include "Mouse.h"
+#include "GuiTexture.h"
+#include "GuiRenderer.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -212,7 +214,6 @@ int main(int argc, char *argv[])
 	vector<Entity*> allEntities;
 
 	// stall
-	//RawModel* stallRawModel = objLoader.loadObjModel("stall", loader);
 	ModelData *stallModelData = objLoader.loadOBJ("stall");
 	RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
 		stallModelData->getNormals(), stallModelData->getIndices());
@@ -222,7 +223,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 3000;
 		GLfloat z = my_rand() * 1500 - 750;
@@ -230,46 +231,43 @@ int main(int argc, char *argv[])
 			my_rand() * 180, my_rand() * 180, 0, 2));
 	}
 
-	// tree
-	//RawModel* treeRawModel = objLoader.loadObjModel("tree", loader);
-	ModelData *treeModelData = objLoader.loadOBJ("tree");
-	RawModel* treeRawModel = loader.loadToVAO(treeModelData->getVertices(), treeModelData->getTextureCoords(),
-		treeModelData->getNormals(), treeModelData->getIndices());
-	GLuint treeTextureID = loader.loadTexture("tree");
-	ModelTexture treeModelTexture = ModelTexture(treeTextureID);
-	TexturedModel treeTexturedModel = TexturedModel(*treeRawModel, treeModelTexture);
-	//treeModelTexture.setShineDamper(4);
-	//treeModelTexture.setReflectivity(0.3);
+	// pine, was tree
+	ModelData *pineModelData = objLoader.loadOBJ("pine");
+	RawModel* pineRawModel = loader.loadToVAO(pineModelData->getVertices(), pineModelData->getTextureCoords(),
+		pineModelData->getNormals(), pineModelData->getIndices());
+	GLuint pineTextureID = loader.loadTexture("pine");
+	ModelTexture pineModelTexture = ModelTexture(pineTextureID);
+	TexturedModel pineTexturedModel = TexturedModel(*pineRawModel, pineModelTexture);
+	//pineModelTexture.setShineDamper(4);
+	//pineModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 800 - 400;
-		GLfloat z = my_rand() * 800 - 400;
+	for (int i = 0; i < 400; i++) {
+		GLfloat x = my_rand() * 1800 - 900;
+		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(treeTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 4 + 4));
+		allEntities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * 1 + 1));
 	}
 
 	// low poly tree
-	//RawModel* lowPolyTreeRawModel = objLoader.loadObjModel("lowPolyTree", loader);
 	ModelData *lowPolyTreeModelData = objLoader.loadOBJ("lowPolyTree");
 	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
 		lowPolyTreeModelData->getNormals(), lowPolyTreeModelData->getIndices());
 	GLuint lowPolyTreeTextureID = loader.loadTexture("lowPolyTree");
 	ModelTexture lowPolyTreeModelTexture = ModelTexture(lowPolyTreeTextureID);
 	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
-	//lowPolyTreeModelTexture.setShineDamper(4);
-	//lowPolyTreeModelTexture.setReflectivity(0.3);
+	lowPolyTreeModelTexture.setShineDamper(4);
+	lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 300; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		allEntities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 1 + 1));
+			0, my_rand() * 360, 0, my_rand() * 0.5 + 0.5));
 	}
 
 	// grass
-	//RawModel* grassRawModel = objLoader.loadObjModel("grassModel", loader);
 	ModelData *grassModelData = objLoader.loadOBJ("grassModel");
 	RawModel* grassRawModel = loader.loadToVAO(grassModelData->getVertices(), grassModelData->getTextureCoords(),
 		grassModelData->getNormals(), grassModelData->getIndices());
@@ -278,8 +276,8 @@ int main(int argc, char *argv[])
 	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
 	grassTexturedModel.getTexture().setHasTransparency(true);
 	grassTexturedModel.getTexture().setUseFakeLighting(true);
-	//grassModelTexture.setShineDamper(1);
-	//grassModelTexture.setReflectivity(0.5);
+	grassModelTexture.setShineDamper(1);
+	grassModelTexture.setReflectivity(0.5);
 
 	for (int i = 0; i < 0; i++) {
 		GLfloat x = my_rand() * 2000 - 1000;
@@ -290,14 +288,13 @@ int main(int argc, char *argv[])
 	}
 
 	// fern
-	//RawModel* fernRawModel = objLoader.loadObjModel("fern", loader);
 	ModelData *fernModelData = objLoader.loadOBJ("fern");
 	RawModel* fernRawModel = loader.loadToVAO(fernModelData->getVertices(), fernModelData->getTextureCoords(),
 		fernModelData->getNormals(), fernModelData->getIndices());
 	GLuint fernTextureID = loader.loadTexture("fern");
 	ModelTexture fernTextureAtlas = ModelTexture(fernTextureID);
-	fernTextureAtlas.setShineDamper(1);
-	fernTextureAtlas.setReflectivity(0);
+	fernTextureAtlas.setShineDamper(4);
+	fernTextureAtlas.setReflectivity(0.1);
 	fernTextureAtlas.setNumberOfRows(2);
 	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernTextureAtlas);
 	fernTexturedModel.getTexture().setHasTransparency(true);
@@ -312,13 +309,14 @@ int main(int argc, char *argv[])
 	}
 
 	// flower, using fern as raw model, seems to work
-	//RawModel* flowerRawModel = objLoader.loadObjModel("fern", loader);
 	ModelData *flowerModelData = objLoader.loadOBJ("fern");
 	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
 		flowerModelData->getNormals(), flowerModelData->getIndices());
 	GLuint flowerTextureID = loader.loadTexture("diffuse");
 	ModelTexture flowerTextureAtlas = ModelTexture(flowerTextureID);
-	flowerTextureAtlas.setNumberOfRows(4);
+	flowerTextureAtlas.setShineDamper(5);
+	flowerTextureAtlas.setReflectivity(0.2);
+	flowerTextureAtlas.setNumberOfRows(2);
 	TexturedModel flowerTexturedModel = TexturedModel(*flowerRawModel, flowerTextureAtlas);
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
@@ -331,7 +329,7 @@ int main(int argc, char *argv[])
 			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
-	Light light = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1, 1, 1));
+	Light light = Light(glm::vec3(10000, 30000, -10000), glm::vec3(1, 1, 1));
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
@@ -344,6 +342,18 @@ int main(int argc, char *argv[])
 
 	Player player(playerTexturedModel, glm::vec3(100, 0, -50), 0, 180, 0, 0.6f);
 	Camera camera(player);
+	
+	vector<GuiTexture*> guis;
+	glm::vec2 position(0.7f, 0.5f);
+	glm::vec2 scale(0.125f, 0.125f);
+	GuiTexture *gui = new GuiTexture(loader.loadTexture("socuwan"), position, scale);
+	guis.push_back(gui);
+	glm::vec2 position2(0.5f, 0.6f);
+	glm::vec2 scale2(0.2f, 0.2f);
+	GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
+	guis.push_back(gui2);
+
+	GuiRenderer guiRenderer(loader);
 
 	vector<Entity*>::iterator it;
 	time_t oldt = 0, t;
@@ -379,6 +389,7 @@ int main(int argc, char *argv[])
 		}
 
 		renderer.render(light, camera);
+		guiRenderer.render(guis);
 		manager.updateDisplay();
 
 		fps++;
@@ -392,6 +403,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	guiRenderer.cleanUp();
 	renderer.cleanUp();
 	loader.cleanUp();
 	manager.closeDisplay();

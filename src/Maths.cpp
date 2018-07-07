@@ -25,8 +25,20 @@ GLfloat Maths::barycentric(glm::vec3& p1, glm::vec3& p2, glm::vec3& p3, glm::vec
 	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 }
 
+glm::mat4 Maths::createTransformationMatrix(
+	glm::vec2& translation,
+	glm::vec2& scale)
+{
+	glm::mat4 unit = glm::mat4(1.0f);
+	glm::mat4 t = glm::translate(unit, glm::vec3(translation.x, translation.y, 0.0f));
+	glm::mat4 s = glm::scale(unit, glm::vec3(scale.x, scale.y, 1.0f));
+	glm::mat4 m = t * s;
+	return m;
+}
+
+
 glm::mat4 Maths::createTransformationMatrix(glm::vec3& translation,
-					    GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)
+	GLfloat rx, GLfloat ry, GLfloat rz, GLfloat scale)
 {
 	glm::mat4 unit = glm::mat4(1.0f); // identity matrix
 

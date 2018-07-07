@@ -14,6 +14,8 @@ public:
 		vector<GLfloat>&textureCoords,
 		vector<GLfloat>&normals,
 		vector<GLuint>&indices);
+	RawModel *loadToVAO(
+		vector<GLfloat>&positions);
 	GLuint loadTexture(string fileName);
 	GLubyte* LoadPNGImage(string imageFile, GLint *width, GLint *height, GLenum *format);
 	void cleanUp();

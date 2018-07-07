@@ -31,6 +31,15 @@ RawModel *Loader::loadToVAO(
 	return new RawModel(vaoID, indices.size());
 }
 
+RawModel *Loader::loadToVAO(
+	vector<GLfloat>&positions)
+{
+	GLuint vaoID = createVAO();
+	storeDataInAttributeList(0, 2, positions);
+	unbindVAO();
+	return new RawModel(vaoID, positions.size()/2);
+}
+
 GLuint Loader::loadTexture(string fileName)
 {
 	GLuint textureID; /* texture name (from glGenTextures) */
@@ -215,17 +224,34 @@ GLubyte* Loader::LoadPNGImage(string imageFile,
 	fclose(fp);
 	
 	GLint bytes, bytes_per_row;
-	GLubyte *buffer;
+	GLubyte *buffer, *bufp;
 	
 	bytes_per_row = w * 4;  // 4 = RGBA bytes
 	bytes = h * bytes_per_row;
 	buffer = (GLubyte *) malloc(bytes);
 	if (!buffer)
 		return 0;
+	bufp = buffer;
 	
+	bool useMemcpy = false;
 	for(int y = 0 ; y < h; y++) {
-		memcpy(buffer + y * bytes_per_row,
-		       row_pointers[y], bytes_per_row);
+		if (useMemcpy) {
+			memcpy(buffer + y * bytes_per_row,
+				row_pointers[y], bytes_per_row);
+		} else {
+			png_bytep bp = row_pointers[y];
+			for (int i = 0; i < w; i++) {
+				// A possibility to adjust the colors and alpha value here.
+				GLubyte r = *bp++;
+				GLubyte g = *bp++;
+				GLubyte b = *bp++;
+				GLubyte a = *bp++;
+				*bufp++ = r;
+				*bufp++ = g;
+				*bufp++ = b;
+				*bufp++ = a;
+			}
+		}
 		free(row_pointers[y]);
 	}
 	free(row_pointers);

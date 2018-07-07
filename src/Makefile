@@ -12,7 +12,7 @@ SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Terrain.cpp TerrainShader.cpp TerrainRenderer.cpp \
 	Vertex.cpp ModelData.cpp OBJFileLoader.cpp \
 	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp \
-	Mouse.cpp
+	Mouse.cpp GuiTexture.cpp GuiRenderer.cpp GuiShader.cpp
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 
@@ -20,7 +20,8 @@ CC	= g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 CFLAGS	= -O2 -g -Wall $(SDL_CFLAGS)
-LDFLAGS	= -L/usr/X11R6/lib -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
+#LDFLAGS	= -L/usr/X11R6/lib -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
+LDFLAGS	= -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
 
 
 all: $(TARGET)

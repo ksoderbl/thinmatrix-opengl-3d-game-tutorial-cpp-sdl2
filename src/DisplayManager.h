@@ -22,7 +22,7 @@ private:
 	// e.g. SDL_WINDOWPOS_CENTERED, or SDL_WINDOWPOS_UNDEFINED
 	int S_XPOS = SDL_WINDOWPOS_UNDEFINED;
 	int S_YPOS = SDL_WINDOWPOS_UNDEFINED;
-	string S_APPNAME = "Our First Display!";
+	string S_APPNAME = "OpenGL 3D Game Tutorial 24: Rendering GUIs";
 	
 	long lastFrameTime;
 	// render time of previous frame
