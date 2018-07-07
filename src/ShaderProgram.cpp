@@ -3,6 +3,62 @@
 
 ShaderProgram::ShaderProgram(string vertexFile, string fragmentFile)
 {
+	this->vertexFile = vertexFile;
+	this->fragmentFile = fragmentFile;
+	vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
+	fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
+	programID = glCreateProgram();
+	glAttachShader(programID, vertexShaderID);
+	glAttachShader(programID, fragmentShaderID);
+}
+
+void ShaderProgram::linkProgram()
+{
+	glLinkProgram(programID);
+	glValidateProgram(programID);
+	GLint status;
+	glGetProgramiv(programID, GL_LINK_STATUS, &status);
+	if (status != GL_TRUE) {
+		GLchar infoLog[1024];
+		GLsizei length;
+		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
+		string s(infoLog);
+		cerr << s << endl;
+		cerr << "Vertex shader: " << vertexFile << endl;
+		cerr << "Fragment shader: " << fragmentFile << endl;
+		cerr << "Could not link shader program" << endl;
+		exit(1);
+	}
+}
+
+void ShaderProgram::start()
+{
+	glUseProgram(programID);
+}
+
+void ShaderProgram::stop()
+{
+	glUseProgram(0);
+}
+
+void ShaderProgram::cleanUp()
+{
+	stop();
+	glDetachShader(programID, vertexShaderID);
+	glDetachShader(programID, fragmentShaderID);
+	glDeleteProgram(vertexShaderID);
+	glDeleteProgram(fragmentShaderID);
+	glDeleteProgram(programID);
+}
+
+int ShaderProgram::getUniformLocation(string uniformName)
+{
+	return glGetUniformLocation(programID, uniformName.c_str());
+}
+
+void ShaderProgram::bindAttribute(int attribute, string variableName)
+{
+	glBindAttribLocation(programID, attribute, variableName.c_str());
 }
 
 void ShaderProgram::loadInt(int location, GLint value)
@@ -36,9 +92,6 @@ void ShaderProgram::loadMatrix(int location, glm::mat4& matrix)
 {
 	glUniformMatrix4fv(location, 1, false, &matrix[0][0]);
 }
-
-
-
 
 int ShaderProgram::loadShader(string fileName, GLenum type)
 {

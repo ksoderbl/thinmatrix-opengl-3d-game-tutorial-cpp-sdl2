@@ -8,13 +8,7 @@ class StaticShader: public ShaderProgram
 {
 public:
 	StaticShader();
-	void start();
-	void stop();
-	void cleanUp();
-	void bindAttribute(int attribute, string variableName);
 	void bindAttributes();
-	int getShaderProgram() { return programID; }
-	int getUniformLocation(string uniformName);
 	void getAllUniformLocations();
 	void loadShineVariables(GLfloat damper, GLfloat reflectivity);
 	void loadTransformationMatrix(glm::mat4& matrix);
@@ -27,10 +21,6 @@ public:
 	void loadTextureOffset(GLfloat x, GLfloat y);
 
 private:
-	int programID;
-	int vertexShaderID;
-	int fragmentShaderID;
-
 	int location_transformationMatrix;
 	int location_projectionMatrix;
 	int location_viewMatrix;

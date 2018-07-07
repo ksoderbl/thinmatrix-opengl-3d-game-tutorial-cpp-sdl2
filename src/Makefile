@@ -20,7 +20,6 @@ CC	= g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 CFLAGS	= -O2 -g -Wall $(SDL_CFLAGS)
-#LDFLAGS	= -L/usr/X11R6/lib -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
 LDFLAGS	= -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
 
 

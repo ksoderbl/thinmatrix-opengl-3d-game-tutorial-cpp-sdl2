@@ -6,60 +6,9 @@ const string FRAGMENT_FILE = "shaders/fragmentShader.glsl";
 
 StaticShader::StaticShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 {
-	string vertexFile = VERTEX_FILE;
-	string fragmentFile = FRAGMENT_FILE;
-	vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
-	fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
-	programID = glCreateProgram();
-	glAttachShader(programID, vertexShaderID);
-	glAttachShader(programID, fragmentShaderID);
 	bindAttributes();
-	glLinkProgram(programID);
-	glValidateProgram(programID);
-	GLint status;
-	glGetProgramiv(programID, GL_LINK_STATUS, &status);
-	if (status != GL_TRUE) {
-		GLchar infoLog[1024];
-		GLsizei length;
-		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
-		string s(infoLog);
-		cerr << s << endl;
-		cerr << "Vertex shader: " << vertexFile << endl;
-		cerr << "Fragment shader: " << fragmentFile << endl;
-		cerr << "Could not link shader program" << endl;
-		exit(1);
-	}
+	linkProgram();
 	getAllUniformLocations();
-}
-
-int StaticShader::getUniformLocation(string uniformName)
-{
-	return glGetUniformLocation(programID, uniformName.c_str());
-}
-
-void StaticShader::start()
-{
-	glUseProgram(programID);
-}
-
-void StaticShader::stop()
-{
-	glUseProgram(0);
-}
-
-void StaticShader::cleanUp()
-{
-	stop();
-	glDetachShader(programID, vertexShaderID);
-	glDetachShader(programID, fragmentShaderID);
-	glDeleteProgram(vertexShaderID);
-	glDeleteProgram(fragmentShaderID);
-	glDeleteProgram(programID);
-}
-
-void StaticShader::bindAttribute(int attribute, string variableName)
-{
-	glBindAttribLocation(programID, attribute, variableName.c_str());
 }
 
 void StaticShader::bindAttributes()

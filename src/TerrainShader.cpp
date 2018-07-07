@@ -6,63 +6,11 @@ const string FRAGMENT_FILE = "shaders/terrainFragmentShader.glsl";
 
 TerrainShader::TerrainShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 {
-	string vertexFile = VERTEX_FILE;
-	string fragmentFile = FRAGMENT_FILE;
-	vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
-	fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
-	programID = glCreateProgram();
-	glAttachShader(programID, vertexShaderID);
-	glAttachShader(programID, fragmentShaderID);
 	bindAttributes();
-	glLinkProgram(programID);
-	glValidateProgram(programID);
-	GLint status;
-	glGetProgramiv(programID, GL_LINK_STATUS, &status);
-	if (status != GL_TRUE) {
-		GLchar infoLog[1024];
-		GLsizei length;
-		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
-		string s(infoLog);
-		cerr << s << endl;
-		cerr << "Vertex shader: " << vertexFile << endl;
-		cerr << "Fragment shader: " << fragmentFile << endl;
-		cerr << "Could not link shader program" << endl;
-		exit(1);
-	}
+	linkProgram();
 	getAllUniformLocations();
 }
 
-int TerrainShader::getUniformLocation(string uniformName)
-{
-	return glGetUniformLocation(programID, uniformName.c_str());
-}
-
-void TerrainShader::start()
-{
-	glUseProgram(programID);
-}
-
-void TerrainShader::stop()
-{
-	glUseProgram(0);
-}
-
-void TerrainShader::cleanUp()
-{
-	stop();
-	glDetachShader(programID, vertexShaderID);
-	glDetachShader(programID, fragmentShaderID);
-	glDeleteProgram(vertexShaderID);
-	glDeleteProgram(fragmentShaderID);
-	glDeleteProgram(programID);
-}
-
-void TerrainShader::bindAttribute(int attribute, string variableName)
-{
-	glBindAttribLocation(programID, attribute, variableName.c_str());
-}
-
-// should be virtual
 void TerrainShader::bindAttributes()
 {
 	bindAttribute(0, "position");

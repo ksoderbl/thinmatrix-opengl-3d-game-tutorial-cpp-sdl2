@@ -8,13 +8,7 @@ class TerrainShader: public ShaderProgram
 {
 public:
 	TerrainShader();
-	void start();
-	void stop();
-	void cleanUp();
-	void bindAttribute(int attribute, string variableName);
 	void bindAttributes();
-	int getShaderProgram() { return programID; }
-	int getUniformLocation(string uniformName);
 	void getAllUniformLocations();
 	void connectTextureUnits();
 	void loadShineVariables(GLfloat damper, GLfloat reflectivity);
@@ -25,10 +19,6 @@ public:
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
 
 private:
-	int programID;
-	int vertexShaderID;
-	int fragmentShaderID;
-
 	int location_transformationMatrix;
 	int location_projectionMatrix;
 	int location_viewMatrix;
