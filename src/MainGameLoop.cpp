@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 10; i++) {
 		GLfloat x = my_rand() * 1500 - 750;
 		GLfloat y = my_rand() * 3000;
 		GLfloat z = my_rand() * 1500 - 750;
@@ -329,7 +329,16 @@ int main(int argc, char *argv[])
 			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
+	vector<Light*> lights;
 	Light light = Light(glm::vec3(10000, 30000, -10000), glm::vec3(1, 1, 1));
+	Light light2 = Light(glm::vec3(-100, 50, -100), glm::vec3(10, 0, 0));
+	Light light3 = Light(glm::vec3(200, 100, 200), glm::vec3(0, 10, 0));
+	Light light4 = Light(glm::vec3(300, 150, -300), glm::vec3(0, 0, 10));
+
+	lights.push_back(&light);
+	lights.push_back(&light2);
+	lights.push_back(&light3);
+	lights.push_back(&light4);
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
@@ -389,7 +398,7 @@ int main(int argc, char *argv[])
 			renderer.processEntity(*entity);
 		}
 
-		renderer.render(light, camera);
+		renderer.render(lights, camera);
 		guiRenderer.render(guis);
 		manager.updateDisplay();
 

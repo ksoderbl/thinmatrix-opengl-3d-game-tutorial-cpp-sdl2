@@ -1,6 +1,7 @@
 #include "RawModel.h"
 #include "TerrainRenderer.h"
 #include "DisplayManager.h"
+#include "Maths.h"
 
 TerrainRenderer::TerrainRenderer(TerrainShader& shader, glm::mat4& projectionMatrix) : shader(shader)
 {

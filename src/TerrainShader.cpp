@@ -1,5 +1,5 @@
-
 #include "TerrainShader.h"
+#include "Maths.h"
 
 const string VERTEX_FILE = "shaders/terrainVertexShader.glsl";
 const string FRAGMENT_FILE = "shaders/terrainFragmentShader.glsl";
@@ -23,10 +23,21 @@ void TerrainShader::loadTransformationMatrix(glm::mat4& matrix)
 	loadMatrix(location_transformationMatrix, matrix);
 }
 
-void TerrainShader::loadLight(Light& light)
+void TerrainShader::loadLights(vector<Light*>& lights)
 {
-	loadVector(location_lightPosition, light.getPosition());
-	loadVector(location_lightColor, light.getColor());
+	for (int i = 0; i < MAX_LIGHTS; i++) {
+		if (i < (int)lights.size()) {
+			Light* light = lights[i];
+			loadVector(location_lightPosition[i], light->getPosition());
+			loadVector(location_lightColor[i], light->getColor());
+		} else {
+			// If less than MAX_LIGHTS lights are in the lights vector,
+			// load up empty information to the shaders.
+			glm::vec3 zero(0.0f, 0.0f, 0.0f);
+			loadVector(location_lightPosition[i], zero);
+			loadVector(location_lightColor[i], zero);
+		}
+	}
 }
 
 void TerrainShader::loadProjectionMatrix(glm::mat4& matrix)
@@ -45,8 +56,6 @@ void TerrainShader::getAllUniformLocations()
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
-	location_lightPosition = getUniformLocation("lightPosition");
-	location_lightColor = getUniformLocation("lightColor");
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_skyColor = getUniformLocation("skyColor");
@@ -55,6 +64,12 @@ void TerrainShader::getAllUniformLocations()
 	location_gTexture = getUniformLocation("gTexture");
 	location_bTexture = getUniformLocation("bTexture");
 	location_blendMap = getUniformLocation("blendMap");
+
+	for (int i = 0; i < MAX_LIGHTS; i++) {
+		string iStr = std::to_string(i);
+		location_lightPosition[i] = getUniformLocation("lightPosition[" + iStr + "]");
+		location_lightColor[i] = getUniformLocation("lightColor[" + iStr + "]");
+	}
 }
 
 void TerrainShader::connectTextureUnits()

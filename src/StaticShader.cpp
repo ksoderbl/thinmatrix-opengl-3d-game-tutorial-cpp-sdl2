@@ -1,5 +1,5 @@
-
 #include "StaticShader.h"
+#include "Maths.h"
 
 const string VERTEX_FILE = "shaders/vertexShader.glsl";
 const string FRAGMENT_FILE = "shaders/fragmentShader.glsl";
@@ -23,14 +23,18 @@ void StaticShader::getAllUniformLocations()
 	location_transformationMatrix = getUniformLocation("transformationMatrix");
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
-	location_lightPosition = getUniformLocation("lightPosition");
-	location_lightColor = getUniformLocation("lightColor");
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_useFakeLighting = getUniformLocation("useFakeLighting");
 	location_skyColor = getUniformLocation("skyColor");
 	location_numberOfRows = getUniformLocation("numberOfRows");
 	location_textureOffset = getUniformLocation("textureOffset");
+
+	for (int i = 0; i < MAX_LIGHTS; i++) {
+		string iStr = std::to_string(i);
+		location_lightPosition[i] = getUniformLocation("lightPosition[" + iStr + "]");
+		location_lightColor[i] = getUniformLocation("lightColor[" + iStr + "]");
+	}
 }
 
 void StaticShader::loadTransformationMatrix(glm::mat4& matrix)
@@ -38,10 +42,21 @@ void StaticShader::loadTransformationMatrix(glm::mat4& matrix)
 	loadMatrix(location_transformationMatrix, matrix);
 }
 
-void StaticShader::loadLight(Light& light)
+void StaticShader::loadLights(vector<Light*>& lights)
 {
-	loadVector(location_lightPosition, light.getPosition());
-	loadVector(location_lightColor, light.getColor());
+	for (int i = 0; i < MAX_LIGHTS; i++) {
+		if (i < (int)lights.size()) {
+			Light* light = lights[i];
+			loadVector(location_lightPosition[i], light->getPosition());
+			loadVector(location_lightColor[i], light->getColor());
+		} else {
+			// If less than MAX_LIGHTS lights are in the lights vector,
+			// load up empty information to the shaders.
+			glm::vec3 zero(0.0f, 0.0f, 0.0f);
+			loadVector(location_lightPosition[i], zero);
+			loadVector(location_lightColor[i], zero);
+		}
+	}
 }
 
 void StaticShader::loadProjectionMatrix(glm::mat4& matrix)

@@ -21,7 +21,7 @@ public:
 	static void enableCulling();
 	static void disableCulling();
 	void prepare();
-	void render(Light& sun, Camera& camera);
+	void render(vector<Light*>& lights, Camera& camera);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
 	void cleanUp();

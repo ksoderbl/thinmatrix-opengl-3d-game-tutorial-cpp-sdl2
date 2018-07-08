@@ -2,9 +2,6 @@
 #define SHADERPROGRAM_H
 
 #include "Headers.h"
-#include "Camera.h"
-#include "Maths.h"
-#include "Light.h"
 
 class ShaderProgram
 {

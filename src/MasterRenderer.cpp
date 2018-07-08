@@ -39,18 +39,18 @@ void MasterRenderer::cleanUp()
 	terrainShader->cleanUp();
 }
 
-void MasterRenderer::render(Light& sun, Camera& camera)
+void MasterRenderer::render(vector<Light*>& lights, Camera& camera)
 {
 	prepare();
 	shader->start();
 	shader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-	shader->loadLight(sun);
+	shader->loadLights(lights);
 	shader->loadViewMatrix(camera);
 	renderer->render(entities);
 	shader->stop();
 	terrainShader->start();
 	terrainShader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
-	terrainShader->loadLight(sun);
+	terrainShader->loadLights(lights);
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
 	terrainShader->stop();
