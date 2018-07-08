@@ -21,6 +21,14 @@ public:
 	static void enableCulling();
 	static void disableCulling();
 	void prepare();
+	void renderScene(
+		vector<Entity*>& entities,
+		vector<Terrain*>& terrains,
+		vector<Light*>&lights,
+		Camera& camera,
+		Player& player,
+		bool pausing,
+		TexturedModel* stallTexturedModel);
 	void render(vector<Light*>& lights, Camera& camera);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
@@ -39,7 +47,7 @@ private:
 
 	StaticShader* shader;
 	EntityRenderer* renderer;
-	std::map<TexturedModel*, vector<Entity*>*>* entities;
+	std::map<TexturedModel*, vector<Entity*>*>* entitiesMap;
 
 	TerrainShader* terrainShader;
 	TerrainRenderer* terrainRenderer;

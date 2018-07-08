@@ -6,7 +6,7 @@ MasterRenderer::MasterRenderer()
 	createProjectionMatrix();
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
-	entities = new std::map<TexturedModel*, vector<Entity*>*>;
+	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
 	terrainShader = new TerrainShader();
 	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
 	terrains = new vector<Terrain*>;
@@ -14,12 +14,43 @@ MasterRenderer::MasterRenderer()
 
 MasterRenderer::~MasterRenderer()
 {
-	delete entities;
+	delete entitiesMap;
 	delete renderer;
 	delete shader;
 	delete terrains;
 	delete terrainRenderer;
 	delete terrainShader;
+}
+
+void MasterRenderer::renderScene(
+	vector<Entity*>& entities,
+	vector<Terrain*>& terrains,
+	vector<Light*>&lights,
+	Camera& camera,
+	Player& player,
+	bool pausing,
+	TexturedModel* stallTexturedModel)
+{
+	processEntity(player);
+
+	for (Terrain* terrain : terrains) {
+		processTerrain(*terrain);
+	}
+
+	for (Entity* entity : entities) {
+		if (!pausing) {
+			if (&(entity->getModel()) == stallTexturedModel) {
+				entity->increasePosition(0.0, -1, 0.0);
+				glm::vec3& pos = entity->getPosition();
+				if (pos.y < 0)
+					entity->increasePosition(0.0, 150, 0.0);
+				entity->increaseRotation(1.2, 0.5, 0.3);
+			}
+		}
+		processEntity(*entity);
+	}
+
+	render(lights, camera);
 }
 
 void MasterRenderer::enableCulling()
@@ -46,7 +77,7 @@ void MasterRenderer::render(vector<Light*>& lights, Camera& camera)
 	shader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 	shader->loadLights(lights);
 	shader->loadViewMatrix(camera);
-	renderer->render(entities);
+	renderer->render(entitiesMap);
 	shader->stop();
 	terrainShader->start();
 	terrainShader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
@@ -54,7 +85,7 @@ void MasterRenderer::render(vector<Light*>& lights, Camera& camera)
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
 	terrainShader->stop();
-	entities->clear();
+	entitiesMap->clear();
 	terrains->clear();
 }
 
@@ -68,14 +99,14 @@ void MasterRenderer::processEntity(Entity& entity)
 	TexturedModel& entityModel = entity.getModel();
 	std::map<TexturedModel*, vector<Entity*>*>::iterator it;
 
-	it = entities->find(&entityModel);
-  	if (it != entities->end()) {
+	it = entitiesMap->find(&entityModel);
+  	if (it != entitiesMap->end()) {
   		vector<Entity*>* batch = it->second;
   		batch->push_back(&entity);
   	} else {
   		vector<Entity*>* newBatch = new vector<Entity*>();
   		newBatch->push_back(&entity);
-  		entities->insert(std::make_pair(&entityModel, newBatch));
+  		entitiesMap->insert(std::make_pair(&entityModel, newBatch));
   	}
 }
 

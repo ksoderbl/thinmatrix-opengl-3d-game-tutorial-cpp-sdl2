@@ -205,13 +205,18 @@ int main(int argc, char *argv[])
 	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
 	TerrainTexture blendMap(loader.loadTexture("blendMap"));
 
+	vector<Terrain*> terrains;
 	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
 	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
 	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
 	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
+	terrains.push_back(&terrain);
+	terrains.push_back(&terrain2);
+	terrains.push_back(&terrain3);
+	terrains.push_back(&terrain4);
 
 	OBJFileLoader objLoader;
-	vector<Entity*> allEntities;
+	vector<Entity*> entities;
 
 	// stall
 	ModelData *stallModelData = objLoader.loadOBJ("stall");
@@ -223,11 +228,11 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 10; i++) {
-		GLfloat x = my_rand() * 1500 - 750;
-		GLfloat y = my_rand() * 3000;
-		GLfloat z = my_rand() * 1500 - 750;
-		allEntities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
+	for (int i = 0; i < 1; i++) {
+		GLfloat x = my_rand() * 150 + 75;
+		GLfloat y = my_rand() * 150;
+		GLfloat z = my_rand() * 150 + 75;
+		entities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 2));
 	}
 
@@ -241,11 +246,11 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setShineDamper(4);
 	//pineModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 400; i++) {
+	for (int i = 0; i < 40; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
+		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
 			0, 0, 0, my_rand() * 1 + 1));
 	}
 
@@ -259,11 +264,11 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 300; i++) {
+	for (int i = 0; i < 30; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
+		entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
 			0, my_rand() * 360, 0, my_rand() * 0.5 + 0.5));
 	}
 
@@ -283,7 +288,7 @@ int main(int argc, char *argv[])
 		GLfloat x = my_rand() * 2000 - 1000;
 		GLfloat z = my_rand() * 2000 - 800;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
+		entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
 			0, my_rand() * 360, 0, my_rand() * 3 + 1));
 	}
 
@@ -300,11 +305,11 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setHasTransparency(true);
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 20; i++) {
 		GLfloat x = my_rand() * 1000 - 500;
 		GLfloat z = my_rand() * 1000 - 500;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
+		entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
 			rand() % 4, 0,  my_rand() * 360, 0, my_rand() * 0.5 + 1));
 	}
 
@@ -321,11 +326,11 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 400; i++) {
+	for (int i = 0; i < 40; i++) {
 		GLfloat x = my_rand() * 1200 - 600;
 		GLfloat z = my_rand() * 1200 - 600;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
-		allEntities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
+		entities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
 			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
@@ -368,49 +373,16 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	time_t oldt = 0, t;
-	int fps = 0;
-
 	MasterRenderer renderer;
 
 	while (!isCloseRequested) {
 		checkEvents(keyboard, mouse);
-		camera.move(keyboard, mouse);
+		//TODO: pass the correct terrain to move()
 		player.move(keyboard, manager, terrain4);
-
-		renderer.processEntity(player);
-
-		//renderer.processTerrain(terrain);
-		//renderer.processTerrain(terrain2);
-		//renderer.processTerrain(terrain3);
-		renderer.processTerrain(terrain4);
-
-		for (Entity* entity : allEntities) {
-			if (!pausing) {
-				if (&(entity->getModel()) == &stallTexturedModel) {
-					entity->increasePosition(0.0, -2, 0.0);
-					glm::vec3& pos = entity->getPosition();
-					if (pos.y < 0)
-						entity->increasePosition(0.0, 3000, 0.0);
-					entity->increaseRotation(2.0, 1.5, 1.0);
-				}
-			}
-			renderer.processEntity(*entity);
-		}
-
-		renderer.render(lights, camera);
+		camera.move(keyboard, mouse);
+		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
 		guiRenderer.render(guis);
 		manager.updateDisplay();
-
-		fps++;
-
-		// FPS measurement
-		t = time(NULL);
-		if (t != oldt) {
-			cout << "Current FPS: " << fps << "\n";
-			oldt = t;
-			fps = 0;
-		}
 	}
 
 	guiRenderer.cleanUp();

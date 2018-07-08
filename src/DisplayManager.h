@@ -27,6 +27,8 @@ private:
 	long lastFrameTime;
 	// render time of previous frame
 	GLfloat delta;
+	time_t oldt = 0;
+	int fps = 0;
 };
 
 #endif

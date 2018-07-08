@@ -60,6 +60,16 @@ void DisplayManager::updateDisplay()
 	long currentFrameTime = getCurrentTime();
 	delta = (currentFrameTime - lastFrameTime) / 1000.0f;
 	lastFrameTime = currentFrameTime;
+
+
+	// FPS measurement
+	fps++;
+	time_t t = time(NULL);
+	if (t != oldt) {
+		cout << "Current FPS: " << fps << "\n";
+		oldt = t;
+		fps = 0;
+	}
 }
 
 void DisplayManager::closeDisplay()
