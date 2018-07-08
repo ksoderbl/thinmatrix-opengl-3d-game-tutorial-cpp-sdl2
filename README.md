@@ -3,9 +3,9 @@ My implementation of ThinMatrix OpenGL 3D Game Tutorial and OpenGL Water Tutoria
 
 The tutorials' playlists are on the ThinMatrix youtube channel:
 
-[https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP] OpenGL 3D Game Tutorial
+[OpenGL 3D Game Tutorial](https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP)
 
-[https://www.youtube.com/playlist?list=PLRIWtICgwaX23jiqVByUs0bqhnalNTNZh] OpenGL Water Tutorials
+[OpenGL Water Tutorials](https://www.youtube.com/playlist?list=PLRIWtICgwaX23jiqVByUs0bqhnalNTNZh)
 
 I'm attempting to translate the LWJGL code to C++. The implementation will aim to get the OpenGL specific parts working flawlessly as the tutorials are mainly about OpenGL. The program structure, classes etc. will be like in the tutorials, but might be a bit different in case I find that convenient.
 
