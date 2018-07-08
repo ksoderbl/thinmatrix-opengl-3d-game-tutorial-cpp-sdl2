@@ -18,7 +18,7 @@ public:
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
-
+	void loadClipPlane(glm::vec4& vec);
 private:
 	static constexpr int MAX_LIGHTS = 4;
 	int location_transformationMatrix;
@@ -34,6 +34,7 @@ private:
 	int location_gTexture;
 	int location_bTexture;
 	int location_blendMap;
+	int location_clipPlane;
 };
 
 #endif

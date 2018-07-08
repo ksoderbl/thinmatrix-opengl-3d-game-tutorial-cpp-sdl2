@@ -81,6 +81,11 @@ void ShaderProgram::load2DVector(int location, glm::vec2& vec)
 	glUniform2f(location, vec.x, vec.y);
 }
 
+void ShaderProgram::loadVector(int location, glm::vec4& vec)
+{
+	glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
+}
+
 void ShaderProgram::loadBoolean(int location, bool value)
 {
 	GLfloat toLoad = (value ? 1 : 0);

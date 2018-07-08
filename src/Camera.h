@@ -14,6 +14,7 @@ public:
 	GLfloat getPitch() { return pitch; }
 	GLfloat getYaw() { return yaw; }
 	GLfloat getRoll() { return roll; }
+	void invertPitch() { pitch = -pitch; }
 private:
 	void calculateCameraPosition(GLfloat horizDistance, GLfloat verticDistance);
 	GLfloat calculateHorizontalDistance();

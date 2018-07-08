@@ -192,9 +192,9 @@ static GLfloat my_rand()
 
 int main(int argc, char *argv[])
 {
-	DisplayManager manager;
+	DisplayManager display;
 
-	manager.createDisplay();
+	display.createDisplay();
 	srand(time(NULL));
 
 	Keyboard keyboard;
@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 11; i++) {
 		GLfloat x = my_rand() * 150 + 75;
 		GLfloat y = my_rand() * 150;
 		GLfloat z = my_rand() * 150 + 75;
@@ -250,12 +250,12 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setShineDamper(4);
 	//pineModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 40; i++) {
+	for (int i = 0; i < 240; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 1 + 1));
+			0, 0, 0, my_rand() * 2 + 2));
 	}
 
 	// low poly tree
@@ -268,12 +268,12 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 30; i++) {
+	for (int i = 0; i < 200; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 0.5 + 0.5));
+			0, my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
 	// grass
@@ -288,7 +288,7 @@ int main(int argc, char *argv[])
 	grassModelTexture.setShineDamper(1);
 	grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 0; i++) {
+	for (int i = 0; i < 10; i++) {
 		GLfloat x = my_rand() * 2000 - 1000;
 		GLfloat z = my_rand() * 2000 - 800;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -309,7 +309,7 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setHasTransparency(true);
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 120; i++) {
 		GLfloat x = my_rand() * 1000 - 500;
 		GLfloat z = my_rand() * 1000 - 500;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -330,7 +330,7 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 40; i++) {
+	for (int i = 0; i < 140; i++) {
 		GLfloat x = my_rand() * 1200 - 600;
 		GLfloat z = my_rand() * 1200 - 600;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -340,14 +340,14 @@ int main(int argc, char *argv[])
 
 	vector<Light*> lights;
 	Light light = Light(glm::vec3(10000, 30000, -10000), glm::vec3(1, 1, 1));
-	Light light2 = Light(glm::vec3(-100, 50, -100), glm::vec3(10, 0, 0));
-	Light light3 = Light(glm::vec3(200, 100, 200), glm::vec3(0, 10, 0));
-	Light light4 = Light(glm::vec3(300, 150, -300), glm::vec3(0, 0, 10));
+	//Light light2 = Light(glm::vec3(-100, 50, -100), glm::vec3(10, 0, 0));
+	//Light light3 = Light(glm::vec3(200, 100, 200), glm::vec3(0, 10, 0));
+	//Light light4 = Light(glm::vec3(300, 150, -300), glm::vec3(0, 0, 10));
 
 	lights.push_back(&light);
-	lights.push_back(&light2);
-	lights.push_back(&light3);
-	lights.push_back(&light4);
+	//lights.push_back(&light2);
+	//lights.push_back(&light3);
+	//lights.push_back(&light4);
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
@@ -370,7 +370,7 @@ int main(int argc, char *argv[])
 	glm::vec2 scale2(0.2f, 0.2f);
 	GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
 	guis.push_back(gui2);
-	glm::vec2 position3(-0.8f, 0.9f);
+	glm::vec2 position3(0.8f, 0.9f);
 	glm::vec2 scale3(0.2f, 0.2f);
 	GuiTexture *gui3 = new GuiTexture(loader.loadTexture("health"), position3, scale3);
 	guis.push_back(gui3);
@@ -383,29 +383,55 @@ int main(int argc, char *argv[])
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix());
 	vector<WaterTile*> waters;
-	waters.push_back(new WaterTile(300, -300, -10));
-	waters.push_back(new WaterTile(300, -400, -10));
+	waters.push_back(new WaterTile(300, -300, 0));
+	waters.push_back(new WaterTile(300, -400, 0));
 	waters.push_back(new WaterTile(175, -175, 0));
 	waters.push_back(new WaterTile(75, -75, 0));
 
-	WaterFrameBuffers fbos(manager);
-	glm::vec2 position4(-0.5f, 0.5f);
-	glm::vec2 scale4(0.5f, 0.5f);
-	GuiTexture *gui4 = new GuiTexture(fbos.getReflectionTexture(), position4, scale4);
-	guis.push_back(gui4);
+	WaterFrameBuffers fbos(display);
+
+	glm::vec2 refrGuiPosition(0.5f, 0.5f);
+	glm::vec2 refrGuiScale(0.25f, 0.25f);
+	GuiTexture *refrGui = new GuiTexture(fbos.getRefractionTexture(), refrGuiPosition, refrGuiScale);
+	guis.push_back(refrGui);
+
+	glm::vec2 reflGuiPosition(-0.5f, 0.5f);
+	glm::vec2 reflGuiScale(0.25f, 0.25f);
+	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
+	guis.push_back(reflGui);
+
+	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight());
+	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight());
+	glm::vec4 screenClipPlane(0, -1, 0, 100000);
 
 	while (!isCloseRequested) {
-		checkEvents(keyboard, mouse, manager);
+		checkEvents(keyboard, mouse, display);
 		//TODO: pass the correct terrain to move()
-		player.move(keyboard, manager, terrain4);
+		player.move(keyboard, display, terrain4);
 		camera.move(keyboard, mouse);
+
+		glEnable(GL_CLIP_DISTANCE0);
+
+		//render reflection texture
 		fbos.bindReflectionFrameBuffer();
-		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
+		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
+		camera.getPosition().y -= distance;
+		camera.invertPitch();
+		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, player, pausing, &stallTexturedModel);
+		camera.getPosition().y += distance;
+		camera.invertPitch();
+
+		//render refraction texture
+		fbos.bindRefractionFrameBuffer();
+		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, player, pausing, &stallTexturedModel);
+
+		//render to screen
+		glDisable(GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
-		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
+		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, player, pausing, &stallTexturedModel);
 		waterRenderer.render(waters, camera);
 		guiRenderer.render(guis);
-		manager.updateDisplay();
+		display.updateDisplay();
 	}
 
 	fbos.cleanUp();
@@ -413,7 +439,7 @@ int main(int argc, char *argv[])
 	guiRenderer.cleanUp();
 	renderer.cleanUp();
 	loader.cleanUp();
-	manager.closeDisplay();
+	display.closeDisplay();
 
 	return 0;
 }

@@ -20,7 +20,7 @@ public:
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
 	void loadNumberOfRows(int numberOfRows);
 	void loadTextureOffset(GLfloat x, GLfloat y);
-
+	void loadClipPlane(glm::vec4& vec);
 private:
 	static constexpr int MAX_LIGHTS = 4;
 	int location_transformationMatrix;
@@ -34,6 +34,7 @@ private:
 	int location_skyColor;
 	int location_numberOfRows;
 	int location_textureOffset;
+	int location_clipPlane;
 };
 
 #endif

@@ -29,6 +29,7 @@ void StaticShader::getAllUniformLocations()
 	location_skyColor = getUniformLocation("skyColor");
 	location_numberOfRows = getUniformLocation("numberOfRows");
 	location_textureOffset = getUniformLocation("textureOffset");
+	location_clipPlane = getUniformLocation("clipPlane");
 
 	for (int i = 0; i < MAX_LIGHTS; i++) {
 		string iStr = std::to_string(i);
@@ -96,4 +97,9 @@ void StaticShader::loadTextureOffset(GLfloat x, GLfloat y)
 {
 	glm::vec2 vec(x, y);
 	load2DVector(location_textureOffset, vec);
+}
+
+void StaticShader::loadClipPlane(glm::vec4& vec)
+{
+	loadVector(location_clipPlane, vec);
 }

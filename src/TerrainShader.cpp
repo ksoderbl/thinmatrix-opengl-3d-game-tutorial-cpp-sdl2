@@ -64,6 +64,7 @@ void TerrainShader::getAllUniformLocations()
 	location_gTexture = getUniformLocation("gTexture");
 	location_bTexture = getUniformLocation("bTexture");
 	location_blendMap = getUniformLocation("blendMap");
+	location_clipPlane = getUniformLocation("clipPlane");
 
 	for (int i = 0; i < MAX_LIGHTS; i++) {
 		string iStr = std::to_string(i);
@@ -92,3 +93,9 @@ void TerrainShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
 	glm::vec3 vec(r, g, b);
 	loadVector(location_skyColor, vec);
 }
+
+void TerrainShader::loadClipPlane(glm::vec4& vec)
+{
+	loadVector(location_clipPlane, vec);
+}
+

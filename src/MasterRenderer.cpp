@@ -27,6 +27,7 @@ void MasterRenderer::renderScene(
 	vector<Terrain*>& terrains,
 	vector<Light*>&lights,
 	Camera& camera,
+	glm::vec4& clipPlane,
 	Player& player,
 	bool pausing,
 	TexturedModel* stallTexturedModel)
@@ -50,7 +51,7 @@ void MasterRenderer::renderScene(
 		processEntity(*entity);
 	}
 
-	render(lights, camera);
+	render(lights, camera, clipPlane);
 }
 
 void MasterRenderer::enableCulling()
@@ -70,16 +71,21 @@ void MasterRenderer::cleanUp()
 	terrainShader->cleanUp();
 }
 
-void MasterRenderer::render(vector<Light*>& lights, Camera& camera)
+void MasterRenderer::render(
+	vector<Light*>& lights,
+	Camera& camera,
+	glm::vec4& clipPlane)
 {
 	prepare();
 	shader->start();
+	shader->loadClipPlane(clipPlane);
 	shader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 	shader->loadLights(lights);
 	shader->loadViewMatrix(camera);
 	renderer->render(entitiesMap);
 	shader->stop();
 	terrainShader->start();
+	terrainShader->loadClipPlane(clipPlane);
 	terrainShader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
 	terrainShader->loadLights(lights);
 	terrainShader->loadViewMatrix(camera);
