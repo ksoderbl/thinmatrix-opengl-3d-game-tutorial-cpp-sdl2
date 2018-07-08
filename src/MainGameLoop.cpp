@@ -16,6 +16,9 @@
 #include "Mouse.h"
 #include "GuiTexture.h"
 #include "GuiRenderer.h"
+#include "WaterRenderer.h"
+#include "WaterShader.h"
+#include "WaterTile.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -374,6 +377,14 @@ int main(int argc, char *argv[])
 	GuiRenderer guiRenderer(loader);
 
 	MasterRenderer renderer;
+	
+	// Water Renderer
+	WaterShader waterShader;
+	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix());
+	vector<WaterTile*> waters;
+	waters.push_back(new WaterTile(300, -300, -10));
+	waters.push_back(new WaterTile(175, -175, 0));
+	waters.push_back(new WaterTile(75, -75, 0));
 
 	while (!isCloseRequested) {
 		checkEvents(keyboard, mouse);
@@ -381,10 +392,12 @@ int main(int argc, char *argv[])
 		player.move(keyboard, manager, terrain4);
 		camera.move(keyboard, mouse);
 		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
+		waterRenderer.render(waters, camera);
 		guiRenderer.render(guis);
 		manager.updateDisplay();
 	}
 
+	waterShader.cleanUp();
 	guiRenderer.cleanUp();
 	renderer.cleanUp();
 	loader.cleanUp();

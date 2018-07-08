@@ -33,6 +33,7 @@ public:
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
 	void cleanUp();
+	glm::mat4& getProjectionMatrix();
 
 private:
 	void createProjectionMatrix();

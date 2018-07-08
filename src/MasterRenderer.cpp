@@ -147,3 +147,8 @@ void MasterRenderer::createProjectionMatrix()
 
 	projectionMatrix = m;
 }
+
+glm::mat4& MasterRenderer::getProjectionMatrix()
+{
+	return projectionMatrix;
+}
