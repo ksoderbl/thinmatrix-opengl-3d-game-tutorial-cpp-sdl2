@@ -10,19 +10,22 @@ public:
 	void closeDisplay();
 	long getCurrentTime();
 	GLfloat getFrameTimeSeconds();
+	GLsizei getWidth() { return width; }
+	GLsizei getHeight() { return height; }
+	void setSize(GLsizei width, GLsizei height);
 
 private:
 	SDL_Window *window;
 	SDL_GLContext glContext;
 
 	int FPS_CAP = 120;
-	int WIDTH = 1280;
-	int HEIGHT = 720;
+	GLsizei width = 1280;
+	GLsizei height = 720;
 
 	// e.g. SDL_WINDOWPOS_CENTERED, or SDL_WINDOWPOS_UNDEFINED
 	int S_XPOS = SDL_WINDOWPOS_UNDEFINED;
 	int S_YPOS = SDL_WINDOWPOS_UNDEFINED;
-	string S_APPNAME = "OpenGL 3D Game Tutorial 25: Multiple Lights";
+	string S_APPNAME = "OpenGL 3D Game Tutorial 25: Multiple Lights & OpenGL Water Tutorial 2: Frame Buffer Objects";
 
 	long lastFrameTime;
 	// render time of previous frame

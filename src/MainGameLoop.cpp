@@ -19,6 +19,7 @@
 #include "WaterRenderer.h"
 #include "WaterShader.h"
 #include "WaterTile.h"
+#include "WaterFrameBuffers.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -73,7 +74,7 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 }
 
 
-void checkEvents(Keyboard& keyboard, Mouse& mouse)
+void checkEvents(Keyboard& keyboard, Mouse& mouse, DisplayManager& display)
 {
 	SDL_Event event;
 
@@ -173,7 +174,7 @@ void checkEvents(Keyboard& keyboard, Mouse& mouse)
 			case SDL_WINDOWEVENT_RESIZED:
 				w = event.window.data1;
 				h = event.window.data2;
-				glViewport(0,0,w,h);
+				display.setSize(w, h);
 				break;
 			default:
 				break;
@@ -377,26 +378,37 @@ int main(int argc, char *argv[])
 	GuiRenderer guiRenderer(loader);
 
 	MasterRenderer renderer;
-	
+
 	// Water Renderer
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix());
 	vector<WaterTile*> waters;
 	waters.push_back(new WaterTile(300, -300, -10));
+	waters.push_back(new WaterTile(300, -400, -10));
 	waters.push_back(new WaterTile(175, -175, 0));
 	waters.push_back(new WaterTile(75, -75, 0));
 
+	WaterFrameBuffers fbos(manager);
+	glm::vec2 position4(-0.5f, 0.5f);
+	glm::vec2 scale4(0.5f, 0.5f);
+	GuiTexture *gui4 = new GuiTexture(fbos.getReflectionTexture(), position4, scale4);
+	guis.push_back(gui4);
+
 	while (!isCloseRequested) {
-		checkEvents(keyboard, mouse);
+		checkEvents(keyboard, mouse, manager);
 		//TODO: pass the correct terrain to move()
 		player.move(keyboard, manager, terrain4);
 		camera.move(keyboard, mouse);
+		fbos.bindReflectionFrameBuffer();
+		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
+		fbos.unbindCurrentFrameBuffer();
 		renderer.renderScene(entities, terrains, lights, camera, player, pausing, &stallTexturedModel);
 		waterRenderer.render(waters, camera);
 		guiRenderer.render(guis);
 		manager.updateDisplay();
 	}
 
+	fbos.cleanUp();
 	waterShader.cleanUp();
 	guiRenderer.cleanUp();
 	renderer.cleanUp();

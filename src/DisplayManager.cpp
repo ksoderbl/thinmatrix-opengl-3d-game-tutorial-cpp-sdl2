@@ -17,7 +17,7 @@ void DisplayManager::createDisplay()
 
 	Uint32 flags = SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE;
 
-	window = SDL_CreateWindow(S_APPNAME.c_str(), S_XPOS, S_YPOS, WIDTH, HEIGHT, flags);
+	window = SDL_CreateWindow(S_APPNAME.c_str(), S_XPOS, S_YPOS, width, height, flags);
 	if (!window) {
 		cerr << "Create window failed: " << SDL_GetError() << endl;
 		exit(1);
@@ -88,4 +88,11 @@ long DisplayManager::getCurrentTime()
 GLfloat DisplayManager::getFrameTimeSeconds()
 {
 	return delta;
+}
+
+void DisplayManager::setSize(GLsizei width, GLsizei height)
+{
+	this->width = width;
+	this->height = height;
+	glViewport(0, 0, width, height);
 }
