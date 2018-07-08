@@ -5,12 +5,13 @@
 #include "Loader.h"
 #include "WaterShader.h"
 #include "WaterTile.h"
+#include "WaterFrameBuffers.h"
 #include "Camera.h"
 #include "RawModel.h"
 
 class WaterRenderer {
 public:
-	WaterRenderer(Loader& loader, WaterShader& shader, glm::mat4& projectionMatrix);
+	WaterRenderer(Loader& loader, WaterShader& shader, glm::mat4& projectionMatrix, WaterFrameBuffers& fbos);
 	void render(vector<WaterTile*>& water, Camera& camera);
 	void prepareRender(Camera& camera);
 	void unbind();
@@ -18,6 +19,7 @@ public:
 private:
 	RawModel* quad;
 	WaterShader& shader;
+	WaterFrameBuffers& fbos;
 };
 
 #endif

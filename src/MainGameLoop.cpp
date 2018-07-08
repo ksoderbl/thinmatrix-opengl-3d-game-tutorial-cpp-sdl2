@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 2; i++) {
 		GLfloat x = my_rand() * 1800 - 900;
 		GLfloat z = my_rand() * 1800 - 900;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -330,7 +330,7 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 140; i++) {
+	for (int i = 0; i < 1; i++) {
 		GLfloat x = my_rand() * 1200 - 600;
 		GLfloat z = my_rand() * 1200 - 600;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -380,16 +380,16 @@ int main(int argc, char *argv[])
 	MasterRenderer renderer;
 
 	// Water Renderer
-	WaterShader waterShader;
-	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix());
-	vector<WaterTile*> waters;
-	waters.push_back(new WaterTile(300, -300, 0));
-	waters.push_back(new WaterTile(300, -400, 0));
-	waters.push_back(new WaterTile(175, -175, 0));
-	waters.push_back(new WaterTile(75, -75, 0));
-
 	WaterFrameBuffers fbos(display);
+	WaterShader waterShader;
+	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+	vector<WaterTile*> waters;
+	waters.push_back(new WaterTile(0, 0, 0));
+	waters.push_back(new WaterTile(60, 0, 0));
+	waters.push_back(new WaterTile(-60, 0, 0));
+	waters.push_back(new WaterTile(-60, 60, 0));
 
+	/*
 	glm::vec2 refrGuiPosition(0.5f, 0.5f);
 	glm::vec2 refrGuiScale(0.25f, 0.25f);
 	GuiTexture *refrGui = new GuiTexture(fbos.getRefractionTexture(), refrGuiPosition, refrGuiScale);
@@ -399,6 +399,7 @@ int main(int argc, char *argv[])
 	glm::vec2 reflGuiScale(0.25f, 0.25f);
 	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
+	*/
 
 	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight());
 	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight());

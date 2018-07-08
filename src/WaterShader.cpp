@@ -37,4 +37,12 @@ void WaterShader::getAllUniformLocations()
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
 	location_modelMatrix = getUniformLocation("modelMatrix");
+	location_reflectionTexture = getUniformLocation("reflectionTexture");
+	location_refractionTexture = getUniformLocation("refractionTexture");
+}
+
+void WaterShader::connectTextureUnits()
+{
+	loadInt(location_reflectionTexture, 0);
+	loadInt(location_refractionTexture, 1);
 }
