@@ -342,7 +342,7 @@ int main(int argc, char *argv[])
 
 	Player player(playerTexturedModel, glm::vec3(100, 0, -50), 0, 180, 0, 0.6f);
 	Camera camera(player);
-	
+
 	vector<GuiTexture*> guis;
 	glm::vec2 position(0.7f, 0.5f);
 	glm::vec2 scale(0.125f, 0.125f);
@@ -352,10 +352,13 @@ int main(int argc, char *argv[])
 	glm::vec2 scale2(0.2f, 0.2f);
 	GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
 	guis.push_back(gui2);
+	glm::vec2 position3(-0.8f, 0.9f);
+	glm::vec2 scale3(0.2f, 0.2f);
+	GuiTexture *gui3 = new GuiTexture(loader.loadTexture("health"), position3, scale3);
+	guis.push_back(gui3);
 
 	GuiRenderer guiRenderer(loader);
 
-	vector<Entity*>::iterator it;
 	time_t oldt = 0, t;
 	int fps = 0;
 
@@ -373,14 +376,12 @@ int main(int argc, char *argv[])
 		//renderer.processTerrain(terrain3);
 		renderer.processTerrain(terrain4);
 
-		for (it = allEntities.begin(); it != allEntities.end(); it++) {
-			Entity *entity = *it;
-
+		for (Entity* entity : allEntities) {
 			if (!pausing) {
 				if (&(entity->getModel()) == &stallTexturedModel) {
 					entity->increasePosition(0.0, -2, 0.0);
 					glm::vec3& pos = entity->getPosition();
-					if (pos[1] < 0)
+					if (pos.y < 0)
 						entity->increasePosition(0.0, 3000, 0.0);
 					entity->increaseRotation(2.0, 1.5, 1.0);
 				}
