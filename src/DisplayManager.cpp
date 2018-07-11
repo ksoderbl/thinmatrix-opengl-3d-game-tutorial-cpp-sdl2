@@ -2,6 +2,8 @@
 
 #include "DisplayManager.h"
 
+const char *S_APPNAME = "OpenGL 3D Game Tutorial 25: Multiple Lights & OpenGL Water Tutorial 5: DuDv Maps";
+
 void DisplayManager::createDisplay()
 {
 	int val;
@@ -17,7 +19,7 @@ void DisplayManager::createDisplay()
 
 	Uint32 flags = SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE;
 
-	window = SDL_CreateWindow(S_APPNAME.c_str(), S_XPOS, S_YPOS, width, height, flags);
+	window = SDL_CreateWindow(S_APPNAME, S_XPOS, S_YPOS, width, height, flags);
 	if (!window) {
 		cerr << "Create window failed: " << SDL_GetError() << endl;
 		exit(1);

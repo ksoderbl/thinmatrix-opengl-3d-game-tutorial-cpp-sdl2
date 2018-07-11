@@ -385,9 +385,9 @@ int main(int argc, char *argv[])
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 	vector<WaterTile*> waters;
 	waters.push_back(new WaterTile(0, 0, 0));
-	waters.push_back(new WaterTile(60, 0, 0));
-	waters.push_back(new WaterTile(-60, 0, 0));
-	waters.push_back(new WaterTile(-60, 60, 0));
+	waters.push_back(new WaterTile(-200, 0, 0));
+	waters.push_back(new WaterTile(-200, -200, 0));
+	waters.push_back(new WaterTile(200, 0, 0));
 
 	/*
 	glm::vec2 refrGuiPosition(0.5f, 0.5f);
@@ -430,7 +430,7 @@ int main(int argc, char *argv[])
 		glDisable(GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
 		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, player, pausing, &stallTexturedModel);
-		waterRenderer.render(waters, camera);
+		waterRenderer.render(waters, camera, display);
 		guiRenderer.render(guis);
 		display.updateDisplay();
 	}

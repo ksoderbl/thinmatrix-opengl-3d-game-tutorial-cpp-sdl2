@@ -11,6 +11,7 @@ public:
 	void bindAttributes();
 	void getAllUniformLocations();
 	void connectTextureUnits();
+	void loadMoveFactor(GLfloat factor);
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
 	void loadModelMatrix(glm::mat4& matrix);
@@ -20,6 +21,8 @@ private:
 	int location_projectionMatrix;
 	int location_reflectionTexture;
 	int location_refractionTexture;
+	int location_dudvMap;
+	int location_moveFactor;
 };
 
 #endif

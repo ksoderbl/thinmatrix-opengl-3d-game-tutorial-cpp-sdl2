@@ -25,7 +25,6 @@ private:
 	// e.g. SDL_WINDOWPOS_CENTERED, or SDL_WINDOWPOS_UNDEFINED
 	int S_XPOS = SDL_WINDOWPOS_UNDEFINED;
 	int S_YPOS = SDL_WINDOWPOS_UNDEFINED;
-	string S_APPNAME = "OpenGL 3D Game Tutorial 25: Multiple Lights & OpenGL Water Tutorial 4: Projective Texture Mapping";
 
 	long lastFrameTime;
 	// render time of previous frame
