@@ -35,6 +35,7 @@ void StaticShader::getAllUniformLocations()
 		string iStr = std::to_string(i);
 		location_lightPosition[i] = getUniformLocation("lightPosition[" + iStr + "]");
 		location_lightColor[i] = getUniformLocation("lightColor[" + iStr + "]");
+		location_attenuation[i] = getUniformLocation("attenuation[" + iStr + "]");
 	}
 }
 
@@ -50,12 +51,15 @@ void StaticShader::loadLights(vector<Light*>& lights)
 			Light* light = lights[i];
 			loadVector(location_lightPosition[i], light->getPosition());
 			loadVector(location_lightColor[i], light->getColor());
+			loadVector(location_attenuation[i], light->getAttenuation());
 		} else {
 			// If less than MAX_LIGHTS lights are in the lights vector,
 			// load up empty information to the shaders.
 			glm::vec3 zero(0.0f, 0.0f, 0.0f);
+			glm::vec3 unit(1.0f, 0.0f, 0.0f);
 			loadVector(location_lightPosition[i], zero);
 			loadVector(location_lightColor[i], zero);
+			loadVector(location_attenuation[i], unit);
 		}
 	}
 }

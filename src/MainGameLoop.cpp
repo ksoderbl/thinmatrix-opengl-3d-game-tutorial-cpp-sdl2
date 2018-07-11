@@ -210,10 +210,10 @@ int main(int argc, char *argv[])
 	TerrainTexture blendMap(loader.loadTexture("blendMap"));
 
 	vector<Terrain*> terrains;
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap-perlin");
+	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap-perlin");
+	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap-perlin");
+	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap-perlin");
 	terrains.push_back(&terrain);
 	terrains.push_back(&terrain2);
 	terrains.push_back(&terrain3);
@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 0; i++) {
 		GLfloat x = my_rand() * 350 - 175;
 		GLfloat y = my_rand() * 250;
 		GLfloat z = my_rand() * 350 - 175;
@@ -250,12 +250,12 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setShineDamper(4);
 	//pineModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 240; i++) {
-		GLfloat x = my_rand() * 1800 - 900;
-		GLfloat z = my_rand() * 1800 - 900;
+	for (int i = 0; i < 40; i++) {
+		GLfloat x = my_rand() * 800 - 400;
+		GLfloat z = my_rand() * 800 - 400;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
 		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 2 + 2));
+			0, 0, 0, my_rand() * 1 + 1));
 	}
 
 	// low poly tree
@@ -339,15 +339,27 @@ int main(int argc, char *argv[])
 	}
 
 	vector<Light*> lights;
-	Light light = Light(glm::vec3(10000, 30000, -10000), glm::vec3(1, 1, 1));
-	//Light light2 = Light(glm::vec3(-100, 50, -100), glm::vec3(10, 0, 0));
-	//Light light3 = Light(glm::vec3(200, 100, 200), glm::vec3(0, 10, 0));
-	//Light light4 = Light(glm::vec3(300, 150, -300), glm::vec3(0, 0, 10));
-
+	Light light = Light(glm::vec3(0, 1000, -7000), glm::vec3(0.4f, 0.4f, 0.4f));
+	Light light2 = Light(glm::vec3(185, 10, -293), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
+	Light light3 = Light(glm::vec3(370, 17, -300), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
+	Light light4 = Light(glm::vec3(293, 7, -305),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&light);
-	//lights.push_back(&light2);
-	//lights.push_back(&light3);
-	//lights.push_back(&light4);
+	lights.push_back(&light2);
+	lights.push_back(&light3);
+	lights.push_back(&light4);
+
+	ModelData *lampModelData = objLoader.loadOBJ("lamp");
+	RawModel* lampRawModel = loader.loadToVAO(lampModelData->getVertices(), lampModelData->getTextureCoords(),
+		lampModelData->getNormals(), lampModelData->getIndices());
+	GLuint lampTextureID = loader.loadTexture("lamp");
+	ModelTexture lampModelTexture = ModelTexture(lampTextureID);
+	TexturedModel lamp = TexturedModel(*lampRawModel, lampModelTexture);
+
+	entities.push_back(new Entity(lamp, glm::vec3(185, -4.7f, -293), 0, 0, 0, 1));
+	entities.push_back(new Entity(lamp, glm::vec3(370, 4.2f, -300), 0, 0, 0, 1));
+	entities.push_back(new Entity(lamp, glm::vec3(293, -6.8f, -305), 0, 0, 0, 1));
+
+
 
 	ModelData *playerModelData = objLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
@@ -385,9 +397,9 @@ int main(int argc, char *argv[])
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 	vector<WaterTile*> waters;
 	waters.push_back(new WaterTile(0, 0, 0));
-	waters.push_back(new WaterTile(-200, 0, 0));
-	waters.push_back(new WaterTile(-200, -200, 0));
-	waters.push_back(new WaterTile(200, 0, 0));
+	//waters.push_back(new WaterTile(-200, 0, 0));
+	//waters.push_back(new WaterTile(-200, -200, 0));
+	//waters.push_back(new WaterTile(200, 0, 0));
 
 	/*
 	glm::vec2 refrGuiPosition(0.5f, 0.5f);

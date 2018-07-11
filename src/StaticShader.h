@@ -28,6 +28,7 @@ private:
 	int location_viewMatrix;
 	int location_lightPosition[MAX_LIGHTS];
 	int location_lightColor[MAX_LIGHTS];
+	int location_attenuation[MAX_LIGHTS];
 	int location_shineDamper;
 	int location_reflectivity;
 	int location_useFakeLighting;

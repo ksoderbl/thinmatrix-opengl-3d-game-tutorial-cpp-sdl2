@@ -2,7 +2,7 @@
 
 #include "DisplayManager.h"
 
-const char *S_APPNAME = "OpenGL 3D Game Tutorial 25: Multiple Lights & OpenGL Water Tutorial 6: Fresnel Effect";
+const char *S_APPNAME = "OpenGL 3D Game Tutorial 26: Point Lights & OpenGL Water Tutorial 6: Fresnel Effect";
 
 void DisplayManager::createDisplay()
 {
