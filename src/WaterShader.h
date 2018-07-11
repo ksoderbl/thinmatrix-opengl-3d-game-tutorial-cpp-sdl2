@@ -15,6 +15,7 @@ public:
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
 	void loadModelMatrix(glm::mat4& matrix);
+	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
 private:
 	int location_modelMatrix;
 	int location_viewMatrix;
@@ -24,6 +25,7 @@ private:
 	int location_dudvMap;
 	int location_moveFactor;
 	int location_cameraPosition;
+	int location_skyColor;
 };
 
 #endif

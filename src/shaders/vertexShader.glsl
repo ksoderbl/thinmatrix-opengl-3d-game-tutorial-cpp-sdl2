@@ -20,7 +20,7 @@ uniform float useFakeLighting;
 uniform float numberOfRows;
 uniform vec2 textureOffset;
 
-const float density = 0.0025;
+const float density = 0.0015;
 const float gradient = 5.0;
 
 uniform vec4 clipPlane;

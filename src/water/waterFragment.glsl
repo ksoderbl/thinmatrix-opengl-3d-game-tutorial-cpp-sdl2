@@ -3,6 +3,7 @@
 in vec4 clipSpace;
 in vec2 textureCoords;
 in vec3 toCameraVector;
+in float visibility;
 
 out vec4 out_Color;
 
@@ -11,6 +12,7 @@ uniform sampler2D refractionTexture;
 uniform sampler2D dudvMap;
 
 uniform float moveFactor;
+uniform vec3 skyColor;
 
 const float waveStrength = 0.01;
 const float reflectivePower = 1.2;
@@ -40,4 +42,6 @@ void main(void) {
 
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 	out_Color = mix(out_Color, vec4(0.0, 0.1, 0.3, 1.0), 0.4);
+	// fog/haze
+	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 }

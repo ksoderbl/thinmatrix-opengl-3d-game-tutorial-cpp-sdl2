@@ -1,5 +1,6 @@
 #include "WaterRenderer.h"
 #include "Maths.h"
+#include "MasterRenderer.h"
 
 WaterRenderer::WaterRenderer(
 	Loader& loader,
@@ -11,6 +12,7 @@ WaterRenderer::WaterRenderer(
 	shader.start();
 	shader.connectTextureUnits();
 	shader.loadProjectionMatrix(projectionMatrix);
+	shader.loadSkyColor(MasterRenderer::SKY_RED, MasterRenderer::SKY_GREEN, MasterRenderer::SKY_BLUE);
 	shader.stop();
 	setUpVAO(loader);
 }

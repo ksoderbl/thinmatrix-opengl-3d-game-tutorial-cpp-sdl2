@@ -38,6 +38,12 @@ void WaterShader::loadModelMatrix(glm::mat4& matrix)
 	loadMatrix(location_modelMatrix, matrix);
 }
 
+void WaterShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
+{
+	glm::vec3 vec(r, g, b);
+	loadVector(location_skyColor, vec);
+}
+
 void WaterShader::getAllUniformLocations()
 {
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
@@ -48,6 +54,7 @@ void WaterShader::getAllUniformLocations()
 	location_dudvMap = getUniformLocation("dudvMap");
 	location_moveFactor = getUniformLocation("moveFactor");
 	location_cameraPosition = getUniformLocation("cameraPosition");
+	location_skyColor = getUniformLocation("skyColor");
 }
 
 void WaterShader::connectTextureUnits()
