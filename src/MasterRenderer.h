@@ -43,9 +43,9 @@ private:
 	static constexpr GLfloat FOV = 70;
 	static constexpr GLfloat NEAR_PLANE = 0.1f;
 	static constexpr GLfloat FAR_PLANE = 10000;
-	static constexpr GLfloat SKY_RED = 0.4f;
-	static constexpr GLfloat SKY_GREEN = 0.6f;
-	static constexpr GLfloat SKY_BLUE = 0.7f;
+	static constexpr GLfloat SKY_RED = 0.6f;
+	static constexpr GLfloat SKY_GREEN = 0.8f;
+	static constexpr GLfloat SKY_BLUE = 1.0f;
 
 	StaticShader* shader;
 	EntityRenderer* renderer;

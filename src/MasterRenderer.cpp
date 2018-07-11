@@ -41,11 +41,11 @@ void MasterRenderer::renderScene(
 	for (Entity* entity : entities) {
 		if (!pausing) {
 			if (&(entity->getModel()) == stallTexturedModel) {
-				entity->increasePosition(0.0, -1, 0.0);
+				entity->increasePosition(0.0, -0.5, 0.0);
 				glm::vec3& pos = entity->getPosition();
 				if (pos.y < 0)
-					entity->increasePosition(0.0, 150, 0.0);
-				entity->increaseRotation(1.2, 0.5, 0.3);
+					entity->increasePosition(0.0, 250, 0.0);
+				entity->increaseRotation(1.2, 0.8, 0.7);
 			}
 		}
 		processEntity(*entity);

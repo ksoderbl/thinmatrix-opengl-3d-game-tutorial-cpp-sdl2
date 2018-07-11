@@ -232,10 +232,10 @@ int main(int argc, char *argv[])
 	stallModelTexture.setShineDamper(10);
 	stallModelTexture.setReflectivity(1);
 
-	for (int i = 0; i < 11; i++) {
-		GLfloat x = my_rand() * 150 + 75;
-		GLfloat y = my_rand() * 150;
-		GLfloat z = my_rand() * 150 + 75;
+	for (int i = 0; i < 20; i++) {
+		GLfloat x = my_rand() * 350 - 175;
+		GLfloat y = my_rand() * 250;
+		GLfloat z = my_rand() * 350 - 175;
 		entities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
 			my_rand() * 180, my_rand() * 180, 0, 2));
 	}
@@ -288,7 +288,7 @@ int main(int argc, char *argv[])
 	grassModelTexture.setShineDamper(1);
 	grassModelTexture.setReflectivity(0.5);
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 100; i++) {
 		GLfloat x = my_rand() * 2000 - 1000;
 		GLfloat z = my_rand() * 2000 - 800;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);
@@ -330,7 +330,7 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 40; i++) {
 		GLfloat x = my_rand() * 1200 - 600;
 		GLfloat z = my_rand() * 1200 - 600;
 		GLfloat y = terrain4.getHeightOfTerrain(x, z);

@@ -2,6 +2,7 @@
 
 in vec4 clipSpace;
 in vec2 textureCoords;
+in vec3 toCameraVector;
 
 out vec4 out_Color;
 
@@ -12,6 +13,7 @@ uniform sampler2D dudvMap;
 uniform float moveFactor;
 
 const float waveStrength = 0.01;
+const float reflectivePower = 1.2;
 
 void main(void) {
 	vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;
@@ -24,13 +26,18 @@ void main(void) {
 
 	refractTexCoords += totalDistortion;
 	refractTexCoords = clamp(refractTexCoords, 0.01, 0.99);
-	
+
 	reflectTexCoords += totalDistortion;
 	reflectTexCoords.x = clamp(reflectTexCoords.x, 0.01, 0.99);
 	reflectTexCoords.y = clamp(reflectTexCoords.y, -0.99, -0.01);
-	
+
 	vec4 reflectColor = texture(reflectionTexture, reflectTexCoords);
 	vec4 refractColor = texture(refractionTexture, refractTexCoords);
-	out_Color = mix(reflectColor, refractColor, 0.5);
-	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2);
+
+	vec3 viewVector = normalize(toCameraVector);
+	float refractiveFactor = dot(viewVector, vec3(0.0, 1.0, 0.0));
+	refractiveFactor = pow(refractiveFactor, reflectivePower);
+
+	out_Color = mix(reflectColor, refractColor, refractiveFactor);
+	out_Color = mix(out_Color, vec4(0.0, 0.1, 0.3, 1.0), 0.4);
 }

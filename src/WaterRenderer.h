@@ -23,7 +23,7 @@ private:
 	WaterFrameBuffers& fbos;
 	GLuint dudvTexture;
 	const string DUDV_MAP = "waterDUDV";
-	static constexpr GLfloat WAVE_SPEED = 0.03f;
+	static constexpr GLfloat WAVE_SPEED = 0.02f;
 	GLfloat moveFactor = 0;
 };
 
