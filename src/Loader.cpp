@@ -32,19 +32,51 @@ RawModel *Loader::loadToVAO(
 }
 
 RawModel *Loader::loadToVAO(
-	vector<GLfloat>&positions)
+	vector<GLfloat>&positions,
+	int dimensions)
 {
 	GLuint vaoID = createVAO();
-	storeDataInAttributeList(0, 2, positions);
+	storeDataInAttributeList(0, dimensions, positions);
 	unbindVAO();
-	return new RawModel(vaoID, positions.size()/2);
+	return new RawModel(vaoID, positions.size() / dimensions);
+}
+
+/*
+ * GL_TEXTURE_CUBE_MAP_POSITIVE_X   = Right Face
+ * GL_TEXTURE_CUBE_MAP_NEGATIVE_X   = Left Face
+ * GL_TEXTURE_CUBE_MAP_POSITIVE_Y   = Top Face
+ * GL_TEXTURE_CUBE_MAP_NEGATIVE_Y   = Bottom Face
+ * GL_TEXTURE_CUBE_MAP_POSITIVE_Z   = Back Face
+ * GL_TEXTURE_CUBE_MAP_NEGATIVE_Z   = Front Face
+ */
+GLuint Loader::loadCubeMap(vector<string>& textureFiles)
+{
+	GLuint textureID;
+	GLenum target = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+	glGenTextures(1, &textureID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+	int i = 0;
+	for (string fileName : textureFiles) {
+		TextureData* data = decodeTextureFile("../res/" + fileName + ".png");
+		glTexImage2D(target + i, 0, GL_RGBA,
+			data->getWidth(), data->getHeight(), 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, data->getBuffer());
+		i++;
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	textures->push_back(textureID);
+	return textureID;
 }
 
 GLuint Loader::loadTexture(string fileName)
 {
 	GLuint textureID; /* texture name (from glGenTextures) */
-	GLint tx_w;       /* width in pixels */
-	GLint tx_h;       /* height in pixels */
+	GLsizei tx_w;     /* width in pixels */
+	GLsizei tx_h;     /* height in pixels */
 	GLenum tx_fmt;    /* format: RGB or RGBA */
 	GLubyte *tx_data; /* image data */
 	
@@ -150,7 +182,7 @@ void Loader::bindIndicesBuffer(vector<GLuint>&indices)
 // Based on https://gist.github.com/niw/5963798
 
 GLubyte* Loader::LoadPNGImage(string imageFile,
-			     GLint *width, GLint *height,
+			     GLsizei *width, GLsizei *height,
 			     GLenum *format)
 {
 	FILE *fp = fopen(imageFile.c_str(), "rb");
@@ -223,7 +255,7 @@ GLubyte* Loader::LoadPNGImage(string imageFile,
 	
 	fclose(fp);
 	
-	GLint bytes, bytes_per_row;
+	GLsizei bytes, bytes_per_row;
 	GLubyte *buffer, *bufp;
 	
 	bytes_per_row = w * 4;  // 4 = RGBA bytes
@@ -263,4 +295,16 @@ GLubyte* Loader::LoadPNGImage(string imageFile,
 	return buffer;
 }
 
+TextureData* Loader::decodeTextureFile(string fileName)
+{
+	GLsizei width, height;
+	GLenum format;
+	GLubyte* buffer = LoadPNGImage(fileName, &width, &height, &format);
+	if (buffer) {
+		return new TextureData(buffer, width, height);
+	}
+	cerr << "Loader: Failed to load texture \"" + fileName + "\"" << endl;
+	exit(1);
+	return nullptr;
+}
 

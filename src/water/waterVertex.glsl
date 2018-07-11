@@ -12,9 +12,9 @@ uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform vec3 cameraPosition;
 
-const float tiling = 2.0;
+const float tiling = 3.0;
 
-const float density = 0.0015;
+const float density = 0.0010;
 const float gradient = 5.0;
 
 void main(void) {

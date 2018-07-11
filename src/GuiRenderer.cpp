@@ -4,7 +4,7 @@
 GuiRenderer::GuiRenderer(Loader& loader) : loader(loader)
 {
 	vector<GLfloat> positions = { -1, 1, -1, -1, 1, 1, 1, -1 };
-	quad = loader.loadToVAO(positions);
+	quad = loader.loadToVAO(positions, 2);
 	shader = new GuiShader();
 }
 

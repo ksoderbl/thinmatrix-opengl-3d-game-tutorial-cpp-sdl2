@@ -13,7 +13,9 @@ SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Vertex.cpp ModelData.cpp OBJFileLoader.cpp \
 	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp \
 	Mouse.cpp GuiTexture.cpp GuiRenderer.cpp GuiShader.cpp \
-	WaterRenderer.cpp WaterShader.cpp WaterTile.cpp WaterFrameBuffers.cpp
+	WaterRenderer.cpp WaterShader.cpp WaterTile.cpp WaterFrameBuffers.cpp \
+	TextureData.cpp SkyboxRenderer.cpp SkyboxShader.cpp
+
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
 

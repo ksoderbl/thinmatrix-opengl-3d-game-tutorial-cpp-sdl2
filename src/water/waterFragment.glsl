@@ -14,8 +14,8 @@ uniform sampler2D dudvMap;
 uniform float moveFactor;
 uniform vec3 skyColor;
 
-const float waveStrength = 0.01;
-const float reflectivePower = 1.2;
+const float waveStrength = 0.03;
+const float reflectivePower = 2.0;
 
 void main(void) {
 	vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;
@@ -27,11 +27,11 @@ void main(void) {
 	vec2 totalDistortion = distortion1 + distortion2;
 
 	refractTexCoords += totalDistortion;
-	refractTexCoords = clamp(refractTexCoords, 0.01, 0.99);
+	refractTexCoords = clamp(refractTexCoords, 0.001, 0.999);
 
 	reflectTexCoords += totalDistortion;
-	reflectTexCoords.x = clamp(reflectTexCoords.x, 0.01, 0.99);
-	reflectTexCoords.y = clamp(reflectTexCoords.y, -0.99, -0.01);
+	reflectTexCoords.x = clamp(reflectTexCoords.x, 0.001, 0.999);
+	reflectTexCoords.y = clamp(reflectTexCoords.y, -0.999, -0.001);
 
 	vec4 reflectColor = texture(reflectionTexture, reflectTexCoords);
 	vec4 refractColor = texture(refractionTexture, refractTexCoords);
@@ -41,7 +41,7 @@ void main(void) {
 	refractiveFactor = pow(refractiveFactor, reflectivePower);
 
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
-	out_Color = mix(out_Color, vec4(0.0, 0.1, 0.3, 1.0), 0.4);
+	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2);
 	// fog/haze
 	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 }

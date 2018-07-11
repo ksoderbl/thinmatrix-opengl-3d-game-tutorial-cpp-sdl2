@@ -1,6 +1,6 @@
 #include "MasterRenderer.h"
 
-MasterRenderer::MasterRenderer()
+MasterRenderer::MasterRenderer(Loader& loader)
 {
 	enableCulling();
 	createProjectionMatrix();
@@ -10,6 +10,7 @@ MasterRenderer::MasterRenderer()
 	terrainShader = new TerrainShader();
 	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
 	terrains = new vector<Terrain*>;
+	skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
 }
 
 MasterRenderer::~MasterRenderer()
@@ -20,6 +21,7 @@ MasterRenderer::~MasterRenderer()
 	delete terrains;
 	delete terrainRenderer;
 	delete terrainShader;
+	delete skyboxRenderer;
 }
 
 void MasterRenderer::renderScene(
@@ -91,6 +93,7 @@ void MasterRenderer::render(
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
 	terrainShader->stop();
+	skyboxRenderer->render(camera);
 	entitiesMap->clear();
 	terrains->clear();
 }

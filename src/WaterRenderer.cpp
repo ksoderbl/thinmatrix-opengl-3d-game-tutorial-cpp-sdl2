@@ -58,5 +58,5 @@ void WaterRenderer::setUpVAO(Loader& loader)
 {
 	// Just x and z vertex positions, y is set in shader
 	vector<GLfloat> vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
-	quad = loader.loadToVAO(vertices /*, 2*/);
+	quad = loader.loadToVAO(vertices, 2);
 }

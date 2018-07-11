@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
 	}
 
 	vector<Light*> lights;
-	Light light = Light(glm::vec3(0, 1000, -7000), glm::vec3(0.4f, 0.4f, 0.4f));
+	Light light = Light(glm::vec3(0, 1000, -7000), glm::vec3(0.6f, 0.6f, 0.6f));
 	Light light2 = Light(glm::vec3(185, 10, -293), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
 	Light light3 = Light(glm::vec3(370, 17, -300), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
 	Light light4 = Light(glm::vec3(293, 7, -305),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -389,7 +389,7 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	MasterRenderer renderer;
+	MasterRenderer renderer(loader);
 
 	// Water Renderer
 	WaterFrameBuffers fbos(display);

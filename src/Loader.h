@@ -2,8 +2,8 @@
 #define LOADER_H
 
 #include "Headers.h"
-
 #include "RawModel.h"
+#include "TextureData.h"
 
 class Loader {
 public:
@@ -15,9 +15,12 @@ public:
 		vector<GLfloat>&normals,
 		vector<GLuint>&indices);
 	RawModel *loadToVAO(
-		vector<GLfloat>&positions);
+		vector<GLfloat>&positions, int dimensions);
 	GLuint loadTexture(string fileName);
-	GLubyte* LoadPNGImage(string imageFile, GLint *width, GLint *height, GLenum *format);
+	GLubyte* LoadPNGImage(string imageFile, GLsizei *width, GLsizei *height, GLenum *format);
+	TextureData* decodeTextureFile(string fileName);
+	GLuint loadCubeMap(vector<string>& textureFiles);
+
 	void cleanUp();
 private:
 	GLuint createVAO();
