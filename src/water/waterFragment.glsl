@@ -26,8 +26,8 @@ void main(void) {
 	vec2 distortion2 = (texture(dudvMap, vec2(-textureCoords.x + moveFactor, textureCoords.y + moveFactor)).rg * 2.0 - 1.0) * waveStrength;
 	vec2 totalDistortion = distortion1 + distortion2;
 
-	//refractTexCoords += totalDistortion;
-	//refractTexCoords = clamp(refractTexCoords, 0.001, 0.999);
+	refractTexCoords += totalDistortion;
+	refractTexCoords = clamp(refractTexCoords, 0.001, 0.999);
 
 	reflectTexCoords += totalDistortion;
 	reflectTexCoords.x = clamp(reflectTexCoords.x, 0.001, 0.999);

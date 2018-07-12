@@ -421,7 +421,7 @@ int main(int argc, char *argv[])
 		player.move(keyboard, display, terrain4);
 		camera.move(keyboard, mouse);
 
-		glEnable(GL_CLIP_DISTANCE0);
+		//glEnable(GL_CLIP_DISTANCE0);
 
 		//render reflection texture
 		fbos.bindReflectionFrameBuffer();
