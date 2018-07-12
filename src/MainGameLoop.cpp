@@ -397,8 +397,9 @@ int main(int argc, char *argv[])
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 	vector<WaterTile*> waters;
 	waters.push_back(new WaterTile(0, 0, 0));
-	//waters.push_back(new WaterTile(-200, 0, 0));
-	//waters.push_back(new WaterTile(-200, -200, 0));
+	waters.push_back(new WaterTile(0, 100, 0));
+	waters.push_back(new WaterTile(100, 0, 0));
+	waters.push_back(new WaterTile(200, 0, 0));
 	//waters.push_back(new WaterTile(200, 0, 0));
 
 	glm::vec2 refrGuiPosition(0.75f, -0.75f);
@@ -421,7 +422,7 @@ int main(int argc, char *argv[])
 		player.move(keyboard, display, terrain4);
 		camera.move(keyboard, mouse);
 
-		//glEnable(GL_CLIP_DISTANCE0);
+		glEnable(GL_CLIP_DISTANCE0);
 
 		//render reflection texture
 		fbos.bindReflectionFrameBuffer();

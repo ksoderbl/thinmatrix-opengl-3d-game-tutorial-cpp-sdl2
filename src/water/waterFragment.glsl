@@ -14,8 +14,8 @@ uniform sampler2D dudvMap;
 uniform float moveFactor;
 uniform vec3 skyColor;
 
-const float waveStrength = 0.03;
-const float reflectivePower = 5.0;
+const float waveStrength = 0.02;
+const float reflectivePower = 2.0;
 
 void main(void) {
 	vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;

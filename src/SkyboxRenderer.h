@@ -58,12 +58,12 @@ private:
 	};
 	
 	vector<string> TEXTURE_FILES = {
-		"skyright",
-		"skyleft",
-		"skytop",
-		"skybottom",
-		"skyback",
-		"skyfront"
+		"skyRight",
+		"skyLeft",
+		"skyTop",
+		"skyBottom",
+		"skyBack",
+		"skyFront"
 	};
 
 	RawModel* cube;

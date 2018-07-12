@@ -18,6 +18,9 @@ void SkyboxRenderer::render(Camera& camera)
 {
 	shader->start();
 	shader->loadViewMatrix(camera);
+	// Disable this, otherwise one side of the sky is clipped from the
+	// reflection and refraction textures
+	glDisable(GL_CLIP_DISTANCE0);
 	glBindVertexArray(cube->getVaoID());
 	glEnableVertexAttribArray(0);
 	glActiveTexture(GL_TEXTURE0);

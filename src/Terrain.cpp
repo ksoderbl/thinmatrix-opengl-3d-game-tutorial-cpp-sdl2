@@ -45,7 +45,7 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 		cerr << "generateTerrain: decodeTextureFile failed for " << fileName << "\n";
 		exit(1);
 	}
-	int stepSize = 2;
+	int stepSize = 4;
 	int VERTEX_COUNT = image->getHeight() / stepSize;
 
 	// dynamically create 2 dimensional array
@@ -122,5 +122,8 @@ GLfloat Terrain::getHeight(int x, int z, int stepSize, TextureData* image)
 	height -= 127.5;
 	height /= 127.5; // should be between -1 and 1
 	height *= MAX_HEIGHT;
+	// get rid of 0 height terrain so it's not at the same level as water
+	if (height > -1.0 && height < 1.0)
+		height -= 2.0;
 	return height;
 }
