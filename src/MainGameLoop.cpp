@@ -210,10 +210,10 @@ int main(int argc, char *argv[])
 	TerrainTexture blendMap(loader.loadTexture("blendMap"));
 
 	vector<Terrain*> terrains;
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap-perlin");
-	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap-perlin");
-	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap-perlin");
-	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap-perlin");
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
 	terrains.push_back(&terrain);
 	terrains.push_back(&terrain2);
 	terrains.push_back(&terrain3);
@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
 	}
 
 	vector<Light*> lights;
-	Light light = Light(glm::vec3(0, 1000, -7000), glm::vec3(0.6f, 0.6f, 0.6f));
+	Light light = Light(glm::vec3(0, 3000, -7000), glm::vec3(1.0f, 1.0f, 1.0f));
 	Light light2 = Light(glm::vec3(185, 10, -293), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
 	Light light3 = Light(glm::vec3(370, 17, -300), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
 	Light light4 = Light(glm::vec3(293, 7, -305),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -401,17 +401,15 @@ int main(int argc, char *argv[])
 	//waters.push_back(new WaterTile(-200, -200, 0));
 	//waters.push_back(new WaterTile(200, 0, 0));
 
-	/*
-	glm::vec2 refrGuiPosition(0.5f, 0.5f);
+	glm::vec2 refrGuiPosition(0.75f, -0.75f);
 	glm::vec2 refrGuiScale(0.25f, 0.25f);
 	GuiTexture *refrGui = new GuiTexture(fbos.getRefractionTexture(), refrGuiPosition, refrGuiScale);
 	guis.push_back(refrGui);
 
-	glm::vec2 reflGuiPosition(-0.5f, 0.5f);
+	glm::vec2 reflGuiPosition(-0.75f, -0.75f);
 	glm::vec2 reflGuiScale(0.25f, 0.25f);
 	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
-	*/
 
 	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight());
 	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight());

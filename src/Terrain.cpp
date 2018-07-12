@@ -39,18 +39,14 @@ GLfloat Terrain::getHeightOfTerrain(GLfloat worldX, GLfloat worldZ)
 
 RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 {
-	GLint tx_w;       /* width in pixels */
-	GLint tx_h;       /* height in pixels */
-	GLenum tx_fmt;    /* format: RGB or RGBA */
-	GLubyte *tx_data; /* image data */
 	string fileName = "../res/" + heightMap + ".png";
-
-	tx_data = loader.LoadPNGImage(fileName, &tx_w, &tx_h, &tx_fmt);
-	if (!tx_data) {
-		cerr << "generateTerrain: LoadPNGImage failed for " << fileName << "\n";
+	TextureData* image = loader.decodeTextureFile(fileName);
+	if (!image) {
+		cerr << "generateTerrain: decodeTextureFile failed for " << fileName << "\n";
 		exit(1);
 	}
-	int VERTEX_COUNT = tx_h; // image.getHeight();
+	int stepSize = 2;
+	int VERTEX_COUNT = image->getHeight() / stepSize;
 
 	// dynamically create 2 dimensional array
 	heights = new GLfloat* [VERTEX_COUNT];
@@ -69,11 +65,11 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 			GLfloat s = ((GLfloat)j) / ((GLfloat)(VERTEX_COUNT - 1));
 			GLfloat t = ((GLfloat)i) / ((GLfloat)(VERTEX_COUNT - 1));
 			verticesArray.push_back(s * SIZE);
-			GLfloat height = getHeight(j, i, tx_w, tx_h, tx_data);
+			GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, image);
 			heights[j][i] = height;
 			verticesArray.push_back(height);
 			verticesArray.push_back(t * SIZE);
-			glm::vec3 normal = calculateNormal(j, i, tx_w, tx_h, tx_data);
+			glm::vec3 normal = calculateNormal(j * stepSize, i * stepSize, stepSize, image);
 			normalsArray.push_back(normal.x);
 			normalsArray.push_back(normal.y);
 			normalsArray.push_back(normal.z);
@@ -99,36 +95,25 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 	return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 }
 
-glm::vec3 Terrain::calculateNormal(
-	int x, int z,
-	//BufferedImage& image,
-	GLint tx_w,       /* width in pixels */
-	GLint tx_h,       /* height in pixels */
-	GLubyte *tx_data) /* image data */
+glm::vec3 Terrain::calculateNormal(int x, int z, int stepSize, TextureData* image)
 {
-	GLfloat heightL = getHeight(x-1, z, tx_w, tx_h, tx_data);
-	GLfloat heightR = getHeight(x+1, z, tx_w, tx_h, tx_data);
-	GLfloat heightD = getHeight(x, z-1, tx_w, tx_h, tx_data);
-	GLfloat heightU = getHeight(x, z-1, tx_w, tx_h, tx_data);
-	glm::vec3 normal = glm::vec3(heightL-heightR, 2.0f, heightD-heightU);
+	GLfloat heightL = getHeight(x-stepSize, z, stepSize, image);
+	GLfloat heightR = getHeight(x+stepSize, z, stepSize, image);
+	GLfloat heightD = getHeight(x, z-stepSize, stepSize, image);
+	GLfloat heightU = getHeight(x, z-stepSize, stepSize, image);
+	glm::vec3 normal = glm::vec3(heightL-heightR, 2.0f * stepSize, heightD-heightU);
 	normal = glm::normalize(normal);
 	return normal;
 }
 
-GLfloat Terrain::getHeight(
-	int x, int z,
-	//BufferedImage& image,
-	GLint tx_w,       /* width in pixels */
-	GLint tx_h,       /* height in pixels */
-	GLubyte *tx_data) /* image data */
+GLfloat Terrain::getHeight(int x, int z, int stepSize, TextureData* image)
 {
-	//if (x < 0 || x >= image.getHeight() || z < 0 || z >= image.getHeight()) {
-	if (x < 0 || x >= tx_w || z < 0 || z >= tx_h) {
+	if (x < 0 || x >= image->getWidth() || z < 0 || z >= image->getHeight()) {
 		return 0;
 	}
 	//GLfloat height = image.getRBG(x, z);
-	int index = 4 * (x + z * tx_w);
-	int r = *(tx_data + index);
+	int index = 4 * (x + z * image->getWidth());
+	int r = *(image->getBuffer() + index);
 	//int g = *(tx_data + index + 1);
 	//int b = *(tx_data + index + 2);
 

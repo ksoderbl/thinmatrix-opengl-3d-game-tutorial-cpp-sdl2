@@ -8,6 +8,7 @@
 #include "Loader.h"
 #include "TerrainTexturePack.h"
 #include "TerrainTexture.h"
+#include "TextureData.h"
 
 class Terrain {
 public:
@@ -30,7 +31,7 @@ public:
 
 private:
 	static constexpr GLfloat SIZE = 800;
-	static constexpr GLfloat MAX_HEIGHT = 40;
+	static constexpr GLfloat MAX_HEIGHT = 100;
 	static constexpr GLfloat MAX_PIXEL_COLOR = 256 * 256 * 256;
 
 	glm::vec3 position;
@@ -40,18 +41,8 @@ private:
 	GLfloat **heights;
 	int heightsLength;
 
-	GLfloat getHeight(
-		int x, int z,
-		//BufferedImage& image,
-		GLint tx_w,       /* width in pixels */
-		GLint tx_h,       /* height in pixels */
-		GLubyte *tx_data);
-	glm::vec3 calculateNormal(
-		int x, int z,
-		//BufferedImage& image,
-		GLint tx_w,       /* width in pixels */
-		GLint tx_h,       /* height in pixels */
-		GLubyte *tx_data);
+	GLfloat getHeight(int x, int z, int stepSize, TextureData* image);
+	glm::vec3 calculateNormal(int x, int z, int stepSize, TextureData* image);
 };
 
 #endif
