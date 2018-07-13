@@ -3,6 +3,7 @@
 
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Light.h"
 
 class WaterShader: public ShaderProgram
 {
@@ -16,6 +17,7 @@ public:
 	void loadViewMatrix(Camera& camera);
 	void loadModelMatrix(glm::mat4& matrix);
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
+	void loadLight(Light& sun);
 private:
 	int location_modelMatrix;
 	int location_viewMatrix;
@@ -26,6 +28,9 @@ private:
 	int location_moveFactor;
 	int location_cameraPosition;
 	int location_skyColor;
+	int location_normalMap;
+	int location_lightColor;
+	int location_lightPosition;
 };
 
 #endif

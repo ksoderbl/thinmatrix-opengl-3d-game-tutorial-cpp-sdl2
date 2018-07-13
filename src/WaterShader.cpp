@@ -44,6 +44,12 @@ void WaterShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
 	loadVector(location_skyColor, vec);
 }
 
+void WaterShader::loadLight(Light& sun)
+{
+	loadVector(location_lightColor, sun.getColor());
+	loadVector(location_lightPosition, sun.getPosition());
+}
+
 void WaterShader::getAllUniformLocations()
 {
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
@@ -55,6 +61,9 @@ void WaterShader::getAllUniformLocations()
 	location_moveFactor = getUniformLocation("moveFactor");
 	location_cameraPosition = getUniformLocation("cameraPosition");
 	location_skyColor = getUniformLocation("skyColor");
+	location_normalMap = getUniformLocation("normalMap");
+	location_lightColor = getUniformLocation("lightColor");
+	location_lightPosition = getUniformLocation("lightPosition");
 }
 
 void WaterShader::connectTextureUnits()
@@ -62,4 +71,5 @@ void WaterShader::connectTextureUnits()
 	loadInt(location_reflectionTexture, 0);
 	loadInt(location_refractionTexture, 1);
 	loadInt(location_dudvMap, 2);
+	loadInt(location_normalMap, 3);
 }

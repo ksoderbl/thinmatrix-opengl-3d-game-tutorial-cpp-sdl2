@@ -9,12 +9,13 @@
 #include "Camera.h"
 #include "RawModel.h"
 #include "DisplayManager.h"
+#include "Light.h"
 
 class WaterRenderer {
 public:
 	WaterRenderer(Loader& loader, WaterShader& shader, glm::mat4& projectionMatrix, WaterFrameBuffers& fbos);
-	void render(vector<WaterTile*>& water, Camera& camera, DisplayManager& display);
-	void prepareRender(Camera& camera, DisplayManager& display);
+	void render(vector<WaterTile*>& water, Camera& camera, Light& sun, DisplayManager& display);
+	void prepareRender(Camera& camera, Light& sun, DisplayManager& display);
 	void unbind();
 	void setUpVAO(Loader& loader);
 private:
@@ -22,8 +23,10 @@ private:
 	WaterShader& shader;
 	WaterFrameBuffers& fbos;
 	GLuint dudvTexture;
+	GLuint normalMap;
 	const string DUDV_MAP = "waterDUDV";
-	static constexpr GLfloat WAVE_SPEED = 0.04f;
+	const string NORMAL_MAP = "normalMap";
+	static constexpr GLfloat WAVE_SPEED = 0.03f;
 	GLfloat moveFactor = 0;
 };
 

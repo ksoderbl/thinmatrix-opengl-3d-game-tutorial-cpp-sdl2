@@ -339,11 +339,11 @@ int main(int argc, char *argv[])
 	}
 
 	vector<Light*> lights;
-	Light light = Light(glm::vec3(0, 3000, -7000), glm::vec3(1.0f, 1.0f, 1.0f));
+	Light sun = Light(glm::vec3(0, 3000, -5000), glm::vec3(1.0f, 1.0f, 1.0f));
 	Light light2 = Light(glm::vec3(185, 10, -293), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
 	Light light3 = Light(glm::vec3(370, 17, -300), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
 	Light light4 = Light(glm::vec3(293, 7, -305),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
-	lights.push_back(&light);
+	lights.push_back(&sun);
 	lights.push_back(&light2);
 	lights.push_back(&light3);
 	lights.push_back(&light4);
@@ -441,7 +441,7 @@ int main(int argc, char *argv[])
 		glDisable(GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
 		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, player, pausing, &stallTexturedModel);
-		waterRenderer.render(waters, camera, display);
+		waterRenderer.render(waters, camera, sun, display);
 		guiRenderer.render(guis);
 		display.updateDisplay();
 	}
