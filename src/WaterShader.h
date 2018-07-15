@@ -31,6 +31,7 @@ private:
 	int location_normalMap;
 	int location_lightColor;
 	int location_lightPosition;
+	int location_depthMap;
 };
 
 #endif

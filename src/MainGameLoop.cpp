@@ -412,7 +412,7 @@ int main(int argc, char *argv[])
 	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
 
-	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight());
+	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight() + 1.0f);
 	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight());
 	glm::vec4 screenClipPlane(0, -1, 0, 100000);
 
