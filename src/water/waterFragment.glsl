@@ -57,7 +57,7 @@ void main(void) {
 
 	vec3 viewVector = normalize(toCameraVector);
 	float refractiveFactor = dot(viewVector, normal);
-	refractiveFactor = pow(refractiveFactor, 0.5);
+	refractiveFactor = pow(refractiveFactor, 0.5); // 0.5
 	refractiveFactor = clamp(refractiveFactor, 0.0, 1.0);
 
 	vec3 reflectedLight = reflect(normalize(fromLightVector), normal);
@@ -67,7 +67,7 @@ void main(void) {
 
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2) + vec4(specularHighlights, 0.0);
-	out_Color.a = clamp(waterDepth / 5.0, 0.0, 1.0);
+	//out_Color.a = clamp(waterDepth / 5.0, 0.0, 1.0);
 	// fog/haze
 	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 

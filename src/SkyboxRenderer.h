@@ -10,8 +10,11 @@
 class SkyboxRenderer {
 public:
 	SkyboxRenderer(Loader& loader, glm::mat4& projectionMatrix);
-	void render(Camera& camera);
+	void render(Camera& camera, GLfloat r, GLfloat g, GLfloat b,
+		DisplayManager& display);
 private:
+	void bindTextures();
+
 	static constexpr GLfloat SIZE = 5000.0f;
 	vector<GLfloat> VERTICES = {
 		-SIZE, SIZE,-SIZE,
@@ -56,7 +59,7 @@ private:
 		-SIZE,-SIZE, SIZE,
 		 SIZE,-SIZE, SIZE
 	};
-	
+
 	vector<string> TEXTURE_FILES = {
 		"skyRight",
 		"skyLeft",
@@ -65,9 +68,18 @@ private:
 		"skyBack",
 		"skyFront"
 	};
+	vector<string> NIGHT_TEXTURE_FILES = {
+		"nightRight",
+		"nightLeft",
+		"nightTop",
+		"nightBottom",
+		"nightBack",
+		"nightFront"
+	};
 
 	RawModel* cube;
 	GLuint texture;
+	GLuint nightTexture;
 	SkyboxShader* shader;
 };
 

@@ -429,18 +429,18 @@ int main(int argc, char *argv[])
 		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
-		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, player, pausing, &stallTexturedModel);
+		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, player, pausing, &stallTexturedModel, display);
 		camera.getPosition().y += distance;
 		camera.invertPitch();
 
 		//render refraction texture
 		fbos.bindRefractionFrameBuffer();
-		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, player, pausing, &stallTexturedModel);
+		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, player, pausing, &stallTexturedModel, display);
 
 		//render to screen
 		glDisable(GL_CLIP_DISTANCE0);
 		fbos.unbindCurrentFrameBuffer();
-		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, player, pausing, &stallTexturedModel);
+		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, player, pausing, &stallTexturedModel, display);
 		waterRenderer.render(waters, camera, sun, display);
 		guiRenderer.render(guis);
 		display.updateDisplay();

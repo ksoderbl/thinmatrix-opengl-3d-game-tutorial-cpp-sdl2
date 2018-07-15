@@ -32,7 +32,8 @@ void MasterRenderer::renderScene(
 	glm::vec4& clipPlane,
 	Player& player,
 	bool pausing,
-	TexturedModel* stallTexturedModel)
+	TexturedModel* stallTexturedModel,
+	DisplayManager& display)
 {
 	processEntity(player);
 
@@ -53,7 +54,7 @@ void MasterRenderer::renderScene(
 		processEntity(*entity);
 	}
 
-	render(lights, camera, clipPlane);
+	render(lights, camera, clipPlane, display);
 }
 
 void MasterRenderer::enableCulling()
@@ -76,7 +77,8 @@ void MasterRenderer::cleanUp()
 void MasterRenderer::render(
 	vector<Light*>& lights,
 	Camera& camera,
-	glm::vec4& clipPlane)
+	glm::vec4& clipPlane,
+	DisplayManager& display)
 {
 	prepare();
 	shader->start();
@@ -93,7 +95,7 @@ void MasterRenderer::render(
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
 	terrainShader->stop();
-	skyboxRenderer->render(camera);
+	skyboxRenderer->render(camera, SKY_RED, SKY_GREEN, SKY_BLUE, display);
 	entitiesMap->clear();
 	terrains->clear();
 }

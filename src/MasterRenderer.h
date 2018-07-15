@@ -31,8 +31,9 @@ public:
 		glm::vec4& clipPlane,
 		Player& player,
 		bool pausing,
-		TexturedModel* stallTexturedModel);
-	void render(vector<Light*>& lights, Camera& camera, glm::vec4& clipPlane);
+		TexturedModel* stallTexturedModel,
+		DisplayManager& display);
+	void render(vector<Light*>& lights, Camera& camera, glm::vec4& clipPlane, DisplayManager& display);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
 	void cleanUp();
