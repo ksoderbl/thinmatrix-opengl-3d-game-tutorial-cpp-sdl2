@@ -10,3 +10,5 @@ The tutorials' playlists are on the ThinMatrix youtube channel:
 I'm attempting to translate the LWJGL code to C++. The implementation will aim to get the OpenGL specific parts working flawlessly as the tutorials are mainly about OpenGL. The program structure, classes etc. will be like in the tutorials, but might be a bit different in case I find that convenient.
 
 The target platform is Linux. To compile the program cd to src and run make.
+
+Development liberaries are needed, on Debian or Ubuntu e.g. libglew-dev, libglm-dev, libsdl2-dev and libpng-dev.
