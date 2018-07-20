@@ -396,11 +396,12 @@ int main(int argc, char *argv[])
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 	vector<WaterTile*> waters;
-	waters.push_back(new WaterTile(0, 0, 0));
-	waters.push_back(new WaterTile(0, 100, 0));
-	waters.push_back(new WaterTile(100, 0, 0));
-	waters.push_back(new WaterTile(200, 0, 0));
-	//waters.push_back(new WaterTile(200, 0, 0));
+
+	for (int i = -8; i <= 8; i++) {
+		for (int j = -8; j <= 8; j++) {
+			waters.push_back(new WaterTile(i * 100, j * 100, 0));
+		}
+	}
 
 	glm::vec2 refrGuiPosition(0.75f, -0.75f);
 	glm::vec2 refrGuiScale(0.25f, 0.25f);
