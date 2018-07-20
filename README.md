@@ -11,4 +11,4 @@ I'm attempting to translate the LWJGL code to C++. The implementation will aim t
 
 The target platform is Linux. To compile the program cd to src and run make.
 
-Development liberaries are needed, on Debian or Ubuntu e.g. libglew-dev, libglm-dev, libsdl2-dev and libpng-dev.
+Development libraries are needed, on Debian or Ubuntu e.g. libglew-dev, libglm-dev, libsdl2-dev and libpng-dev.
