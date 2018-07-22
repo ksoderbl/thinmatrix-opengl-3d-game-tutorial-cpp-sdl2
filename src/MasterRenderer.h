@@ -15,10 +15,11 @@
 #include "TerrainRenderer.h"
 #include "SkyboxRenderer.h"
 #include "Loader.h"
+#include "DisplayManager.h"
 
 class MasterRenderer {
 public:
-	MasterRenderer(Loader& loader);
+	MasterRenderer(Loader& loader, DisplayManager& display);
 	~MasterRenderer();
 	static void enableCulling();
 	static void disableCulling();
@@ -47,7 +48,7 @@ public:
 	static constexpr GLfloat SKY_BLUE = 0.69f;
 
 private:
-	void createProjectionMatrix();
+	void createProjectionMatrix(DisplayManager& display);
 
 	glm::mat4 projectionMatrix;
 

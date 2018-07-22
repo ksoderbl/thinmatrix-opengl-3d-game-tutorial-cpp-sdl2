@@ -13,6 +13,7 @@ public:
 	GLsizei getWidth() { return width; }
 	GLsizei getHeight() { return height; }
 	void setSize(GLsizei width, GLsizei height);
+	GLfloat getAspectRatio() { return ((GLfloat) width) / height; }
 
 private:
 	SDL_Window *window;

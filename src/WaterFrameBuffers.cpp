@@ -14,6 +14,7 @@ void WaterFrameBuffers::cleanUp()
 	glDeleteRenderbuffers(1, &reflectionDepthBufferID);
 	glDeleteFramebuffers(1, &refractionFrameBufferID);
 	glDeleteTextures(1, &refractionTextureID);
+	glDeleteRenderbuffers(1, &refractionDepthBufferID);
 	glDeleteTextures(1, &refractionDepthTextureID);
 }
 
@@ -48,12 +49,13 @@ void WaterFrameBuffers::initializeRefractionFrameBuffer()
 {
 	refractionFrameBufferID = createFrameBuffer();
 	refractionTextureID = createTextureAttachment(REFRACTION_WIDTH, REFRACTION_HEIGHT);
+	refractionDepthBufferID = createDepthBufferAttachment(REFLECTION_WIDTH, REFLECTION_HEIGHT);
 	refractionDepthTextureID = createDepthTextureAttachment(REFRACTION_WIDTH, REFRACTION_HEIGHT);
 	unbindCurrentFrameBuffer();
 }
 
 void WaterFrameBuffers::bindFrameBuffer(GLuint framebufferID,
-	GLint width, GLint height)
+	GLsizei width, GLsizei height)
 {
 	// make sure texture isn't bound
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -70,7 +72,7 @@ GLuint WaterFrameBuffers::createFrameBuffer()
 	return framebufferID;
 }
 
-GLuint WaterFrameBuffers::createTextureAttachment(GLint width, GLint height)
+GLuint WaterFrameBuffers::createTextureAttachment(GLsizei width, GLsizei height)
 {
 	GLuint textureID;
 	glGenTextures(1, &textureID);
@@ -83,7 +85,7 @@ GLuint WaterFrameBuffers::createTextureAttachment(GLint width, GLint height)
 	return textureID;
 }
 
-GLuint WaterFrameBuffers::createDepthTextureAttachment(GLint width, GLint height)
+GLuint WaterFrameBuffers::createDepthTextureAttachment(GLsizei width, GLsizei height)
 {
 	GLuint textureID;
 	glGenTextures(1, &textureID);
@@ -96,7 +98,7 @@ GLuint WaterFrameBuffers::createDepthTextureAttachment(GLint width, GLint height
 	return textureID;
 }
 
-GLuint WaterFrameBuffers::createDepthBufferAttachment(GLint width, GLint height)
+GLuint WaterFrameBuffers::createDepthBufferAttachment(GLsizei width, GLsizei height)
 {
 	GLuint depthbufferID;
 	glGenRenderbuffers(1, &depthbufferID);

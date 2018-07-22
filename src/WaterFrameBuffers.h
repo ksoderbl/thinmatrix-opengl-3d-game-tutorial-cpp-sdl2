@@ -16,10 +16,10 @@ public:
 	GLuint getRefractionDepthTexture() { return refractionDepthTextureID; }
 	
 protected:
-	static constexpr GLint REFLECTION_WIDTH = 320*2;
-	static constexpr GLint REFLECTION_HEIGHT = 180*2;
-	static constexpr GLint REFRACTION_WIDTH = 320*2;
-	static constexpr GLint REFRACTION_HEIGHT = 180*2;
+	static constexpr GLsizei REFLECTION_WIDTH = 320*2;
+	static constexpr GLsizei REFLECTION_HEIGHT = 180*2;
+	static constexpr GLsizei REFRACTION_WIDTH = 320*2;
+	static constexpr GLsizei REFRACTION_HEIGHT = 180*2;
 	
 private:
 	DisplayManager& display;
@@ -30,15 +30,16 @@ private:
 	
 	GLuint refractionFrameBufferID;
 	GLuint refractionTextureID;
+	GLuint refractionDepthBufferID;
 	GLuint refractionDepthTextureID;
 	
 	void initializeRefractionFrameBuffer();
 	void initializeReflectionFrameBuffer();
-	void bindFrameBuffer(GLuint framebufferID, GLint width, GLint height);
+	void bindFrameBuffer(GLuint framebufferID, GLsizei width, GLsizei height);
 	GLuint createFrameBuffer();
-	GLuint createTextureAttachment(GLint width, GLint GLheight);
-	GLuint createDepthTextureAttachment(GLint width, GLint GLheight);
-	GLuint createDepthBufferAttachment(GLint width, GLint GLheight);
+	GLuint createTextureAttachment(GLsizei width, GLsizei height);
+	GLuint createDepthTextureAttachment(GLsizei width, GLsizei height);
+	GLuint createDepthBufferAttachment(GLsizei width, GLsizei height);
 };
 
 #endif

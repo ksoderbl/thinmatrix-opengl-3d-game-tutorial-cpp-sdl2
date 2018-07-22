@@ -1,9 +1,9 @@
 #include "MasterRenderer.h"
 
-MasterRenderer::MasterRenderer(Loader& loader)
+MasterRenderer::MasterRenderer(Loader& loader, DisplayManager& display)
 {
 	enableCulling();
-	createProjectionMatrix();
+	createProjectionMatrix(display);
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
 	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
@@ -128,13 +128,16 @@ void MasterRenderer::prepare()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-void MasterRenderer::createProjectionMatrix()
+void MasterRenderer::createProjectionMatrix(DisplayManager& display)
 {
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=7m30s
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=10m10s
 	// http://www.songho.ca/opengl/gl_projectionmatrix.html
+	GLfloat aspectRatio = display.getAspectRatio();
+	cout << "MasterRenderer::createProjectionMatrix: Width " << display.getWidth() << "\n";
+	cout << "MasterRenderer::createProjectionMatrix: Height " << display.getHeight() << "\n";
+	cout << "MasterRenderer::createProjectionMatrix: Aspect ratio set to " << aspectRatio << ":1\n";
 
-	GLfloat aspectRatio = 1280.0f / 720.0f; // TODO
 	GLfloat angle = FOV / 2.0f;
 	GLfloat radAngle = glm::radians(angle);
 	GLfloat tanAngle = tanf(radAngle);

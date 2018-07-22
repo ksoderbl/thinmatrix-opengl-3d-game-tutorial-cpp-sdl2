@@ -389,18 +389,19 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	MasterRenderer renderer(loader);
+	MasterRenderer renderer(loader, display);
 
 	// Water Renderer
 	WaterFrameBuffers fbos(display);
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 	vector<WaterTile*> waters;
-	waters.push_back(new WaterTile(0, 0, 0));
-	waters.push_back(new WaterTile(0, 100, 0));
-	waters.push_back(new WaterTile(100, 0, 0));
-	waters.push_back(new WaterTile(200, 0, 0));
-	//waters.push_back(new WaterTile(200, 0, 0));
+
+	for (int i = -8; i <= 8; i++) {
+		for (int j = -8; j <= 8; j++) {
+			waters.push_back(new WaterTile(i * WaterTile::TILE_SIZE, j * WaterTile::TILE_SIZE, 0));
+		}
+	}
 
 	glm::vec2 refrGuiPosition(0.75f, -0.75f);
 	glm::vec2 refrGuiScale(0.25f, 0.25f);
@@ -413,7 +414,7 @@ int main(int argc, char *argv[])
 	guis.push_back(reflGui);
 
 	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight() + 1.0f);
-	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight());
+	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight() - 1.0f);
 	glm::vec4 screenClipPlane(0, -1, 0, 100000);
 
 	while (!isCloseRequested) {

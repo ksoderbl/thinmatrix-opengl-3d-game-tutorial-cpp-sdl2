@@ -13,7 +13,7 @@ public:
 	void render(Camera& camera, GLfloat r, GLfloat g, GLfloat b,
 		DisplayManager& display);
 private:
-	void bindTextures();
+	void bindTextures(DisplayManager& display);
 
 	static constexpr GLfloat SIZE = 5000.0f;
 	vector<GLfloat> VERTICES = {
@@ -81,6 +81,7 @@ private:
 	GLuint texture;
 	GLuint nightTexture;
 	SkyboxShader* shader;
+	GLfloat myTime = 0;
 };
 
 #endif
