@@ -6,7 +6,6 @@
 class Mouse {
 public:
 	Mouse();
-	
 	int getDY();
 	int getDX();
 	void move(int dx, int dy);
@@ -19,15 +18,18 @@ public:
 	bool isLeftButtonDown();
 	bool isMiddleButtonDown();
 	bool isRightButtonDown();
-
+	void setPosition(int x, int y);
+	int getX();
+	int getY();
 private:
 	int dxTotal;
 	int dyTotal;
+	int x, y;
 
 	int wheelUp;
 	int prevWheelUp;
 	int wheelRight;
-	
+
 	bool leftButtonIsDown;
 	bool middleButtonIsDown;
 	bool rightButtonIsDown;

@@ -34,6 +34,21 @@ int Mouse::getDX()
 	return retval;
 }
 
+void Mouse::setPosition(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+
+int Mouse::getX()
+{
+	return this->x;
+}
+
+int Mouse::getY()
+{
+	return this->y;
+}
 
 void Mouse::incWheelUp(int up)
 {

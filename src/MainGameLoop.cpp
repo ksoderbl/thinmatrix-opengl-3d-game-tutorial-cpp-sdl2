@@ -14,6 +14,7 @@
 #include "TerrainTexturePack.h"
 #include "Player.h"
 #include "Mouse.h"
+#include "MousePicker.h"
 #include "GuiTexture.h"
 #include "GuiRenderer.h"
 #include "WaterRenderer.h"
@@ -151,9 +152,10 @@ void checkEvents(Keyboard& keyboard, Mouse& mouse, DisplayManager& display)
 				mouse.move(event.motion.xrel, event.motion.yrel);
 			}
 
-			//int x = event.motion.x;
-			//int y = event.motion.y;
-			//mouse.setPosition(x, y);
+			int x = event.motion.x;
+			int y = event.motion.y;
+			cout << "Mouse pos: (" << x << ", " << y << ")" << endl;
+			mouse.setPosition(x, y);
 		}
 		else if (event.type == SDL_MOUSEWHEEL) {
 			int x = event.wheel.x;
@@ -390,6 +392,7 @@ int main(int argc, char *argv[])
 	GuiRenderer guiRenderer(loader);
 
 	MasterRenderer renderer(loader, display);
+	MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix());
 
 	// Water Renderer
 	WaterFrameBuffers fbos(display);
@@ -422,6 +425,12 @@ int main(int argc, char *argv[])
 		//TODO: pass the correct terrain to move()
 		player.move(keyboard, display, terrain4);
 		camera.move(keyboard, mouse);
+		picker.update();
+		glm::vec3& currentRay = picker.getCurrentRay();
+		cout << "CurrentRay = ("
+			<< currentRay.x << ", "
+			<< currentRay.y << ", "
+			<< currentRay.z << ")" << endl;
 
 		glEnable(GL_CLIP_DISTANCE0);
 

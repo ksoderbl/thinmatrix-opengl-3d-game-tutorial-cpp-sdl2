@@ -26,11 +26,15 @@ const float gradient = 5.0;
 uniform vec4 clipPlane;
 
 void main() {
+	// local space -> world space
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
 
 	gl_ClipDistance[0] = dot(worldPosition, clipPlane);
 
+	// world space -> eye space
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
+
+	// eye space -> homogenous clip space
 	gl_Position = projectionMatrix * positionRelativeToCam;
 	pass_textureCoords = (textureCoords/numberOfRows) + textureOffset;
 	
