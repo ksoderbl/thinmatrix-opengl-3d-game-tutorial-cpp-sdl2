@@ -7,7 +7,7 @@ Camera::Camera(Player& player) : player(player)
 	pitch = 20.0f;
 	yaw = 0.0f;
 	roll = 0.0f;
-	distanceFromPlayer = 100;
+	distanceFromPlayer = 50;
 	angleAroundPlayer = 0;
 }
 
@@ -79,7 +79,7 @@ void Camera::calculateCameraPosition(GLfloat horizDistance, GLfloat verticDistan
 	GLfloat offsetZ = horizDistance * cos(glm::radians(theta));
 	position.x = player.getPosition().x - offsetX;
 	position.z = player.getPosition().z - offsetZ;
-	position.y = player.getPosition().y + verticDistance;
+	position.y = player.getPosition().y + verticDistance + CAMERA_Y_OFFSET;
 }
 
 GLfloat Camera::calculateHorizontalDistance()
@@ -94,11 +94,14 @@ GLfloat Camera::calculateVerticalDistance()
 
 void Camera::calculateZoom(Mouse& mouse)
 {
-	GLfloat factor = 5.0f;
+	GLfloat factor = 10.0f;
 	GLfloat zoomLevel = mouse.getDWheel() * factor;
 	distanceFromPlayer -= zoomLevel;
-	if (distanceFromPlayer < 10) {
-		distanceFromPlayer = 10;
+	if (distanceFromPlayer < MIN_DISTANCE_FROM_PLAYER) {
+		distanceFromPlayer = MIN_DISTANCE_FROM_PLAYER;
+	}
+	if (distanceFromPlayer > MAX_DISTANCE_FROM_PLAYER) {
+		distanceFromPlayer = MAX_DISTANCE_FROM_PLAYER;
 	}
 }
 
@@ -108,6 +111,12 @@ void Camera::calculatePitch(Mouse& mouse)
 	if (mouse.isRightButtonDown()) {
 		GLfloat pitchChange = mouse.getDY() * factor;
 		pitch += pitchChange;
+		if (pitch < MIN_PITCH) {
+			pitch = MIN_PITCH;
+		}
+		if (pitch > MAX_PITCH) {
+			pitch = MAX_PITCH;
+		}
 	}
 }
 

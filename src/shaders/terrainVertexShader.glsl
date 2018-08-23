@@ -15,8 +15,8 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition[4];
 
-const float density = 0.0010;
-const float gradient = 5.0;
+const float density = 0.0001;
+const float gradient = 1.5;
 
 uniform vec4 clipPlane;
 

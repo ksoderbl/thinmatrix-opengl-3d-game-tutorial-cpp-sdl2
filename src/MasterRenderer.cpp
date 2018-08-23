@@ -30,31 +30,21 @@ void MasterRenderer::renderScene(
 	vector<Light*>&lights,
 	Camera& camera,
 	glm::vec4& clipPlane,
-	Player& player,
-	bool pausing,
-	TexturedModel* stallTexturedModel,
+	bool useClipping,
+	//Player& player,
 	DisplayManager& display)
 {
-	processEntity(player);
+	//processEntity(player);
 
 	for (Terrain* terrain : terrains) {
 		processTerrain(*terrain);
 	}
 
 	for (Entity* entity : entities) {
-		if (!pausing) {
-			if (&(entity->getModel()) == stallTexturedModel) {
-				entity->increasePosition(0.0, -0.5, 0.0);
-				glm::vec3& pos = entity->getPosition();
-				if (pos.y < 0)
-					entity->increasePosition(0.0, 250, 0.0);
-				entity->increaseRotation(1.2, 0.8, 0.7);
-			}
-		}
 		processEntity(*entity);
 	}
 
-	render(lights, camera, clipPlane, display);
+	render(lights, camera, clipPlane, useClipping, display);
 }
 
 void MasterRenderer::enableCulling()
@@ -78,9 +68,17 @@ void MasterRenderer::render(
 	vector<Light*>& lights,
 	Camera& camera,
 	glm::vec4& clipPlane,
+	bool useClipping,
 	DisplayManager& display)
 {
 	prepare();
+
+	if (useClipping) {
+		glEnable(GL_CLIP_DISTANCE0);
+	} else {
+		glDisable(GL_CLIP_DISTANCE0);
+	}
+
 	shader->start();
 	shader->loadClipPlane(clipPlane);
 	shader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
@@ -88,6 +86,7 @@ void MasterRenderer::render(
 	shader->loadViewMatrix(camera);
 	renderer->render(entitiesMap);
 	shader->stop();
+
 	terrainShader->start();
 	terrainShader->loadClipPlane(clipPlane);
 	terrainShader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
@@ -95,7 +94,13 @@ void MasterRenderer::render(
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
 	terrainShader->stop();
+
+	if (useClipping) {
+		glDisable(GL_CLIP_DISTANCE0);
+	}
+
 	skyboxRenderer->render(camera, SKY_RED, SKY_GREEN, SKY_BLUE, display);
+
 	entitiesMap->clear();
 	terrains->clear();
 }

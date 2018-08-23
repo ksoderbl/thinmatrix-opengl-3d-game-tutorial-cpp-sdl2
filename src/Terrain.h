@@ -31,7 +31,7 @@ public:
 
 private:
 	static constexpr GLfloat SIZE = 800;
-	static constexpr GLfloat MAX_HEIGHT = 200;
+	static constexpr GLfloat MAX_HEIGHT = 40;
 	static constexpr GLfloat MAX_PIXEL_COLOR = 256 * 256 * 256;
 
 	glm::vec3 position;

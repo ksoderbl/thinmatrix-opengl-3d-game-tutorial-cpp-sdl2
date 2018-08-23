@@ -81,7 +81,7 @@ private:
 	GLuint texture;
 	GLuint nightTexture;
 	SkyboxShader* shader;
-	GLfloat myTime = 0;
+	GLfloat myTime = 5000;
 };
 
 #endif

@@ -15,10 +15,10 @@ uniform vec3 lightPosition;
 
 uniform vec3 cameraPosition;
 
-const float tiling = 4.0;
+const float tiling = 10.0;
 
-const float density = 0.0010;
-const float gradient = 5.0;
+const float density = 0.0001;
+const float gradient = 1.5;
 
 void main(void) {
 	vec4 worldPosition = modelMatrix * vec4(position.x, 0.0, position.y, 1.0);

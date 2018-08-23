@@ -24,7 +24,7 @@ void SkyboxRenderer::render(Camera& camera, GLfloat r, GLfloat g, GLfloat b,
 	shader->loadFogColor(r, g, b);
 	// Disable this, otherwise one side of the sky is clipped from the
 	// reflection and refraction textures
-	glDisable(GL_CLIP_DISTANCE0);
+	// glDisable(GL_CLIP_DISTANCE0);
 	glBindVertexArray(cube->getVaoID());
 	glEnableVertexAttribArray(0);
 	bindTextures(display);
@@ -36,7 +36,7 @@ void SkyboxRenderer::render(Camera& camera, GLfloat r, GLfloat g, GLfloat b,
 
 void SkyboxRenderer::bindTextures(DisplayManager& display)
 {
-	myTime += display.getFrameTimeSeconds() * 1000;
+	myTime += display.getFrameTimeSeconds() * 100; // original: * 1000
 	while (myTime >= 24000) {
 		myTime -= 24000;
 	}

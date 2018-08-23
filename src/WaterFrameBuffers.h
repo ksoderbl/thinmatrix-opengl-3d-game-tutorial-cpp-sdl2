@@ -15,12 +15,6 @@ public:
 	GLuint getRefractionTexture() { return refractionTextureID; }
 	GLuint getRefractionDepthTexture() { return refractionDepthTextureID; }
 	
-protected:
-	static constexpr GLsizei REFLECTION_WIDTH = 320*2;
-	static constexpr GLsizei REFLECTION_HEIGHT = 180*2;
-	static constexpr GLsizei REFRACTION_WIDTH = 320*2;
-	static constexpr GLsizei REFRACTION_HEIGHT = 180*2;
-	
 private:
 	DisplayManager& display;
 

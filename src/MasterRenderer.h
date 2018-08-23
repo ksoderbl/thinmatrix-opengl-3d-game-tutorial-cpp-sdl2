@@ -30,11 +30,15 @@ public:
 		vector<Light*>&lights,
 		Camera& camera,
 		glm::vec4& clipPlane,
-		Player& player,
-		bool pausing,
-		TexturedModel* stallTexturedModel,
+		bool useClipping,
+		//Player& player,
 		DisplayManager& display);
-	void render(vector<Light*>& lights, Camera& camera, glm::vec4& clipPlane, DisplayManager& display);
+	void render(
+		vector<Light*>& lights,
+		Camera& camera,
+		glm::vec4& clipPlane,
+		bool useClipping,
+		DisplayManager& display);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
 	void cleanUp();

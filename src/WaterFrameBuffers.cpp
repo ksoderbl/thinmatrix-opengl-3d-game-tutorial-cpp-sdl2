@@ -1,6 +1,11 @@
 #include "WaterFrameBuffers.h"
 #include "Maths.h"
 
+static constexpr GLsizei REFLECTION_WIDTH = 1280 / 4;
+static constexpr GLsizei REFLECTION_HEIGHT = 720 / 4;
+static constexpr GLsizei REFRACTION_WIDTH = 1280 / 4;
+static constexpr GLsizei REFRACTION_HEIGHT = 720 / 4;
+
 WaterFrameBuffers::WaterFrameBuffers(DisplayManager &display) : display(display)
 {
 	initializeReflectionFrameBuffer();

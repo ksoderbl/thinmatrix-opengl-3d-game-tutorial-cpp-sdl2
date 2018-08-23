@@ -5,7 +5,7 @@
 
 class WaterTile {
 public:
-	static constexpr GLfloat TILE_SIZE = 100;
+	static constexpr GLfloat TILE_SIZE = 800;
 	WaterTile(GLfloat centerX, GLfloat centerZ, GLfloat height);
 	GLfloat getHeight();
 	GLfloat getX();
