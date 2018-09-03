@@ -192,18 +192,25 @@ static GLfloat my_rand()
 	return f;
 }
 
+static int my_rand_int(int m)
+{
+	int x = rand() % m;
+	return x;
+}
+
 int main(int argc, char *argv[])
 {
 	DisplayManager display;
 
 	display.createDisplay();
-	srand(time(NULL));
+	srand(676452);
 
 	Keyboard keyboard;
 	Mouse mouse;
 	Loader loader;
 
-	// terrain texture stuff
+	//******** TERRAIN TEXTURE STUFF ********
+
 	TerrainTexture backgroundTexture(loader.loadTexture("grassy2"));
 	TerrainTexture rTexture(loader.loadTexture("dirt"));
 	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
@@ -211,36 +218,19 @@ int main(int argc, char *argv[])
 	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
 	TerrainTexture blendMap(loader.loadTexture("blendMap"));
 
-	vector<Terrain*> terrains;
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
-	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
-	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
-	//Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
-	terrains.push_back(&terrain);
-	//terrains.push_back(&terrain2);
-	//terrains.push_back(&terrain3);
-	//terrains.push_back(&terrain4);
+	//******** LOAD MODELS ******************
 
 	OBJFileLoader objLoader;
-	vector<Entity*> entities;
 
 	// stall
-	ModelData *stallModelData = objLoader.loadOBJ("stall");
-	RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
-		stallModelData->getNormals(), stallModelData->getIndices());
-	GLuint stallTextureID = loader.loadTexture("stallTexture");
-	ModelTexture stallModelTexture = ModelTexture(stallTextureID);
-	TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
-	stallModelTexture.setShineDamper(10);
-	stallModelTexture.setReflectivity(1);
-
-	for (int i = 0; i < 0; i++) {
-		GLfloat x = my_rand() * 350 - 175;
-		GLfloat y = my_rand() * 250;
-		GLfloat z = my_rand() * 350 - 175;
-		entities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
-			my_rand() * 180, my_rand() * 180, 0, 2));
-	}
+	//ModelData *stallModelData = objLoader.loadOBJ("stall");
+	//RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
+	//	stallModelData->getNormals(), stallModelData->getIndices());
+	//GLuint stallTextureID = loader.loadTexture("stallTexture");
+	//ModelTexture stallModelTexture = ModelTexture(stallTextureID);
+	//TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
+	//stallModelTexture.setShineDamper(10);
+	//stallModelTexture.setReflectivity(1);
 
 	// pine, was tree
 	ModelData *pineModelData = objLoader.loadOBJ("pine");
@@ -252,14 +242,6 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setShineDamper(4);
 	//pineModelTexture.setReflectivity(0.3);
 
-	for (int i = 0; i < 40; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 1 + 1));
-	}
-
 	// low poly tree
 	ModelData *lowPolyTreeModelData = objLoader.loadOBJ("lowPolyTree");
 	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
@@ -269,14 +251,6 @@ int main(int argc, char *argv[])
 	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
-
-	for (int i = 0; i < 2; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 1 + 1));
-	}
 
 	// grass
 	ModelData *grassModelData = objLoader.loadOBJ("grassModel");
@@ -289,14 +263,6 @@ int main(int argc, char *argv[])
 	grassTexturedModel.getTexture().setUseFakeLighting(true);
 	grassModelTexture.setShineDamper(1);
 	grassModelTexture.setReflectivity(0.5);
-
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 3 + 1));
-	}
 
 	// fern
 	ModelData *fernModelData = objLoader.loadOBJ("fern");
@@ -311,14 +277,6 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setHasTransparency(true);
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 
-	for (int i = 0; i < 120; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
-			rand() % 4, 0,  my_rand() * 360, 0, my_rand() * 0.5 + 1));
-	}
-
 	// flower, using fern as raw model, seems to work
 	ModelData *flowerModelData = objLoader.loadOBJ("fern");
 	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
@@ -332,6 +290,27 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
+	vector<Terrain*> terrains;
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
+	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
+	//Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
+	terrains.push_back(&terrain);
+	//terrains.push_back(&terrain2);
+	//terrains.push_back(&terrain3);
+	//terrains.push_back(&terrain4);
+
+	vector<Entity*> entities;
+
+	/*
+	for (int i = 0; i < 0; i++) {
+		GLfloat x = my_rand() * 350 - 175;
+		GLfloat y = my_rand() * 250;
+		GLfloat z = my_rand() * 350 - 175;
+		entities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
+			my_rand() * 180, my_rand() * 180, 0, 2));
+	}
+
 	for (int i = 0; i < 40; i++) {
 		GLfloat x = my_rand() * 800;
 		GLfloat z = my_rand() * 800;
@@ -340,27 +319,89 @@ int main(int argc, char *argv[])
 			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
 	}
 
+	for (int i = 0; i < 40; i++) {
+		GLfloat x = my_rand() * 800;
+		GLfloat z = my_rand() * 800;
+		GLfloat y = terrain.getHeightOfTerrain(x, z);
+		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
+			0, 0, 0, my_rand() * 1 + 1));
+	}
+
+	for (int i = 0; i < 2; i++) {
+		GLfloat x = my_rand() * 800;
+		GLfloat z = my_rand() * 800;
+		GLfloat y = terrain.getHeightOfTerrain(x, z);
+		entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
+			0, my_rand() * 360, 0, my_rand() * 1 + 1));
+	}
+
+	for (int i = 0; i < 100; i++) {
+		GLfloat x = my_rand() * 800;
+		GLfloat z = my_rand() * 800;
+		GLfloat y = terrain.getHeightOfTerrain(x, z);
+		entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
+			0, my_rand() * 360, 0, my_rand() * 3 + 1));
+	}
+
+	for (int i = 0; i < 120; i++) {
+		GLfloat x = my_rand() * 800;
+		GLfloat z = my_rand() * 800;
+		GLfloat y = terrain.getHeightOfTerrain(x, z);
+		entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
+			rand() % 4, 0,  my_rand() * 360, 0, my_rand() * 0.5 + 1));
+	}
+	*/
+
+	for (int i = 0; i < 400; i++) {
+		if (i % 1 == 0) {
+			GLfloat x = my_rand() * Terrain::SIZE;
+			GLfloat z = my_rand() * Terrain::SIZE;
+			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z), my_rand_int(4),
+					0, my_rand() * 360, 0, 0.9f));
+		}
+
+		if (i % 5 == 0) {
+			GLfloat x = my_rand() * Terrain::SIZE;
+			GLfloat z = my_rand() * Terrain::SIZE;
+			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
+					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+			x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
+					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+
+			x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
+					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+		}
+	}
+
 	vector<Light*> lights;
-	Light sun = Light(glm::vec3(0, 3000, -5000), glm::vec3(0.5f, 0.5f, 0.5f));
-	Light light2 = Light(glm::vec3(185, 10, -293+800), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
-	Light light3 = Light(glm::vec3(370, 17, -300+800), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
-	Light light4 = Light(glm::vec3(293, 7, -305+800),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
+	Light sun = Light(glm::vec3(10000, 3000, 3000), glm::vec3(1.0f, 1.0f, 1.0f));
+	Light light2 = Light(glm::vec3(185, 10, -293 + Terrain::SIZE), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
+	Light light3 = Light(glm::vec3(370, 17, -300 + Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
+	//Light light4 = Light(glm::vec3(293, 7, -305 + Terrain::SIZE),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&sun);
 	lights.push_back(&light2);
 	lights.push_back(&light3);
-	lights.push_back(&light4);
+	//lights.push_back(&light4);
 
 	ModelData *lampModelData = objLoader.loadOBJ("lamp");
 	RawModel* lampRawModel = loader.loadToVAO(lampModelData->getVertices(), lampModelData->getTextureCoords(),
 		lampModelData->getNormals(), lampModelData->getIndices());
 	GLuint lampTextureID = loader.loadTexture("lamp");
 	ModelTexture lampModelTexture = ModelTexture(lampTextureID);
-	TexturedModel lamp = TexturedModel(*lampRawModel, lampModelTexture);
-	lamp.getTexture().setUseFakeLighting(true);
+	TexturedModel lampModel = TexturedModel(*lampRawModel, lampModelTexture);
+	lampModel.getTexture().setUseFakeLighting(true);
 
-	entities.push_back(new Entity(lamp, glm::vec3(185, -4.7f, -293+800), 0, 0, 0, 1));
-	entities.push_back(new Entity(lamp, glm::vec3(370, 4.2f, -300+800), 0, 0, 0, 1));
-	entities.push_back(new Entity(lamp, glm::vec3(293, -6.8f, -305+800), 0, 0, 0, 1));
+	entities.push_back(new Entity(lampModel, glm::vec3(185, -4.7f, -293 + Terrain::SIZE), 0, 0, 0, 1));
+	entities.push_back(new Entity(lampModel, glm::vec3(370,  4.2f, -300 + Terrain::SIZE), 0, 0, 0, 1));
+	entities.push_back(new Entity(lampModel, glm::vec3(293, -6.8f, -305 + Terrain::SIZE), 0, 0, 0, 1));
 
 
 
@@ -373,7 +414,7 @@ int main(int argc, char *argv[])
 	playerModelTexture.setShineDamper(10);
 	playerModelTexture.setReflectivity(1);
 
-	Player player(playerTexturedModel, glm::vec3(400, 0, 400), 0, 180, 0, 0.6f);
+	Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/2, 0, Terrain::SIZE/2), 0, 0, 0, 0.5f);
 
 	entities.push_back(&player);
 
@@ -383,86 +424,130 @@ int main(int argc, char *argv[])
 	glm::vec2 position(0.7f, 0.5f);
 	glm::vec2 scale(0.125f, 0.125f);
 	GuiTexture *gui = new GuiTexture(loader.loadTexture("socuwan"), position, scale);
-	guis.push_back(gui);
+
 	glm::vec2 position2(0.5f, 0.6f);
 	glm::vec2 scale2(0.2f, 0.2f);
 	GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
-	guis.push_back(gui2);
+
 	glm::vec2 position3(0.8f, 0.9f);
 	glm::vec2 scale3(0.2f, 0.2f);
 	GuiTexture *gui3 = new GuiTexture(loader.loadTexture("health"), position3, scale3);
+
+	guis.push_back(gui);
+	guis.push_back(gui2);
 	guis.push_back(gui3);
 
 	GuiRenderer guiRenderer(loader);
 
 	MasterRenderer renderer(loader, display);
-	MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix());
 
 	// Water Renderer
 	WaterFrameBuffers fbos(display);
 	WaterShader waterShader;
-	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), renderer.getNearPlane(), renderer.getFarPlane(), fbos);
 	vector<WaterTile*> waters;
 
-	//for (int i = -8; i <= 8; i++) {
-	//	for (int j = -8; j <= 8; j++) {
-	//		waters.push_back(new WaterTile(i * WaterTile::TILE_SIZE, j * WaterTile::TILE_SIZE, 0));
-	//	}
-	//}
-	waters.push_back(new WaterTile(WaterTile::TILE_SIZE / 2, WaterTile::TILE_SIZE / 2, 0));
+	int maxWaterIndex = 3;
+	for (int j = -maxWaterIndex; j <= maxWaterIndex; j++) {
+		for (int i = -maxWaterIndex; i <= maxWaterIndex; i++) {
+			WaterTile* water = new WaterTile(
+				Terrain::SIZE / 2 + i * WaterTile::TILE_SIZE,
+				Terrain::SIZE / 2 + j * WaterTile::TILE_SIZE,
+				2.0f);
+			waters.push_back(water);
+		}
+	}
+	WaterTile* water = waters[0];
 
-	glm::vec2 refrGuiPosition(0.67f, -0.67f);
-	glm::vec2 refrGuiScale(0.33f, 0.33f);
+	glm::vec2 refrGuiPosition(0.8f, -0.8f);
+	glm::vec2 refrGuiScale(0.2f, 0.2f);
 	GuiTexture *refrGui = new GuiTexture(fbos.getRefractionTexture(), refrGuiPosition, refrGuiScale);
 	guis.push_back(refrGui);
 
-	glm::vec2 reflGuiPosition(-0.67f, -0.67f);
-	glm::vec2 reflGuiScale(0.33f, 0.33f);
+	glm::vec2 reflGuiPosition(-0.8f, -0.8f);
+	glm::vec2 reflGuiScale(0.2f, 0.2f);
 	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
 
-	glm::vec4 reflClipPlane(0, 1, 0, -waters[0]->getHeight() - 1.0f);
-	glm::vec4 refrClipPlane(0, -1, 0, waters[0]->getHeight() + 1.0f);
-	glm::vec4 screenClipPlane(0, -1, 0, 100000);
+	glm::vec4 reflClipPlane(0, 1, 0, -water->getHeight() + 0.5f);
+	glm::vec4 refrClipPlane(0, -1, 0, water->getHeight() + 0.5f);
+	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
+	MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);
+	Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
+	entities.push_back(lampEntity);
+	Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
+	lights.push_back(&light);
+
+	int loops = 0;
 
 	while (!isCloseRequested) {
+
+		//cout << "MainGameLoop" << endl;
+
 		checkEvents(keyboard, mouse, display);
 
-		//TODO: pass the correct terrain to move()
-		player.move(keyboard, display, terrain);
-		camera.move(keyboard, mouse);
-		picker.update();
-		glm::vec3& currentRay = picker.getCurrentRay();
-		//cout << "CurrentRay = ("
-		//	<< currentRay.x << ", "
-		//	<< currentRay.y << ", "
-		//	<< currentRay.z << ")" << endl;
+		//cout << "MainGameLoop checkEvents OK" << endl;
 
-		//glEnable(GL_CLIP_DISTANCE0);
+		//TODO: pass the correct terrain to move()
+		player.move(keyboard, display, terrain, water);
+
+		//cout << "MainGameLoop player move OK" << endl;
+
+		camera.move(keyboard, mouse);
+
+		//cout << "MainGameLoop camera move OK" << endl;
+
+		picker.update();
+
+		//cout << "MainGameLoop picker update OK" << endl;
+
+		glm::vec3* terrainPoint = picker.getCurrentTerrainPoint();
+		if (terrainPoint != nullptr) {
+			glm::vec3 pt = *terrainPoint;
+			lampEntity->setPosition(pt);
+			light.setPosition(glm::vec3(pt.x, pt.y + 14, pt.z));
+		}
+
+		//cout << "MainGameLoop picker terrain point OK" << endl;
 
 		//render reflection texture
 		fbos.bindReflectionFrameBuffer();
 		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
-		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, true, /*player,*/ display);
+		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, true, display);
 		camera.getPosition().y += distance;
 		camera.invertPitch();
+
+		//cout << "MainGameLoop reflection frame buffer OK" << endl;
 
 		//render refraction texture
 		fbos.bindRefractionFrameBuffer();
 		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, true, /*player,*/ display);
 
+		//cout << "MainGameLoop refraction frame buffer OK" << endl;
+
 		//render to screen
 		fbos.unbindCurrentFrameBuffer();
 
-		//glDisable(GL_CLIP_DISTANCE0);
-
 		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, false, /*player,*/ display);
+
+		//cout << "MainGameLoop render scene OK" << endl;
+
 		waterRenderer.render(waters, camera, sun, display);
+
+		//cout << "MainGameLoop water renderer OK" << endl;
+
 		guiRenderer.render(guis);
+
+		//cout << "MainGameLoop gui renderer OK" << endl;
+
 		display.updateDisplay();
+
+		//cout << "MainGameLoop update display OK" << endl;
+
+		loops++;
 	}
 
 	fbos.cleanUp();

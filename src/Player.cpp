@@ -31,7 +31,7 @@ void Player::checkInputs(Keyboard& keyboard)
 	}
 }
 
-void Player::move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain)
+void Player::move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain, WaterTile* water)
 {
 	checkInputs(keyboard);
 	increaseRotation(0, currentTurnSpeed * manager.getFrameTimeSeconds(), 0);
@@ -47,6 +47,15 @@ void Player::move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain)
 		upwardsSpeed = 0;
 		isInAir = false;
 		pos.y = terrainHeight;
+	}
+
+	// assume all low places are filled with water
+	// make player swim so the head stays above surface
+	GLfloat playerHeight = 5;
+	if (getPosition().y < water->getHeight() - playerHeight) {
+		upwardsSpeed = 0;
+		isInAir = false;
+		getPosition().y = water->getHeight() - playerHeight;
 	}
 }
 

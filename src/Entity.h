@@ -26,7 +26,15 @@ public:
 	void increaseRotation(GLfloat dx, GLfloat dy, GLfloat dz);
 
 	TexturedModel& getModel() { return model; }
+	//void setModel(TexturedModel& model) {
+	//	this->model = model;
+	//}
+
 	glm::vec3& getPosition() { return position; }
+	void setPosition(glm::vec3& position) {
+		this->position = position;
+	}
+
 	GLfloat getRotX() { return rotX; }
 	GLfloat getRotY() { return rotY; }
 	GLfloat getRotZ() { return rotZ; }

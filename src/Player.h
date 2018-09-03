@@ -6,6 +6,7 @@
 #include "Keyboard.h"
 #include "DisplayManager.h"
 #include "Terrain.h"
+#include "WaterTile.h"
 
 class Player : public Entity
 {
@@ -14,7 +15,7 @@ public:
 		glm::vec3 position,
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
 		GLfloat scale);
-	void move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain);
+	void move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain, WaterTile* water);
 	
 private:
 	void jump();

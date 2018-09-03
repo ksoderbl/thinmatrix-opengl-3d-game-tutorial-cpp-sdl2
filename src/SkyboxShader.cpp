@@ -20,7 +20,7 @@ void SkyboxShader::getAllUniformLocations()
 {
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
-	location_fogColor = getUniformLocation("fogColor");
+	location_skyColor = getUniformLocation("skyColor");
 	location_cubeMap = getUniformLocation("cubeMap");
 	location_cubeMap2 = getUniformLocation("cubeMap2");
 	location_blendFactor = getUniformLocation("blendFactor");
@@ -46,7 +46,7 @@ void SkyboxShader::loadViewMatrix(Camera& camera, DisplayManager& display)
 void SkyboxShader::loadFogColor(GLfloat r, GLfloat g, GLfloat b)
 {
 	glm::vec3 vec(r, g, b);
-	loadVector(location_fogColor, vec);
+	loadVector(location_skyColor, vec);
 }
 
 void SkyboxShader::connectTextureUnits()

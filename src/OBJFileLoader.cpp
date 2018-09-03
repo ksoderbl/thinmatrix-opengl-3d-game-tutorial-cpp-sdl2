@@ -56,9 +56,9 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 		}
 		else if (starts == "f") {
 			// break when faces start
-			cout << "OBJFileLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
-			cout << "OBJFileLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
-			cout << "OBJFileLoader: Read " << normals.size() << " normals from " << fileName << endl;
+			//cout << "OBJFileLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
+			//cout << "OBJFileLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
+			//cout << "OBJFileLoader: Read " << normals.size() << " normals from " << fileName << endl;
 			break;
 		}
 	}
@@ -114,7 +114,7 @@ ModelData *OBJFileLoader::loadOBJ(string objFileName)
 		getline(inFile, line);
 	}
 
-	cout << "OBJFileLoader: Read " << faces << " faces from " << fileName << endl;
+	//cout << "OBJFileLoader: Read " << faces << " faces from " << fileName << endl;
 
 	removeUnusedVertices(vertices);
 

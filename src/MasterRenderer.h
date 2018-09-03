@@ -43,6 +43,8 @@ public:
 	void processEntity(Entity& entity);
 	void cleanUp();
 	glm::mat4& getProjectionMatrix();
+	GLfloat getNearPlane() { return NEAR_PLANE; }
+	GLfloat getFarPlane() { return FAR_PLANE; }
 
 	static constexpr GLfloat FOV = 70;
 	static constexpr GLfloat NEAR_PLANE = 0.1f;

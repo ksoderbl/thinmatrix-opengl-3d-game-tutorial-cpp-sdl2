@@ -20,7 +20,7 @@ public:
 private:
 	int location_projectionMatrix;
 	int location_viewMatrix;
-	int location_fogColor;
+	int location_skyColor;
 	int location_cubeMap;
 	int location_cubeMap2;
 	int location_blendFactor;
