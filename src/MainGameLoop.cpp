@@ -252,6 +252,16 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
+	// bobble tree
+	ModelData *bobbleTreeModelData = objLoader.loadOBJ("bobbleTree");
+	RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(),
+		bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
+	GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
+	ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
+	TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
+	bobbleTreeModelTexture.setShineDamper(4);
+	bobbleTreeModelTexture.setReflectivity(0.3);
+
 	// grass
 	ModelData *grassModelData = objLoader.loadOBJ("grassModel");
 	RawModel* grassRawModel = loader.loadToVAO(grassModelData->getVertices(), grassModelData->getTextureCoords(),
@@ -290,6 +300,15 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setHasTransparency(true);
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
+	// toon rocks
+	ModelData *toonRocksModelData = objLoader.loadOBJ("toonRocks");
+	RawModel* toonRocksRawModel = loader.loadToVAO(
+		toonRocksModelData->getVertices(), toonRocksModelData->getTextureCoords(),
+		toonRocksModelData->getNormals(), toonRocksModelData->getIndices());
+	GLuint toonRocksTextureID = loader.loadTexture("toonRocks");
+	ModelTexture toonRocksModelTexture = ModelTexture(toonRocksTextureID);
+	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
+
 	vector<Terrain*> terrains;
 	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
@@ -302,56 +321,6 @@ int main(int argc, char *argv[])
 
 	vector<Entity*> entities;
 
-	/*
-	for (int i = 0; i < 0; i++) {
-		GLfloat x = my_rand() * 350 - 175;
-		GLfloat y = my_rand() * 250;
-		GLfloat z = my_rand() * 350 - 175;
-		entities.push_back(new Entity(stallTexturedModel, glm::vec3(x, y, z),
-			my_rand() * 180, my_rand() * 180, 0, 2));
-	}
-
-	for (int i = 0; i < 40; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(flowerTexturedModel, glm::vec3(x, y, z),
-			rand() % 9, 0,  my_rand() * 360, 0, my_rand() * 1 + 1));
-	}
-
-	for (int i = 0; i < 40; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
-			0, 0, 0, my_rand() * 1 + 1));
-	}
-
-	for (int i = 0; i < 2; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 1 + 1));
-	}
-
-	for (int i = 0; i < 100; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 3 + 1));
-	}
-
-	for (int i = 0; i < 120; i++) {
-		GLfloat x = my_rand() * 800;
-		GLfloat z = my_rand() * 800;
-		GLfloat y = terrain.getHeightOfTerrain(x, z);
-		entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z),
-			rand() % 4, 0,  my_rand() * 360, 0, my_rand() * 0.5 + 1));
-	}
-	*/
-
 	for (int i = 0; i < 400; i++) {
 		if (i % 1 == 0) {
 			GLfloat x = my_rand() * Terrain::SIZE;
@@ -362,22 +331,36 @@ int main(int argc, char *argv[])
 		}
 
 		if (i % 5 == 0) {
-			GLfloat x = my_rand() * Terrain::SIZE;
-			GLfloat z = my_rand() * Terrain::SIZE;
-			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			GLfloat x, y, z;
+			/*x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
 			entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
 					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+
 			x = my_rand() * Terrain::SIZE;
 			z = my_rand() * Terrain::SIZE;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+			0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));*/
 
 			x = my_rand() * Terrain::SIZE;
 			z = my_rand() * Terrain::SIZE;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
 					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
+
+			x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(toonRocksTexturedModel, glm::vec3(x, y, z),
+			0, my_rand() * 360, 0, my_rand() * 1.0f + 1.0f));
+
+			x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
+			0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
 		}
 	}
 
