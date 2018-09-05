@@ -332,7 +332,8 @@ int main(int argc, char *argv[])
 
 		if (i % 5 == 0) {
 			GLfloat x, y, z;
-			/*x = my_rand() * Terrain::SIZE;
+
+			x = my_rand() * Terrain::SIZE;
 			z = my_rand() * Terrain::SIZE;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
@@ -342,7 +343,7 @@ int main(int argc, char *argv[])
 			z = my_rand() * Terrain::SIZE;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));*/
+			0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
 
 			x = my_rand() * Terrain::SIZE;
 			z = my_rand() * Terrain::SIZE;
@@ -456,7 +457,7 @@ int main(int argc, char *argv[])
 	glm::vec4 refrClipPlane(0, -1, 0, water->getHeight() + 0.5f);
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
-	MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);
+	/*MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);*/
 	Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
 	entities.push_back(lampEntity);
 	Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -481,16 +482,18 @@ int main(int argc, char *argv[])
 
 		//cout << "MainGameLoop camera move OK" << endl;
 
-		picker.update();
+		/*picker.update();*/
 
 		//cout << "MainGameLoop picker update OK" << endl;
 
+		/*
 		glm::vec3* terrainPoint = picker.getCurrentTerrainPoint();
 		if (terrainPoint != nullptr) {
 			glm::vec3 pt = *terrainPoint;
 			lampEntity->setPosition(pt);
 			light.setPosition(glm::vec3(pt.x, pt.y + 14, pt.z));
 		}
+		*/
 
 		//cout << "MainGameLoop picker terrain point OK" << endl;
 

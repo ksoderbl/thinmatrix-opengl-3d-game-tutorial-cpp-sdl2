@@ -2,7 +2,7 @@
 
 #include "DisplayManager.h"
 
-const char *S_APPNAME = "OpenGL 3D Game Tutorial 28: Day/Night & OpenGL Water Tutorial 8: Soft Edges";
+const char *S_APPNAME = "OpenGL 3D Game Tutorial 30: Cel Shading & OpenGL Water Tutorial 8: Soft Edges";
 
 void DisplayManager::createDisplay()
 {
