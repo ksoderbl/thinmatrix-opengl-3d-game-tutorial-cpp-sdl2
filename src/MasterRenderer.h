@@ -49,9 +49,13 @@ public:
 	static constexpr GLfloat FOV = 70;
 	static constexpr GLfloat NEAR_PLANE = 0.1f;
 	static constexpr GLfloat FAR_PLANE = 10000.0f;
-	static constexpr GLfloat SKY_RED = 0.5444f;
-	static constexpr GLfloat SKY_GREEN = 0.62f;
-	static constexpr GLfloat SKY_BLUE = 0.69f;
+	//static constexpr GLfloat SKY_RED = 0.5444f;
+	//static constexpr GLfloat SKY_GREEN = 0.62f;
+	//static constexpr GLfloat SKY_BLUE = 0.69f;
+	//For Tutorial 30 Cel Shading
+	static constexpr GLfloat SKY_RED = 0.9444f;
+	static constexpr GLfloat SKY_GREEN = 0.52f;
+	static constexpr GLfloat SKY_BLUE = 0.79f;
 
 private:
 	void createProjectionMatrix(DisplayManager& display);
