@@ -7,7 +7,7 @@ Camera::Camera(Player& player) : player(player)
 	pitch = 20.0f;
 	yaw = 0.0f;
 	roll = 0.0f;
-	distanceFromPlayer = 50;
+	distanceFromPlayer = 35;
 	angleAroundPlayer = 0;
 }
 
@@ -20,6 +20,8 @@ void Camera::move(Keyboard& keyboard, Mouse& mouse)
 	GLfloat verticalDistance = calculateVerticalDistance();
 	calculateCameraPosition(horizontalDistance, verticalDistance);
 	yaw = 180 - (player.getRotY() + angleAroundPlayer);
+	yaw = (GLfloat) fmod(yaw, 360);
+
 	/*
 	double angle = glm::radians(yaw);
 	double s = 2 * sin(angle);
@@ -84,37 +86,36 @@ void Camera::calculateCameraPosition(GLfloat horizDistance, GLfloat verticDistan
 
 GLfloat Camera::calculateHorizontalDistance()
 {
-	return distanceFromPlayer * cos(glm::radians(pitch));
+	return distanceFromPlayer * cos(glm::radians(pitch + CAMERA_PITCH_OFFSET));
 }
 
 GLfloat Camera::calculateVerticalDistance()
 {
-	return distanceFromPlayer * sin(glm::radians(pitch));
+	return distanceFromPlayer * sin(glm::radians(pitch + CAMERA_PITCH_OFFSET));
 }
 
 void Camera::calculateZoom(Mouse& mouse)
 {
-	GLfloat factor = 10.0f;
+	GLfloat factor = ZOOM_LEVEL_FACTOR;
 	GLfloat zoomLevel = mouse.getDWheel() * factor;
 	distanceFromPlayer -= zoomLevel;
 	if (distanceFromPlayer < MIN_DISTANCE_FROM_PLAYER) {
 		distanceFromPlayer = MIN_DISTANCE_FROM_PLAYER;
 	}
-	if (distanceFromPlayer > MAX_DISTANCE_FROM_PLAYER) {
-		distanceFromPlayer = MAX_DISTANCE_FROM_PLAYER;
-	}
+	//else if (distanceFromPlayer > MAX_DISTANCE_FROM_PLAYER) {
+	//	distanceFromPlayer = MAX_DISTANCE_FROM_PLAYER;
+	//}
 }
 
 void Camera::calculatePitch(Mouse& mouse)
 {
-	GLfloat factor = 0.3f;
+	GLfloat factor = PITCH_CHANGE_FACTOR;
 	if (mouse.isRightButtonDown()) {
 		GLfloat pitchChange = mouse.getDY() * factor;
 		pitch += pitchChange;
 		if (pitch < MIN_PITCH) {
 			pitch = MIN_PITCH;
-		}
-		if (pitch > MAX_PITCH) {
+		} else if (pitch > MAX_PITCH) {
 			pitch = MAX_PITCH;
 		}
 	}

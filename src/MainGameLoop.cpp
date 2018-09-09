@@ -266,14 +266,13 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
-	ModelData *bobbleTreeModelData = objFileLoader.loadOBJ("bobbleTree");
-	RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(),
-		bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
-	GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
-	ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
-	TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
-	bobbleTreeModelTexture.setShineDamper(4);
-	bobbleTreeModelTexture.setReflectivity(0.3);
+	//ModelData *bobbleTreeModelData = objFileLoader.loadOBJ("bobbleTree");
+	//RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(), bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
+	//GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
+	//ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
+	//TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
+	//bobbleTreeModelTexture.setShineDamper(4);
+	//bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
 	ModelData *grassModelData = objFileLoader.loadOBJ("grassModel");
@@ -323,7 +322,7 @@ int main(int argc, char *argv[])
 	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightMapLake");
+	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
 	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
@@ -370,11 +369,11 @@ int main(int argc, char *argv[])
 			entities.push_back(new Entity(toonRocksTexturedModel, glm::vec3(x, y, z),
 			0, my_rand() * 360, 0, my_rand() * 1.0f + 1.0f));
 
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
+			//x = my_rand() * Terrain::SIZE;
+			//z = my_rand() * Terrain::SIZE;
+			//y = terrain.getHeightOfTerrain(x, z);
+			//entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
+			//0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
 		}
 	}
 
@@ -418,32 +417,41 @@ int main(int argc, char *argv[])
 	Camera camera(player);
 
 	vector<GuiTexture*> guis;
-	glm::vec2 position(0.7f, 0.5f);
-	glm::vec2 scale(0.125f, 0.125f);
-	GuiTexture *gui = new GuiTexture(loader.loadTexture("socuwan"), position, scale);
+	//glm::vec2 position(0.7f, 0.5f);
+	//glm::vec2 scale(0.125f, 0.125f);
+	//GuiTexture *gui = new GuiTexture(loader.loadTexture("socuwan"), position, scale);
 
-	glm::vec2 position2(0.5f, 0.6f);
-	glm::vec2 scale2(0.2f, 0.2f);
-	GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
+	//glm::vec2 position2(0.5f, 0.6f);
+	//glm::vec2 scale2(0.2f, 0.2f);
+	//GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
 
 	glm::vec2 position3(0.8f, 0.9f);
 	glm::vec2 scale3(0.2f, 0.2f);
 	GuiTexture *gui3 = new GuiTexture(loader.loadTexture("health"), position3, scale3);
 
-	guis.push_back(gui);
-	guis.push_back(gui2);
+	//guis.push_back(gui);
+	//guis.push_back(gui2);
 	guis.push_back(gui3);
 
 	GuiRenderer guiRenderer(loader);
 
 	MasterRenderer renderer(loader, display);
 
-	// Water Renderer
-	WaterFrameBuffers fbos(display);
+	/*MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);*/
+	Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
+	entities.push_back(lampEntity);
+	Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
+	lights.push_back(&light);
+
+	//**********Water Renderer Set-up************************
+
+	WaterFrameBuffers buffers(display);
 	WaterShader waterShader;
-	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(), renderer.getNearPlane(), renderer.getFarPlane(), fbos);
+	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(),
+				    renderer.getNearPlane(), renderer.getFarPlane(), buffers);
 	vector<WaterTile*> waters;
 
+	/*
 	int maxWaterIndex = 3;
 	for (int j = -maxWaterIndex; j <= maxWaterIndex; j++) {
 		for (int i = -maxWaterIndex; i <= maxWaterIndex; i++) {
@@ -455,26 +463,25 @@ int main(int argc, char *argv[])
 		}
 	}
 	WaterTile* water = waters[0];
+	*/
+	WaterTile* water = new WaterTile(Terrain::SIZE / 2, -Terrain::SIZE / 2, 0);
+	waters.push_back(water);
 
 	glm::vec2 refrGuiPosition(0.8f, -0.8f);
 	glm::vec2 refrGuiScale(0.2f, 0.2f);
-	GuiTexture *refrGui = new GuiTexture(fbos.getRefractionTexture(), refrGuiPosition, refrGuiScale);
+	GuiTexture *refrGui = new GuiTexture(buffers.getRefractionTexture(), refrGuiPosition, refrGuiScale);
 	guis.push_back(refrGui);
 
 	glm::vec2 reflGuiPosition(-0.8f, -0.8f);
 	glm::vec2 reflGuiScale(0.2f, 0.2f);
-	GuiTexture *reflGui = new GuiTexture(fbos.getReflectionTexture(), reflGuiPosition, reflGuiScale);
+	GuiTexture *reflGui = new GuiTexture(buffers.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
 
 	glm::vec4 reflClipPlane(0, 1, 0, -water->getHeight() + 0.5f);
 	glm::vec4 refrClipPlane(0, -1, 0, water->getHeight() + 0.5f);
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
-	/*MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);*/
-	Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
-	entities.push_back(lampEntity);
-	Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
-	lights.push_back(&light);
+	//****************Game Loop Below*********************
 
 	int loops = 0;
 
@@ -511,7 +518,7 @@ int main(int argc, char *argv[])
 		//cout << "MainGameLoop picker terrain point OK" << endl;
 
 		//render reflection texture
-		fbos.bindReflectionFrameBuffer();
+		buffers.bindReflectionFrameBuffer();
 		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
@@ -522,13 +529,13 @@ int main(int argc, char *argv[])
 		//cout << "MainGameLoop reflection frame buffer OK" << endl;
 
 		//render refraction texture
-		fbos.bindRefractionFrameBuffer();
+		buffers.bindRefractionFrameBuffer();
 		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, true, /*player,*/ display);
 
 		//cout << "MainGameLoop refraction frame buffer OK" << endl;
 
 		//render to screen
-		fbos.unbindCurrentFrameBuffer();
+		buffers.unbindCurrentFrameBuffer();
 
 		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, false, /*player,*/ display);
 
@@ -549,7 +556,7 @@ int main(int argc, char *argv[])
 		loops++;
 	}
 
-	fbos.cleanUp();
+	buffers.cleanUp();
 	waterShader.cleanUp();
 	guiRenderer.cleanUp();
 	renderer.cleanUp();

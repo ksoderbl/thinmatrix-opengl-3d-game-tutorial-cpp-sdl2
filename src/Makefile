@@ -5,17 +5,46 @@
 
 SHELL	= /bin/sh
 
-SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
-	EntityRenderer.cpp ShaderProgram.cpp StaticShader.cpp \
-	ModelTexture.cpp TexturedModel.cpp Maths.cpp Entity.cpp \
-	Camera.cpp Keyboard.cpp Light.cpp MasterRenderer.cpp \
-	Terrain.cpp TerrainShader.cpp TerrainRenderer.cpp \
-	Vertex.cpp ModelData.cpp OBJFileLoader.cpp \
-	TerrainTexture.cpp TerrainTexturePack.cpp Player.cpp \
-	Mouse.cpp GuiTexture.cpp GuiRenderer.cpp GuiShader.cpp \
-	WaterRenderer.cpp WaterShader.cpp WaterTile.cpp WaterFrameBuffers.cpp \
-	TextureData.cpp SkyboxRenderer.cpp SkyboxShader.cpp \
-	MousePicker.cpp VertexNM.cpp
+SOURCES = \
+	Camera.cpp \
+	DisplayManager.cpp \
+	Entity.cpp \
+	EntityRenderer.cpp \
+	GuiRenderer.cpp \
+	GuiShader.cpp \
+	GuiTexture.cpp \
+	Keyboard.cpp \
+	Light.cpp \
+	Loader.cpp \
+	MainGameLoop.cpp \
+	MasterRenderer.cpp \
+	Maths.cpp \
+	ModelData.cpp \
+	ModelTexture.cpp \
+	Mouse.cpp \
+	MousePicker.cpp \
+	NormalMappingRenderer.cpp \
+	NormalMappingShader.cpp \
+	OBJFileLoader.cpp \
+	Player.cpp \
+	RawModel.cpp \
+	ShaderProgram.cpp \
+	SkyboxRenderer.cpp \
+	SkyboxShader.cpp \
+	StaticShader.cpp \
+	Terrain.cpp \
+	TerrainRenderer.cpp \
+	TerrainShader.cpp \
+	TerrainTexture.cpp \
+	TerrainTexturePack.cpp \
+	TextureData.cpp \
+	TexturedModel.cpp \
+	Vertex.cpp \
+	VertexNM.cpp \
+	WaterFrameBuffers.cpp \
+	WaterRenderer.cpp \
+	WaterShader.cpp \
+	WaterTile.cpp
 
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -23,7 +52,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 CC	= g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
-CFLAGS	= -O2 -g -Wall $(SDL_CFLAGS)
+CFLAGS	= -O2 -Wall $(SDL_CFLAGS)
 LDFLAGS	= -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
 
 
