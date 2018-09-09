@@ -546,10 +546,10 @@ int main(int argc, char *argv[])
 		}
 		*/
 
-		entity.increaseRotation(0.1f, 0.2f, 0.3f);
-		entity2.increaseRotation(0.3f, 0.1f, 0.2f);
-		entity3.increaseRotation(0.2f, 0.3f, 0.1f);
-		entity4.increaseRotation(0.2f, 0.3f, 0.4f);
+		entity.increaseRotation(0.0f, 1.1f, 0.0f);
+		entity2.increaseRotation(0.0f, 1.2f, 0.0f);
+		entity3.increaseRotation(0.0f, 1.3f, 0.0f);
+		entity4.increaseRotation(0.0f, 1.4f, 0.0f);
 
 		//render reflection texture
 		buffers.bindReflectionFrameBuffer();

@@ -14,6 +14,7 @@ void Vertex::addTangent(glm::vec3 tangent)
 
 void Vertex::averageTangents()
 {
+	averagedTangent = glm::vec3(0, 0, 0);
 	if (tangents.empty()) {
 		return;
 	}
