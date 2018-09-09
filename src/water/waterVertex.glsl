@@ -1,10 +1,9 @@
-#version 150
+#version 140
 
 in vec2 position;
 
 out vec4 clipSpace;
 
-out float visibility;
 out vec2 textureCoords;
 out vec3 toCameraVector;
 out vec3 fromLightVector;
@@ -19,8 +18,8 @@ uniform vec3 cameraPosition;
 uniform float waterTiling;
 
 void main(void) {
-	vec4 worldPosition = modelMatrix * vec4(position.x, 0.0, position.y, 1.0);
-	clipSpace = projectionMatrix * viewMatrix * worldPosition;
+    vec4 worldPosition = modelMatrix * vec4(position.x, 0.0, position.y, 1.0);
+    clipSpace = projectionMatrix * viewMatrix * worldPosition;
 	gl_Position = clipSpace;
 	textureCoords = vec2(position.x / 2.0 + 0.5, position.y / 2.0 + 0.5) * waterTiling;
 	toCameraVector = cameraPosition - worldPosition.xyz;

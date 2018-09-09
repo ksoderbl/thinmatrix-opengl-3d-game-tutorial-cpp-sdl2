@@ -3,8 +3,8 @@
 Vertex::Vertex(int index, glm::vec3 position)
 {
 	this->index = index;
-    this->position = position;
-    this->length = glm::length(position);
+	this->position = position;
+	this->length = glm::length(position);
 }
 
 int Vertex::getIndex()

@@ -1,18 +1,18 @@
-#version 150 core
+#version 140
 
 in vec3 position;
-in vec2 textureCoords;
+in vec2 textureCoordinates;
 in vec3 normal;
 
-out vec2 pass_textureCoords;
+out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out vec3 toLightVector[4];
 out vec3 toCameraVector;
 out float visibility;
 
-uniform mat4 transformationMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
+uniform mat4 transformationMatrix; // objects translation, rotation and scaling in the world cooridinates
+uniform mat4 projectionMatrix;     // frustum
+uniform mat4 viewMatrix;           // camera
 uniform vec3 lightPosition[4];
 
 uniform float useFakeLighting;
@@ -20,8 +20,8 @@ uniform float useFakeLighting;
 uniform float numberOfRows;
 uniform vec2 textureOffset;
 
-const float density = 0.0001;
-const float gradient = 1.5;
+const float fogDensity = 0.0001;
+const float fogGradient = 1.5;
 
 uniform vec4 clipPlane;
 
@@ -36,7 +36,7 @@ void main() {
 
 	// eye space -> homogenous clip space
 	gl_Position = projectionMatrix * positionRelativeToCam;
-	pass_textureCoords = (textureCoords/numberOfRows) + textureOffset;
+	pass_textureCoordinates = (textureCoordinates/numberOfRows) + textureOffset;
 	
 	vec3 actualNormal = normal;
 	if (useFakeLighting > 0.5) {
@@ -50,6 +50,6 @@ void main() {
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 
 	float distance = length(positionRelativeToCam.xyz);
-	visibility = exp(-pow((distance * density), gradient));
+	visibility = exp(-pow((distance * fogDensity), fogGradient));
 	visibility = clamp(visibility, 0.0, 1.0);
 }

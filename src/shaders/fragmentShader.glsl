@@ -1,6 +1,6 @@
-#version 150 core
+#version 140
 
-in vec2 pass_textureCoords;
+in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 // The shaders use 4 light sources. If this is changed, change also the
 // MAX_LIGHTS constant in StaticShader.h.
@@ -8,9 +8,9 @@ in vec3 toLightVector[4];
 in vec3 toCameraVector;
 in float visibility;
 
-out vec4 out_color;
+out vec4 out_Color;
 
-uniform sampler2D textureSampler;
+uniform sampler2D modelTexture;
 uniform vec3 lightColor[4];
 uniform vec3 attenuation[4];
 uniform float shineDamper;
@@ -18,7 +18,7 @@ uniform float reflectivity;
 uniform vec3 skyColor;
 
 // cel shading
-const float levels = 3.0;
+//const float levels = 4.0; // tutorial 30 cel shading
 
 void main() {
 	vec3 unitNormal = normalize(surfaceNormal);
@@ -35,8 +35,8 @@ void main() {
 		float brightness = max(nDot1, 0.0);
 
 		// cel shading
-		float level = floor(brightness * levels);
-		brightness = level / levels;
+		//float level = floor(brightness * levels);
+		//brightness = level / levels;
 
 		vec3 lightDirection = -unitLightVector;
 		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
@@ -45,8 +45,8 @@ void main() {
 		float dampedFactor = pow(specularFactor, shineDamper);
 
 		// cel shading
-		level = floor(dampedFactor * levels);
-		dampedFactor = level / levels;
+		//level = floor(dampedFactor * levels);
+		//dampedFactor = level / levels;
 
 		totalDiffuse = totalDiffuse + (brightness * lightColor[i]) / attFactor;
 		totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColor[i]) / attFactor;
@@ -54,11 +54,11 @@ void main() {
 	// 0.2 = ambient light
 	totalDiffuse = max(totalDiffuse, 0.2);
 
-	vec4 textureColor = texture(textureSampler, pass_textureCoords);
+	vec4 textureColor = texture(modelTexture, pass_textureCoordinates);
 	if (textureColor.a < 0.5) {
 		discard;
 	}
 
-	out_color = vec4(totalDiffuse,1.0) * textureColor + vec4(totalSpecular, 1.0);
-	out_color = mix(vec4(skyColor, 1.0), out_color, visibility);
+	out_Color = vec4(totalDiffuse,1.0) * textureColor + vec4(totalSpecular, 1.0);
+	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 }

@@ -15,7 +15,7 @@ SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Mouse.cpp GuiTexture.cpp GuiRenderer.cpp GuiShader.cpp \
 	WaterRenderer.cpp WaterShader.cpp WaterTile.cpp WaterFrameBuffers.cpp \
 	TextureData.cpp SkyboxRenderer.cpp SkyboxShader.cpp \
-	MousePicker.cpp
+	MousePicker.cpp VertexNM.cpp
 
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)

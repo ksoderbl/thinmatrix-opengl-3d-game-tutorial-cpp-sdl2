@@ -21,11 +21,10 @@ private:
 	void jump();
 	void checkInputs(Keyboard& keyboard);
 
-	GLfloat RUN_SPEED = 20;
+	GLfloat RUN_SPEED = 40;
 	GLfloat TURN_SPEED = 160;
 	GLfloat GRAVITY = -50;
-	GLfloat JUMP_POWER = 30;
-	GLfloat TERRAIN_HEIGHT = 0;
+	GLfloat JUMP_POWER = 18;
 	
 	GLfloat currentSpeed = 0;
 	GLfloat currentTurnSpeed = 0;

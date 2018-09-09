@@ -1,5 +1,3 @@
-#define DATADIR "../data"
-
 #include "DisplayManager.h"
 #include "RawModel.h"
 #include "Loader.h"
@@ -211,19 +209,34 @@ int main(int argc, char *argv[])
 
 	//******** TERRAIN TEXTURE STUFF ********
 
-	TerrainTexture backgroundTexture(loader.loadTexture("grassy2"));
-	TerrainTexture rTexture(loader.loadTexture("dirt"));
+	TerrainTexture backgroundTexture(loader.loadTexture("grassy2")); // was "grassy"
+	TerrainTexture rTexture(loader.loadTexture("mud"));  // was "dirt"
 	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
 	TerrainTexture bTexture(loader.loadTexture("path"));
 	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
-	TerrainTexture blendMap(loader.loadTexture("blendMap"));
+	TerrainTexture blendMap(loader.loadTexture("blendMapLake"));
 
 	//******** LOAD MODELS ******************
 
-	OBJFileLoader objLoader;
+	OBJFileLoader objFileLoader;
+
+	/*
+	TexturedModel rocks = TexturedModel(
+			"rocks", // obj
+			"rocks"  // png
+	);
+
+
+	ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
+	fernTextureAtlas.setNumberOfRows(2);
+
+	TexturedModel fern = new TexturedModel(objFileLoader.loadOBJ("fern", loader),
+    	fernTextureAtlas);
+    fern.getTexture().setHasTransparency(true);
+    */
 
 	// stall
-	//ModelData *stallModelData = objLoader.loadOBJ("stall");
+	//ModelData *stallModelData = objFileLoader.loadOBJ("stall");
 	//RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
 	//	stallModelData->getNormals(), stallModelData->getIndices());
 	//GLuint stallTextureID = loader.loadTexture("stallTexture");
@@ -233,7 +246,7 @@ int main(int argc, char *argv[])
 	//stallModelTexture.setReflectivity(1);
 
 	// pine, was tree
-	ModelData *pineModelData = objLoader.loadOBJ("pine");
+	ModelData *pineModelData = objFileLoader.loadOBJ("pine");
 	RawModel* pineRawModel = loader.loadToVAO(pineModelData->getVertices(), pineModelData->getTextureCoords(),
 		pineModelData->getNormals(), pineModelData->getIndices());
 	GLuint pineTextureID = loader.loadTexture("pine");
@@ -243,7 +256,7 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setReflectivity(0.3);
 
 	// low poly tree
-	ModelData *lowPolyTreeModelData = objLoader.loadOBJ("lowPolyTree");
+	ModelData *lowPolyTreeModelData = objFileLoader.loadOBJ("lowPolyTree");
 	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
 		lowPolyTreeModelData->getNormals(), lowPolyTreeModelData->getIndices());
 	GLuint lowPolyTreeTextureID = loader.loadTexture("lowPolyTree");
@@ -253,7 +266,7 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
-	ModelData *bobbleTreeModelData = objLoader.loadOBJ("bobbleTree");
+	ModelData *bobbleTreeModelData = objFileLoader.loadOBJ("bobbleTree");
 	RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(),
 		bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
 	GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
@@ -263,7 +276,7 @@ int main(int argc, char *argv[])
 	bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
-	ModelData *grassModelData = objLoader.loadOBJ("grassModel");
+	ModelData *grassModelData = objFileLoader.loadOBJ("grassModel");
 	RawModel* grassRawModel = loader.loadToVAO(grassModelData->getVertices(), grassModelData->getTextureCoords(),
 		grassModelData->getNormals(), grassModelData->getIndices());
 	GLuint grassTextureID = loader.loadTexture("grassTexture");
@@ -275,7 +288,7 @@ int main(int argc, char *argv[])
 	grassModelTexture.setReflectivity(0.5);
 
 	// fern
-	ModelData *fernModelData = objLoader.loadOBJ("fern");
+	ModelData *fernModelData = objFileLoader.loadOBJ("fern");
 	RawModel* fernRawModel = loader.loadToVAO(fernModelData->getVertices(), fernModelData->getTextureCoords(),
 		fernModelData->getNormals(), fernModelData->getIndices());
 	GLuint fernTextureID = loader.loadTexture("fern");
@@ -288,7 +301,7 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 
 	// flower, using fern as raw model, seems to work
-	ModelData *flowerModelData = objLoader.loadOBJ("fern");
+	ModelData *flowerModelData = objFileLoader.loadOBJ("fern");
 	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
 		flowerModelData->getNormals(), flowerModelData->getIndices());
 	GLuint flowerTextureID = loader.loadTexture("diffuse");
@@ -301,7 +314,7 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
 	// toon rocks
-	ModelData *toonRocksModelData = objLoader.loadOBJ("toonRocks");
+	ModelData *toonRocksModelData = objFileLoader.loadOBJ("toonRocks");
 	RawModel* toonRocksRawModel = loader.loadToVAO(
 		toonRocksModelData->getVertices(), toonRocksModelData->getTextureCoords(),
 		toonRocksModelData->getNormals(), toonRocksModelData->getIndices());
@@ -310,7 +323,7 @@ int main(int argc, char *argv[])
 	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
-	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightmap");
+	Terrain terrain(0, 0, loader, texturePack, blendMap, "heightMapLake");
 	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
@@ -375,7 +388,7 @@ int main(int argc, char *argv[])
 	lights.push_back(&light3);
 	//lights.push_back(&light4);
 
-	ModelData *lampModelData = objLoader.loadOBJ("lamp");
+	ModelData *lampModelData = objFileLoader.loadOBJ("lamp");
 	RawModel* lampRawModel = loader.loadToVAO(lampModelData->getVertices(), lampModelData->getTextureCoords(),
 		lampModelData->getNormals(), lampModelData->getIndices());
 	GLuint lampTextureID = loader.loadTexture("lamp");
@@ -389,7 +402,7 @@ int main(int argc, char *argv[])
 
 
 
-	ModelData *playerModelData = objLoader.loadOBJ("person");
+	ModelData *playerModelData = objFileLoader.loadOBJ("person");
 	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
 		playerModelData->getNormals(), playerModelData->getIndices());
 	GLuint playerTextureID = loader.loadTexture("playerTexture");
