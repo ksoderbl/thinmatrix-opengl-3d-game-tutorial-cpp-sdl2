@@ -7,11 +7,11 @@ in vec3 surfaceNormal;
 in vec3 toLightVector[4];
 in vec3 toCameraVector;
 in float visibility;
-in vec3 pass_tangent;
 
 out vec4 out_Color;
 
 uniform sampler2D modelTexture;
+uniform sampler2D normalMap;
 uniform vec3 lightColor[4];
 uniform vec3 attenuation[4];
 uniform float shineDamper;
@@ -22,7 +22,9 @@ uniform vec3 skyColor;
 //const float levels = 4.0; // tutorial 30 cel shading
 
 void main() {
-	vec3 unitNormal = normalize(surfaceNormal);
+	vec4 normalMapValue = 2.0 * texture(normalMap, pass_textureCoordinates) - 1.0;
+
+	vec3 unitNormal = normalize(normalMapValue.rgb);
 	vec3 unitVectorToCamera = normalize(toCameraVector);
 
 	vec3 totalDiffuse = vec3(0.0);
@@ -62,5 +64,5 @@ void main() {
 
 	out_Color = vec4(totalDiffuse,1.0) * textureColor + vec4(totalSpecular, 1.0);
 	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
-	out_Color = vec4(pass_tangent, 1.0);
+	out_Color = normalMapValue;
 }

@@ -6,11 +6,9 @@ in vec3 normal;
 in vec3 tangent;
 
 out vec2 pass_textureCoordinates;
-out vec3 surfaceNormal;
 out vec3 toLightVector[4];
 out vec3 toCameraVector;
 out float visibility;
-out vec3 pass_tangent;
 
 uniform mat4 transformationMatrix; // objects translation, rotation and scaling in the world cooridinates
 uniform mat4 projectionMatrix;     // frustum
@@ -28,8 +26,6 @@ const float fogGradient = 5.0;
 uniform vec4 clipPlane;
 
 void main() {
-	pass_tangent = tangent;
-
 	// local space -> world space
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
 
@@ -47,7 +43,7 @@ void main() {
 		actualNormal = vec3(0.0, 1.0, 0.0);
 	}
 
-	surfaceNormal = (transformationMatrix * vec4(actualNormal,0.0)).xyz;
+	vec3 surfaceNormal = (transformationMatrix * vec4(actualNormal,0.0)).xyz;
 	for (int i = 0; i < 4; i++) {
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
