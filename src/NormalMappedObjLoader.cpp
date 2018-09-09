@@ -61,12 +61,6 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 		}
 	}
 
-	vector<GLfloat> verticesArray;
-	vector<GLfloat> texturesArray;
-	vector<GLfloat> normalsArray;
-	vector<GLfloat> tangentsArray;
-	vector<GLuint> indicesArray;
-
 	int faces = 0;
 
 	// read the faces in a second loop
@@ -103,9 +97,10 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 				u[i]--;
 			}
 
-			processVertex(u[0], u[1], u[2], vertices, indices);
-			processVertex(u[3], u[4], u[5], vertices, indices);
-			processVertex(u[6], u[7], u[8], vertices, indices);
+			Vertex* v0 = processVertex(u[0], u[1], u[2], vertices, indices);
+			Vertex* v1 = processVertex(u[3], u[4], u[5], vertices, indices);
+			Vertex* v2 = processVertex(u[6], u[7], u[8], vertices, indices);
+			calculateTangents(v0, v1, v2, textures);
 
 			faces++;
 		}
@@ -116,15 +111,20 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 	//cout << "NormalMappedObjLoader: Read " << faces << " faces from " << fileName << endl;
 
 	removeUnusedVertices(vertices);
+	vector<GLfloat> verticesArray;
+	vector<GLfloat> texturesArray;
+	vector<GLfloat> normalsArray;
+	vector<GLfloat> tangentsArray;
+	GLfloat furthest = convertDataToArrays(
+		vertices, textures, normals,
+		verticesArray, texturesArray, normalsArray, tangentsArray);
 
-	GLfloat furthest = convertDataToArrays(vertices, textures, normals,
-		verticesArray, texturesArray, normalsArray);
-
+	vector<GLuint> indicesArray;
 	for (int i = 0; i < (int) indices.size(); i++) {
 		GLuint u = indices[i];
 		indicesArray.push_back(u);
 	}
-	
+
 	// free allocated Vertex objects
 	for (int i = 0; i < (int) vertices.size(); i++) {
 		delete vertices[i];
@@ -134,7 +134,29 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 				tangentsArray, indicesArray);
 }
 
-void NormalMappedObjLoader::processVertex(
+void NormalMappedObjLoader::calculateTangents(
+	Vertex* v0, Vertex* v1, Vertex* v2,
+	vector<glm::vec2>& textures)
+{
+	glm::vec3 deltaPos1 = v1->getPosition() - v0->getPosition();
+	glm::vec3 deltaPos2 = v2->getPosition() - v0->getPosition();
+	glm::vec2 uv0 = textures[v0->getTextureIndex()];
+	glm::vec2 uv1 = textures[v1->getTextureIndex()];
+	glm::vec2 uv2 = textures[v2->getTextureIndex()];
+	glm::vec2 deltaUv1 = uv1 - uv0;
+	glm::vec2 deltaUv2 = uv2 - uv0;
+
+	GLfloat r = 1.0f / (deltaUv1.x * deltaUv2.y - deltaUv1.y * deltaUv2.x);
+	deltaPos1 *= deltaUv2.y;
+	deltaPos2 *= deltaUv1.y;
+	glm::vec3 tangent = deltaPos1 - deltaPos2;
+	tangent *= r;
+	v0->addTangent(tangent);
+	v1->addTangent(tangent);
+	v2->addTangent(tangent);
+}
+
+Vertex* NormalMappedObjLoader::processVertex(
 	int index,
 	int textureIndex,
 	int normalIndex,
@@ -146,9 +168,11 @@ void NormalMappedObjLoader::processVertex(
 		currentVertex->setTextureIndex(textureIndex);
 		currentVertex->setNormalIndex(normalIndex);
 		indices.push_back(index);
+		return currentVertex;
 	}
 	else {
-		dealWithAlreadyProcessedVertex(currentVertex, textureIndex, normalIndex, indices, vertices);
+		return dealWithAlreadyProcessedVertex(
+			currentVertex, textureIndex, normalIndex, indices, vertices);
 	}
 }
 
@@ -158,7 +182,8 @@ GLfloat NormalMappedObjLoader::convertDataToArrays(
 	vector<glm::vec3>& normals,
 	vector<GLfloat>& verticesArray,
 	vector<GLfloat>& texturesArray,
-	vector<GLfloat>& normalsArray)
+	vector<GLfloat>& normalsArray,
+	vector<GLfloat>& tangentsArray)
 {
 	GLfloat furthestPoint = 0;
 
@@ -170,20 +195,24 @@ GLfloat NormalMappedObjLoader::convertDataToArrays(
 		glm::vec3 position = currentVertex->getPosition();
 		glm::vec2 textureCoord = textures[currentVertex->getTextureIndex()];
 		glm::vec3 normalVector = normals[currentVertex->getNormalIndex()];
+		glm::vec3 tangent = currentVertex->getAverageTangent();
 
-		verticesArray.push_back(position[0]);
-		verticesArray.push_back(position[1]);
-		verticesArray.push_back(position[2]);
-		texturesArray.push_back(textureCoord[0]);
-		texturesArray.push_back(1.0 - textureCoord[1]);
-		normalsArray.push_back(normalVector[0]);
-		normalsArray.push_back(normalVector[1]);
-		normalsArray.push_back(normalVector[2]);
+		verticesArray.push_back(position.x);
+		verticesArray.push_back(position.y);
+		verticesArray.push_back(position.z);
+		texturesArray.push_back(textureCoord.x);
+		texturesArray.push_back(1.0 - textureCoord.y);
+		normalsArray.push_back(normalVector.x);
+		normalsArray.push_back(normalVector.y);
+		normalsArray.push_back(normalVector.z);
+		tangentsArray.push_back(tangent.x);
+		tangentsArray.push_back(tangent.y);
+		tangentsArray.push_back(tangent.z);
 	}
 	return furthestPoint;
 }
 
-void NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
+Vertex* NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
 	Vertex *previousVertex,
 	int newTextureIndex,
 	int newNormalIndex,
@@ -192,10 +221,11 @@ void NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
 {
 	if (previousVertex->hasSameTextureAndNormal(newTextureIndex, newNormalIndex)) {
 		indices.push_back(previousVertex->getIndex());
+		return previousVertex;
 	} else {
 		Vertex* anotherVertex = previousVertex->getDuplicateVertex();
 		if (anotherVertex != nullptr) {
-			dealWithAlreadyProcessedVertex(anotherVertex, newTextureIndex, newNormalIndex,
+			return dealWithAlreadyProcessedVertex(anotherVertex, newTextureIndex, newNormalIndex,
 				indices, vertices);
 		} else {
 			Vertex* duplicateVertex = new Vertex(vertices.size(), previousVertex->getPosition());
@@ -204,16 +234,27 @@ void NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
 			previousVertex->setDuplicateVertex(duplicateVertex);
 			vertices.push_back(duplicateVertex);
 			indices.push_back(duplicateVertex->getIndex());
+			return duplicateVertex;
 		}
 	}
 }
 
 void NormalMappedObjLoader::removeUnusedVertices(vector<Vertex*>& vertices)
 {
+	/*
 	vector<Vertex*>::iterator it;
 
 	for (it = vertices.begin(); it != vertices.end(); it++) {
 		Vertex* vertex = *it;
+		if (!vertex->isSet()) {
+			vertex->setTextureIndex(0);
+			vertex->setNormalIndex(0);
+		}
+	}
+	*/
+	for (Vertex* vertex : vertices) {
+		// TODO: should be done in an own function
+		vertex->averageTangents();
 		if (!vertex->isSet()) {
 			vertex->setTextureIndex(0);
 			vertex->setNormalIndex(0);

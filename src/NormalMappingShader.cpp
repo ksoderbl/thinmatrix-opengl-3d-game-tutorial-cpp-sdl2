@@ -15,7 +15,8 @@ void NormalMappingShader::bindAttributes()
 {
 	bindAttribute(0, "position");
 	bindAttribute(1, "textureCoords");
-	bindAttribute(2, "normal"); // "normal" variable in the vertex shader
+	bindAttribute(2, "normal");
+	bindAttribute(3, "tangent");
 }
 
 void NormalMappingShader::getAllUniformLocations()
@@ -30,6 +31,8 @@ void NormalMappingShader::getAllUniformLocations()
 	location_numberOfRows = getUniformLocation("numberOfRows");
 	location_textureOffset = getUniformLocation("textureOffset");
 	location_clipPlane = getUniformLocation("clipPlane");
+	location_modelTexture = getUniformLocation("modelTexture");
+	location_normalMap = getUniformLocation("normalMap");
 
 	for (int i = 0; i < MAX_LIGHTS; i++) {
 		string iStr = std::to_string(i);
@@ -37,6 +40,12 @@ void NormalMappingShader::getAllUniformLocations()
 		location_lightColor[i] = getUniformLocation("lightColor[" + iStr + "]");
 		location_attenuation[i] = getUniformLocation("attenuation[" + iStr + "]");
 	}
+}
+
+void NormalMappingShader::connectTextureUnits()
+{
+	loadInt(location_modelTexture, 0);
+	loadInt(location_normalMap, 1);
 }
 
 void NormalMappingShader::loadTransformationMatrix(glm::mat4& matrix)

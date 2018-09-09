@@ -11,6 +11,7 @@ public:
 	NormalMappingShader();
 	void bindAttributes();
 	void getAllUniformLocations();
+	void connectTextureUnits();
 	void loadShineVariables(GLfloat damper, GLfloat reflectivity);
 	void loadTransformationMatrix(glm::mat4& matrix);
 	void loadLights(vector<Light*>& lights);
@@ -36,6 +37,8 @@ private:
 	int location_numberOfRows;
 	int location_textureOffset;
 	int location_clipPlane;
+	int location_modelTexture;
+	int location_normalMap;
 };
 
 #endif

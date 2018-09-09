@@ -8,7 +8,7 @@ NormalMappingRenderer::NormalMappingRenderer(glm::mat4& projectionMatrix)
 {
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);
-	//shader.connectTextureUnits();
+	shader.connectTextureUnits();
 	shader.stop();
 }
 
@@ -59,6 +59,7 @@ void NormalMappingRenderer::prepareTexturedModel(TexturedModel &model)
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 	ModelTexture& texture = model.getTexture();
 	shader.loadNumberOfRows(texture.getNumberOfRows());
 	if (texture.getHasTransparency()) {
@@ -68,6 +69,8 @@ void NormalMappingRenderer::prepareTexturedModel(TexturedModel &model)
 	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, model.getTexture().getNormalMap());
 }
 
 void NormalMappingRenderer::unbindTexturedModel()
@@ -76,6 +79,7 @@ void NormalMappingRenderer::unbindTexturedModel()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 	glBindVertexArray(0);
 }
 

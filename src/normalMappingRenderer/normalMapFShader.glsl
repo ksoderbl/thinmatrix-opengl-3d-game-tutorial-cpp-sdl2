@@ -7,6 +7,7 @@ in vec3 surfaceNormal;
 in vec3 toLightVector[4];
 in vec3 toCameraVector;
 in float visibility;
+in vec3 pass_tangent;
 
 out vec4 out_Color;
 
@@ -61,4 +62,5 @@ void main() {
 
 	out_Color = vec4(totalDiffuse,1.0) * textureColor + vec4(totalSpecular, 1.0);
 	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
+	out_Color = vec4(pass_tangent, 1.0);
 }

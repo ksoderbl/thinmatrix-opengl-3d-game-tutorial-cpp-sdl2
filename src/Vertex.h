@@ -6,6 +6,9 @@
 class Vertex {
 public:
 	Vertex(int index, glm::vec3 position);
+	void addTangent(glm::vec3 tangent);
+	void averageTangents();
+	glm::vec3 getAverageTangent();
 	int getIndex();
 	GLfloat getLength();
 	bool isSet();
@@ -26,6 +29,8 @@ private:
 	Vertex *duplicateVertex = nullptr;
 	int index;
 	GLfloat length;
+	vector<glm::vec3> tangents;
+	glm::vec3 averagedTangent;
 };
 
 

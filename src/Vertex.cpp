@@ -7,6 +7,27 @@ Vertex::Vertex(int index, glm::vec3 position)
 	this->length = glm::length(position);
 }
 
+void Vertex::addTangent(glm::vec3 tangent)
+{
+	tangents.push_back(tangent);
+}
+
+void Vertex::averageTangents()
+{
+	if (tangents.empty()) {
+		return;
+	}
+	for (glm::vec3& tangent : tangents) {
+		averagedTangent += tangent;
+	}
+	averagedTangent = glm::normalize(averagedTangent);
+}
+
+glm::vec3 Vertex::getAverageTangent()
+{
+	return averagedTangent;
+}
+
 int Vertex::getIndex()
 {
 	return index;
