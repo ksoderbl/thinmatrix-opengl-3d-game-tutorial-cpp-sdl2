@@ -41,7 +41,6 @@ SOURCES = \
 	TextureData.cpp \
 	TexturedModel.cpp \
 	Vertex.cpp \
-	VertexNM.cpp \
 	WaterFrameBuffers.cpp \
 	WaterRenderer.cpp \
 	WaterShader.cpp \

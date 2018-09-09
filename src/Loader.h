@@ -14,6 +14,12 @@ public:
 		vector<GLfloat>&textureCoords,
 		vector<GLfloat>&normals,
 		vector<GLuint>&indices);
+	RawModel* loadToVAO(
+		vector<GLfloat>&positions,
+		vector<GLfloat>&textureCoords,
+		vector<GLfloat>&normals,
+		vector<GLfloat>&tangents,
+		vector<GLuint>&indices);
 	RawModel *loadToVAO(
 		vector<GLfloat>&positions, int dimensions);
 	GLuint loadTexture(string fileName);

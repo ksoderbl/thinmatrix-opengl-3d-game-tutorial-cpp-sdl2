@@ -1,9 +1,6 @@
 #include "NormalMappedObjLoader.h"
 
-// OBJ file format is explained in
-// https://www.youtube.com/watch?v=KMWUjNE0fYI&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=8
-
-ModelData *NormalMappedObjLoader::loadOBJ(string objFileName)
+RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 {
 	string RES_LOC = "../res/";
 	string fileName = RES_LOC + objFileName + ".obj";
@@ -18,6 +15,7 @@ ModelData *NormalMappedObjLoader::loadOBJ(string objFileName)
 	vector<Vertex*> vertices;
 	vector<glm::vec2> textures;
 	vector<glm::vec3> normals;
+	vector<glm::vec3> tangents;
 	vector<GLuint> indices;
 
 	// This loop collects the vertices, texture coords and normals from
@@ -64,8 +62,9 @@ ModelData *NormalMappedObjLoader::loadOBJ(string objFileName)
 	}
 
 	vector<GLfloat> verticesArray;
-	vector<GLfloat> normalsArray;
 	vector<GLfloat> texturesArray;
+	vector<GLfloat> normalsArray;
+	vector<GLfloat> tangentsArray;
 	vector<GLuint> indicesArray;
 
 	int faces = 0;
@@ -131,8 +130,8 @@ ModelData *NormalMappedObjLoader::loadOBJ(string objFileName)
 		delete vertices[i];
 	}
 
-	ModelData *data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
-	return data;
+	return loader.loadToVAO(verticesArray, texturesArray, normalsArray,
+				tangentsArray, indicesArray);
 }
 
 void NormalMappedObjLoader::processVertex(

@@ -220,72 +220,41 @@ int main(int argc, char *argv[])
 	//******** LOAD MODELS ******************
 
 	// rocks
-	ModelData *rocksModelData = OBJFileLoader::loadOBJ("rocks");
-	RawModel* rocksRawModel = loader.loadToVAO(
-		rocksModelData->getVertices(), rocksModelData->getTextureCoords(),
-		rocksModelData->getNormals(), rocksModelData->getIndices());
-	GLuint rocksTextureID = loader.loadTexture("rocks");
-	ModelTexture rocksModelTexture = ModelTexture(rocksTextureID);
+	RawModel *rocksRawModel = OBJFileLoader::loadOBJ("rocks", loader);
+	ModelTexture rocksModelTexture = ModelTexture(loader.loadTexture("rocks"));
 	TexturedModel rocksTexturedModel = TexturedModel(*rocksRawModel, rocksModelTexture);
 
-
-	// fern
-	ModelData *fernModelData = OBJFileLoader::loadOBJ("fern");
-	RawModel* fernRawModel = loader.loadToVAO(
-		fernModelData->getVertices(), fernModelData->getTextureCoords(),
-		fernModelData->getNormals(), fernModelData->getIndices());
-	GLuint fernTextureID = loader.loadTexture("fern");
-	ModelTexture fernTextureAtlas = ModelTexture(fernTextureID);
-	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernTextureAtlas);
-	fernTextureAtlas.setNumberOfRows(2);
-	fernTexturedModel.getTexture().setHasTransparency(true);
-
 	// stall
-	//ModelData *stallModelData = OBJFileLoader::loadOBJ("stall");
-	//RawModel* stallRawModel = loader.loadToVAO(stallModelData->getVertices(), stallModelData->getTextureCoords(),
-	//	stallModelData->getNormals(), stallModelData->getIndices());
-	//GLuint stallTextureID = loader.loadTexture("stallTexture");
-	//ModelTexture stallModelTexture = ModelTexture(stallTextureID);
-	//TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
-	//stallModelTexture.setShineDamper(10);
-	//stallModelTexture.setReflectivity(1);
+	RawModel* stallRawModel = OBJFileLoader::loadOBJ("stall", loader);
+	ModelTexture stallModelTexture = ModelTexture(loader.loadTexture("stallTexture"));
+	TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
+	stallModelTexture.setShineDamper(10);
+	stallModelTexture.setReflectivity(1);
 
 	// pine, was tree
-	ModelData *pineModelData = OBJFileLoader::loadOBJ("pine");
-	RawModel* pineRawModel = loader.loadToVAO(pineModelData->getVertices(), pineModelData->getTextureCoords(),
-		pineModelData->getNormals(), pineModelData->getIndices());
-	GLuint pineTextureID = loader.loadTexture("pine");
-	ModelTexture pineModelTexture = ModelTexture(pineTextureID);
+	RawModel* pineRawModel = OBJFileLoader::loadOBJ("pine", loader);
+	ModelTexture pineModelTexture = ModelTexture(loader.loadTexture("pine"));
 	TexturedModel pineTexturedModel = TexturedModel(*pineRawModel, pineModelTexture);
-	//pineModelTexture.setShineDamper(4);
-	//pineModelTexture.setReflectivity(0.3);
+	pineModelTexture.setShineDamper(4);
+	pineModelTexture.setReflectivity(0.3);
 
-	/*
 	// low poly tree
-	ModelData *lowPolyTreeModelData = OBJFileLoader::loadOBJ("lowPolyTree");
-	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
-		lowPolyTreeModelData->getNormals(), lowPolyTreeModelData->getIndices());
-	GLuint lowPolyTreeTextureID = loader.loadTexture("lowPolyTree");
-	ModelTexture lowPolyTreeModelTexture = ModelTexture(lowPolyTreeTextureID);
+	RawModel* lowPolyTreeRawModel = OBJFileLoader::loadOBJ("lowPolyTree", loader);
+	ModelTexture lowPolyTreeModelTexture = ModelTexture(loader.loadTexture("lowPolyTree"));
 	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
 	lowPolyTreeModelTexture.setShineDamper(4);
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
-	ModelData *bobbleTreeModelData = OBJFileLoader::loadOBJ("bobbleTree");
-	RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(), bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
-	GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
-	ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
+	RawModel* bobbleTreeRawModel = OBJFileLoader::loadOBJ("bobbleTree", loader);
+	ModelTexture bobbleTreeModelTexture = ModelTexture(loader.loadTexture("bobbleTree"));
 	TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
 	bobbleTreeModelTexture.setShineDamper(4);
 	bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
-	ModelData *grassModelData = OBJFileLoader::loadOBJ("grassModel");
-	RawModel* grassRawModel = loader.loadToVAO(grassModelData->getVertices(), grassModelData->getTextureCoords(),
-		grassModelData->getNormals(), grassModelData->getIndices());
-	GLuint grassTextureID = loader.loadTexture("grassTexture");
-	ModelTexture grassModelTexture = ModelTexture(grassTextureID);
+	RawModel* grassRawModel = OBJFileLoader::loadOBJ("grassModel", loader);
+	ModelTexture grassModelTexture = ModelTexture(loader.loadTexture("grassTexture"));
 	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
 	grassTexturedModel.getTexture().setHasTransparency(true);
 	grassTexturedModel.getTexture().setUseFakeLighting(true);
@@ -293,11 +262,8 @@ int main(int argc, char *argv[])
 	grassModelTexture.setReflectivity(0.5);
 
 	// fern
-	ModelData *fernModelData = OBJFileLoader::loadOBJ("fern");
-	RawModel* fernRawModel = loader.loadToVAO(fernModelData->getVertices(), fernModelData->getTextureCoords(),
-		fernModelData->getNormals(), fernModelData->getIndices());
-	GLuint fernTextureID = loader.loadTexture("fern");
-	ModelTexture fernTextureAtlas = ModelTexture(fernTextureID);
+	RawModel* fernRawModel = OBJFileLoader::loadOBJ("fern", loader);
+	ModelTexture fernTextureAtlas = ModelTexture(loader.loadTexture("fern"));
 	fernTextureAtlas.setShineDamper(4);
 	fernTextureAtlas.setReflectivity(0.1);
 	fernTextureAtlas.setNumberOfRows(2);
@@ -306,11 +272,8 @@ int main(int argc, char *argv[])
 	fernTexturedModel.getTexture().setUseFakeLighting(true);
 
 	// flower, using fern as raw model, seems to work
-	ModelData *flowerModelData = OBJFileLoader::loadOBJ("fern");
-	RawModel* flowerRawModel = loader.loadToVAO(flowerModelData->getVertices(), flowerModelData->getTextureCoords(),
-		flowerModelData->getNormals(), flowerModelData->getIndices());
-	GLuint flowerTextureID = loader.loadTexture("diffuse");
-	ModelTexture flowerTextureAtlas = ModelTexture(flowerTextureID);
+	RawModel* flowerRawModel = OBJFileLoader::loadOBJ("fern", loader);
+	ModelTexture flowerTextureAtlas = ModelTexture(loader.loadTexture("diffuse"));
 	flowerTextureAtlas.setShineDamper(5);
 	flowerTextureAtlas.setReflectivity(0.2);
 	flowerTextureAtlas.setNumberOfRows(2);
@@ -319,14 +282,9 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
 	// toon rocks
-	ModelData *toonRocksModelData = OBJFileLoader::loadOBJ("toonRocks");
-	RawModel* toonRocksRawModel = loader.loadToVAO(
-		toonRocksModelData->getVertices(), toonRocksModelData->getTextureCoords(),
-		toonRocksModelData->getNormals(), toonRocksModelData->getIndices());
-	GLuint toonRocksTextureID = loader.loadTexture("toonRocks");
-	ModelTexture toonRocksModelTexture = ModelTexture(toonRocksTextureID);
+	RawModel* toonRocksRawModel = OBJFileLoader::loadOBJ("toonRocks", loader);
+	ModelTexture toonRocksModelTexture = ModelTexture(loader.loadTexture("toonRocks"));
 	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
-	*/
 
 	vector<Terrain*> terrains;
 	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
@@ -347,12 +305,8 @@ int main(int argc, char *argv[])
         //TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
 	//new ModelTexture(loader.loadTexture("barrel")));
 
-	ModelData *barrelModelData = NormalMappedObjLoader::loadOBJ("barrel");
-	RawModel* barrelRawModel = loader.loadToVAO(
-		barrelModelData->getVertices(), barrelModelData->getTextureCoords(),
-		barrelModelData->getNormals(), barrelModelData->getIndices());
-	GLuint barrelTextureID = loader.loadTexture("barrel");
-	ModelTexture barrelModelTexture = ModelTexture(barrelTextureID);
+	RawModel* barrelRawModel = NormalMappedObjLoader::loadOBJ("barrel", loader);
+	ModelTexture barrelModelTexture = ModelTexture(loader.loadTexture("barrel"));
 	TexturedModel barrelModel = TexturedModel(*barrelRawModel, barrelModelTexture);
 	barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
         barrelModel.getTexture().setShineDamper(10);
@@ -362,12 +316,8 @@ int main(int argc, char *argv[])
 	//TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
 	//new ModelTexture(loader.loadTexture("crate")));
 
-	ModelData *crateModelData = NormalMappedObjLoader::loadOBJ("crate");
-	RawModel* crateRawModel = loader.loadToVAO(
-		crateModelData->getVertices(), crateModelData->getTextureCoords(),
-		crateModelData->getNormals(), crateModelData->getIndices());
-	GLuint crateTextureID = loader.loadTexture("crate");
-	ModelTexture crateModelTexture = ModelTexture(crateTextureID);
+	RawModel* crateRawModel = NormalMappedObjLoader::loadOBJ("crate", loader);
+	ModelTexture crateModelTexture = ModelTexture(loader.loadTexture("crate"));
 	TexturedModel crateModel = TexturedModel(*crateRawModel, crateModelTexture);
 	crateModel.getTexture().setNormalMap(loader.loadTexture("crateNormal"));
         crateModel.getTexture().setShineDamper(10);
@@ -377,24 +327,16 @@ int main(int argc, char *argv[])
 	//TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
 	//new ModelTexture(loader.loadTexture("boulder")));
 
-	ModelData *boulderModelData = NormalMappedObjLoader::loadOBJ("boulder");
-	RawModel* boulderRawModel = loader.loadToVAO(
-		boulderModelData->getVertices(), boulderModelData->getTextureCoords(),
-		boulderModelData->getNormals(), boulderModelData->getIndices());
-	GLuint boulderTextureID = loader.loadTexture("boulder");
-	ModelTexture boulderModelTexture = ModelTexture(boulderTextureID);
+	RawModel* boulderRawModel = NormalMappedObjLoader::loadOBJ("boulder", loader);
+	ModelTexture boulderModelTexture = ModelTexture(loader.loadTexture("boulder"));
 	TexturedModel boulderModel = TexturedModel(*boulderRawModel, boulderModelTexture);
 	boulderModel.getTexture().setNormalMap(loader.loadTexture("boulderNormal"));
         boulderModel.getTexture().setShineDamper(10);
         boulderModel.getTexture().setReflectivity(0.5f);
 
 	// football
-	ModelData *footModelData = NormalMappedObjLoader::loadOBJ("foot");
-	RawModel* footRawModel = loader.loadToVAO(
-		footModelData->getVertices(), footModelData->getTextureCoords(),
-		footModelData->getNormals(), footModelData->getIndices());
-	GLuint footTextureID = loader.loadTexture("foot");
-	ModelTexture footModelTexture = ModelTexture(footTextureID);
+	RawModel* footRawModel = NormalMappedObjLoader::loadOBJ("foot", loader);
+	ModelTexture footModelTexture = ModelTexture(loader.loadTexture("foot"));
 	TexturedModel footModel = TexturedModel(*footRawModel, footModelTexture);
 	footModel.getTexture().setNormalMap(loader.loadTexture("footNormal"));
         footModel.getTexture().setShineDamper(10);
@@ -493,36 +435,25 @@ int main(int argc, char *argv[])
 
 	vector<Light*> lights;
 	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));
-	//Light light2 = Light(glm::vec3(185, 10, -293 + Terrain::SIZE), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
-	//Light light3 = Light(glm::vec3(370, 17, -300 + Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
-	//Light light4 = Light(glm::vec3(293, 7, -305 + Terrain::SIZE),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
+	Light light2 = Light(glm::vec3(0, 20, 0), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
+	Light light3 = Light(glm::vec3(0, 20, -Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
+	Light light4 = Light(glm::vec3(Terrain::SIZE, 20, 0),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&sun);
-	//lights.push_back(&light2);
-	//lights.push_back(&light3);
-	//lights.push_back(&light4);
+	lights.push_back(&light2);
+	lights.push_back(&light3);
+	lights.push_back(&light4);
 
-	/*
-	ModelData *lampModelData = OBJFileLoader::loadOBJ("lamp");
-	RawModel* lampRawModel = loader.loadToVAO(lampModelData->getVertices(), lampModelData->getTextureCoords(),
-		lampModelData->getNormals(), lampModelData->getIndices());
-	GLuint lampTextureID = loader.loadTexture("lamp");
-	ModelTexture lampModelTexture = ModelTexture(lampTextureID);
+	RawModel* lampRawModel = OBJFileLoader::loadOBJ("lamp", loader);
+	ModelTexture lampModelTexture = ModelTexture(loader.loadTexture("lamp"));
 	TexturedModel lampModel = TexturedModel(*lampRawModel, lampModelTexture);
 	lampModel.getTexture().setUseFakeLighting(true);
 
-	entities.push_back(new Entity(lampModel, glm::vec3(185, -4.7f, -293 + Terrain::SIZE), 0, 0, 0, 1));
-	entities.push_back(new Entity(lampModel, glm::vec3(370,  4.2f, -300 + Terrain::SIZE), 0, 0, 0, 1));
-	entities.push_back(new Entity(lampModel, glm::vec3(293, -6.8f, -305 + Terrain::SIZE), 0, 0, 0, 1));
-	*/
+	entities.push_back(new Entity(lampModel, glm::vec3(0, 5, 0), 0, 0, 0, 1));
+	entities.push_back(new Entity(lampModel, glm::vec3(0, 5, -Terrain::SIZE), 0, 0, 0, 1));
+	entities.push_back(new Entity(lampModel, glm::vec3(Terrain::SIZE, 5, 0), 0, 0, 0, 1));
 
-
-
-	ModelData *playerModelData = OBJFileLoader::loadOBJ("person");
-	RawModel* playerRawModel
-		= loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
-				   playerModelData->getNormals(), playerModelData->getIndices());
-	GLuint playerTextureID = loader.loadTexture("playerTexture");
-	ModelTexture playerModelTexture = ModelTexture(playerTextureID);
+	RawModel* playerRawModel = OBJFileLoader::loadOBJ("person", loader);
+	ModelTexture playerModelTexture = ModelTexture(loader.loadTexture("playerTexture"));
 	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
 	playerModelTexture.setShineDamper(10);
 	playerModelTexture.setReflectivity(1);

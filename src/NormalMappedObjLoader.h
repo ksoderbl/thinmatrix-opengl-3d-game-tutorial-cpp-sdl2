@@ -8,7 +8,7 @@
 
 class NormalMappedObjLoader {
 public:
-	static ModelData *loadOBJ(string objFileName);
+	static RawModel *loadOBJ(string objFileName, Loader& loader);
 private:
 	static void processVertex(
 		int index,
