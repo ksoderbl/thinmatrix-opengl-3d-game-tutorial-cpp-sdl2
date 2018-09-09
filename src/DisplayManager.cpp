@@ -2,7 +2,7 @@
 
 #include "DisplayManager.h"
 
-const char *S_APPNAME = "OpenGL 3D Game Tutorial 30: Cel Shading & OpenGL Water Tutorial 8: Soft Edges";
+const char *S_APPNAME = "OpenGL 3D Game Tutorial 31: Normal Mapping & OpenGL Water Tutorial 8: Soft Edges";
 
 void DisplayManager::createDisplay()
 {
@@ -52,6 +52,8 @@ void DisplayManager::createDisplay()
 		cerr << "Warning: Synchronizing with vertical retrace failed: " << SDL_GetError() << endl;
 		//only complain, do not exit //exit(1);
 	}
+
+	glEnable(GL_MULTISAMPLE);
 
 	lastFrameTime = getCurrentTime();
 }

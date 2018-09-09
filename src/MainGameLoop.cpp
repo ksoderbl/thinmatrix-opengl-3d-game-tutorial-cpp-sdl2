@@ -229,22 +229,17 @@ int main(int argc, char *argv[])
 	ModelTexture rocksModelTexture = ModelTexture(rocksTextureID);
 	TexturedModel rocksTexturedModel = TexturedModel(*rocksRawModel, rocksModelTexture);
 
-	/*
-	TexturedModel rocks = TexturedModel(
-			"rocks", // obj
-			"rocks"  // png
-	);
 
-
-
-
-	ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
+	// fern
+	ModelData *fernModelData = objFileLoader.loadOBJ("fern");
+	RawModel* fernRawModel = loader.loadToVAO(
+		fernModelData->getVertices(), fernModelData->getTextureCoords(),
+		fernModelData->getNormals(), fernModelData->getIndices());
+	GLuint fernTextureID = loader.loadTexture("fern");
+	ModelTexture fernTextureAtlas = ModelTexture(fernTextureID);
+	TexturedModel fernTexturedModel = TexturedModel(*fernRawModel, fernTextureAtlas);
 	fernTextureAtlas.setNumberOfRows(2);
-
-	TexturedModel fern = new TexturedModel(objFileLoader.loadOBJ("fern", loader),
-    	fernTextureAtlas);
-    fern.getTexture().setHasTransparency(true);
-    */
+	fernTexturedModel.getTexture().setHasTransparency(true);
 
 	// stall
 	//ModelData *stallModelData = objFileLoader.loadOBJ("stall");
@@ -256,7 +251,6 @@ int main(int argc, char *argv[])
 	//stallModelTexture.setShineDamper(10);
 	//stallModelTexture.setReflectivity(1);
 
-	/*
 	// pine, was tree
 	ModelData *pineModelData = objFileLoader.loadOBJ("pine");
 	RawModel* pineRawModel = loader.loadToVAO(pineModelData->getVertices(), pineModelData->getTextureCoords(),
@@ -267,6 +261,7 @@ int main(int argc, char *argv[])
 	//pineModelTexture.setShineDamper(4);
 	//pineModelTexture.setReflectivity(0.3);
 
+	/*
 	// low poly tree
 	ModelData *lowPolyTreeModelData = objFileLoader.loadOBJ("lowPolyTree");
 	RawModel* lowPolyTreeRawModel = loader.loadToVAO(lowPolyTreeModelData->getVertices(), lowPolyTreeModelData->getTextureCoords(),
@@ -410,36 +405,34 @@ int main(int argc, char *argv[])
         entities.push_back(&entity2);
         entities.push_back(&entity3);
 
-	/*
         for (int i = 0; i < 60; i++) {
 		if (i % 3 == 0) {
-			float x = random.nextFloat() * 150;
-			float z = random.nextFloat() * -150;
+			GLfloat x = my_rand() * 150;
+			GLfloat z = my_rand() * -150;
 			if ((x > 50 && x < 100) || (z < -50 && z > -100)) {
 			} else {
-				float y = terrain.getHeightOfTerrain(x, z);
-				entities.add(new Entity(fern, 3, new Vector3f(x, y, z), 0,
-							random.nextFloat() * 360, 0, 0.9f));
+				GLfloat y = terrain.getHeightOfTerrain(x, z);
+				entities.push_back(
+					new Entity(fernTexturedModel, my_rand_int(4), glm::vec3(x, y, z), 
+						   0, my_rand() * 360, 0, 0.9f));
 			}
 		}
 		if (i % 2 == 0) {
-			float x = random.nextFloat() * 150;
-			float z = random.nextFloat() * -150;
+			GLfloat x = my_rand() * 150;
+			GLfloat z = my_rand() * -150;
 			if ((x > 50 && x < 100) || (z < -50 && z > -100)) {
 			} else {
-				float y = terrain.getHeightOfTerrain(x, z);
-				entities.add(new Entity(pine, 1, new Vector3f(x, y, z), 0,
-							random.nextFloat() * 360, 0, random.nextFloat() * 0.6f + 0.8f));
+				GLfloat y = terrain.getHeightOfTerrain(x, z);
+				entities.push_back(
+					new Entity(pineTexturedModel, glm::vec3(x, y, z),
+						   0, my_rand() * 360, 0, my_rand() * 0.6f + 0.8f));
 			}
 		}
         }
-	*/
 
 	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 4.6f, -Terrain::SIZE/2),
 		     0, 0, 0, Terrain::SIZE/2);
 	entities.push_back(&rocks);
-
-	//*******************OTHER SETUP***************  
 
 	/*
 	for (int i = 0; i < 400; i++) {
@@ -486,6 +479,8 @@ int main(int argc, char *argv[])
 		}
 	}
 	*/
+
+	//*******************OTHER SETUP***************
 
 	vector<Light*> lights;
 	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));

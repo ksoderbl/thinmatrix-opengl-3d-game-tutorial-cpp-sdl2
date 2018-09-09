@@ -14,8 +14,8 @@ public:
 		GLfloat scale);
 
 	Entity(	TexturedModel &model,
-		glm::vec3 position,
 		int textureIndex,
+		glm::vec3 position,
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
 		GLfloat scale);
 
