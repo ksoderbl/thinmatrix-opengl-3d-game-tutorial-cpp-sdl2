@@ -43,6 +43,7 @@ public:
 		DisplayManager& display);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
+	void processNormalMapEntity(Entity& entity);
 	void cleanUp();
 	glm::mat4& getProjectionMatrix();
 	GLfloat getNearPlane() { return NEAR_PLANE; }
@@ -70,10 +71,13 @@ private:
 	TerrainShader* terrainShader;
 	TerrainRenderer* terrainRenderer;
 
-	std::map<TexturedModel*, vector<Entity*>*>* entitiesMap;
-	vector<Terrain*>* terrains;
+	NormalMappingRenderer* normalMapRenderer;
 
 	SkyboxRenderer* skyboxRenderer;
+
+	std::map<TexturedModel*, vector<Entity*>*>* entitiesMap;
+	std::map<TexturedModel*, vector<Entity*>*>* normalMapEntitiesMap;
+	vector<Terrain*>* terrains;
 };
 
 #endif

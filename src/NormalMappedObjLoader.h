@@ -1,12 +1,12 @@
-#ifndef OBJFILELOADER_H
-#define OBJFILELOADER_H
+#ifndef NORMALMAPPEDOBJFILELOADER_H
+#define NORMALMAPPEDOBJFILELOADER_H
 
 #include "Headers.h"
 #include "Loader.h"
 #include "Vertex.h"
 #include "ModelData.h"
 
-class OBJFileLoader {
+class NormalMappedObjLoader {
 public:
 	static ModelData *loadOBJ(string objFileName);
 private:

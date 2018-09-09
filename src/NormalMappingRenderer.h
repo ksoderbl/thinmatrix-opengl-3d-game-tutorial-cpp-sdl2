@@ -4,17 +4,23 @@
 #include "Headers.h"
 #include "TexturedModel.h"
 #include "Entity.h"
-#include "StaticShader.h"
+#include "NormalMappingShader.h"
 
 class NormalMappingRenderer {
 public:
-	NormalMappingRenderer(StaticShader& shader, glm::mat4& projectionMatrix);
-	void render(std::map<TexturedModel*, vector<Entity*>*>* entities);
+	NormalMappingRenderer(glm::mat4& projectionMatrix);
+	void render(
+		std::map<TexturedModel*, vector<Entity*>*>* entities,
+		glm::vec4& clipPlane,
+		vector<Light*>&lights,
+		Camera& camera);
+	void cleanUp();
 	void prepareTexturedModel(TexturedModel &model);
 	void unbindTexturedModel();
 	void prepareInstance(Entity &entity);
+	void prepare(glm::vec4& clipPlane, vector<Light*>&lights, Camera& camera);
 private:
-	StaticShader& shader;
+	NormalMappingShader shader;
 };
 
 #endif

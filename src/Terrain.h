@@ -29,7 +29,7 @@ public:
 		return blendMap;
 	}
 
-	static constexpr GLfloat SIZE = 150;
+	static constexpr GLfloat SIZE = 300;
 	static constexpr GLfloat MAX_HEIGHT = 40;
 	static constexpr GLfloat MAX_PIXEL_COLOR = 256 * 256 * 256;
 

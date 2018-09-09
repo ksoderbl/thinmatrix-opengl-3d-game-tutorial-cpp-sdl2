@@ -39,13 +39,13 @@ private:
 	GLuint normalMap;
 	const string DUDV_MAP = "waterDUDV";
 	const string NORMAL_MAP = "normalMap";
-	static constexpr GLfloat WAVE_SPEED = 0.03f;
 	GLfloat waterTiling;
 	GLfloat moveFactor;
 	GLfloat waveStrength;
 	GLfloat waterReflectivity;
 	GLfloat shineDamper;
 	GLfloat reflectivity;
+	GLfloat waveSpeed; // was WAVE_SPEED
 };
 
 #endif

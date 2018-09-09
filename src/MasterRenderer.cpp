@@ -7,21 +7,25 @@ MasterRenderer::MasterRenderer(Loader& loader, DisplayManager& display)
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
 	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
+	normalMapEntitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
 	terrainShader = new TerrainShader();
 	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
 	terrains = new vector<Terrain*>;
 	skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+	normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
 }
 
 MasterRenderer::~MasterRenderer()
 {
 	delete entitiesMap;
+	delete normalMapEntitiesMap;
 	delete renderer;
 	delete shader;
 	delete terrains;
 	delete terrainRenderer;
 	delete terrainShader;
 	delete skyboxRenderer;
+	delete normalMapRenderer;
 }
 
 void MasterRenderer::renderScene(
@@ -40,9 +44,11 @@ void MasterRenderer::renderScene(
 	for (Terrain* terrain : terrains) {
 		processTerrain(*terrain);
 	}
-
 	for (Entity* entity : entities) {
 		processEntity(*entity);
+	}
+	for (Entity* entity : normalMapEntities) {
+		processNormalMapEntity(*entity);
 	}
 
 	render(lights, camera, clipPlane, useClipping, display);
@@ -63,6 +69,7 @@ void MasterRenderer::cleanUp()
 {
 	shader->cleanUp();
 	terrainShader->cleanUp();
+	normalMapRenderer->cleanUp();
 }
 
 void MasterRenderer::render(
@@ -88,6 +95,8 @@ void MasterRenderer::render(
 	renderer->render(entitiesMap);
 	shader->stop();
 
+	normalMapRenderer->render(normalMapEntitiesMap, clipPlane, lights, camera);
+
 	terrainShader->start();
 	terrainShader->loadClipPlane(clipPlane);
 	terrainShader->loadSkyColor(RED, GREEN, BLUE);
@@ -102,8 +111,9 @@ void MasterRenderer::render(
 
 	skyboxRenderer->render(camera, RED, GREEN, BLUE, display);
 
-	entitiesMap->clear();
 	terrains->clear();
+	entitiesMap->clear();
+	normalMapEntitiesMap->clear();
 }
 
 void MasterRenderer::processTerrain(Terrain& terrain)
@@ -125,6 +135,22 @@ void MasterRenderer::processEntity(Entity& entity)
   		newBatch->push_back(&entity);
   		entitiesMap->insert(std::make_pair(&entityModel, newBatch));
   	}
+}
+
+void MasterRenderer::processNormalMapEntity(Entity& entity)
+{
+	TexturedModel& entityModel = entity.getModel();
+	std::map<TexturedModel*, vector<Entity*>*>::iterator it;
+
+	it = normalMapEntitiesMap->find(&entityModel);
+	if (it != normalMapEntitiesMap->end()) {
+		vector<Entity*>* batch = it->second;
+		batch->push_back(&entity);
+	} else {
+		vector<Entity*>* newBatch = new vector<Entity*>();
+		newBatch->push_back(&entity);
+		normalMapEntitiesMap->insert(std::make_pair(&entityModel, newBatch));
+	}
 }
 
 void MasterRenderer::prepare()

@@ -4,15 +4,23 @@
 #include "MasterRenderer.h"
 #include "Maths.h"
 
-NormalMappingRenderer::NormalMappingRenderer(StaticShader& shader, glm::mat4& projectionMatrix) : shader(shader)
+NormalMappingRenderer::NormalMappingRenderer(glm::mat4& projectionMatrix)
 {
 	shader.start();
 	shader.loadProjectionMatrix(projectionMatrix);
+	//shader.connectTextureUnits();
 	shader.stop();
 }
 
-void NormalMappingRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* entities)
+void NormalMappingRenderer::render(
+	std::map<TexturedModel*, vector<Entity*>*>* entities,
+	glm::vec4& clipPlane,
+	vector<Light*>&lights,
+	Camera& camera)
 {
+	shader.start();
+	prepare(clipPlane, lights, camera);
+
 	for (std::map<TexturedModel*, vector<Entity*>*>::iterator it = entities->begin();
 	     it != entities->end();
 	     it++) {
@@ -35,6 +43,13 @@ void NormalMappingRenderer::render(std::map<TexturedModel*, vector<Entity*>*>* e
 
   		unbindTexturedModel();
 	}
+
+	shader.stop();
+}
+
+void NormalMappingRenderer::cleanUp()
+{
+	shader.cleanUp();
 }
 
 void NormalMappingRenderer::prepareTexturedModel(TexturedModel &model)
@@ -79,5 +94,16 @@ void NormalMappingRenderer::prepareInstance(Entity &entity)
 
 	shader.loadTransformationMatrix(transformationMatrix);
 	shader.loadTextureOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
+}
+
+void NormalMappingRenderer::prepare(
+	glm::vec4& clipPlane,
+	vector<Light*>&lights,
+	Camera& camera)
+{
+	shader.loadClipPlane(clipPlane);
+	shader.loadSkyColor(MasterRenderer::RED, MasterRenderer::GREEN, MasterRenderer::BLUE);
+	shader.loadLights(lights);
+	shader.loadViewMatrix(camera);
 }
 

@@ -23,6 +23,7 @@ SOURCES = \
 	ModelTexture.cpp \
 	Mouse.cpp \
 	MousePicker.cpp \
+	NormalMappedObjLoader.cpp \
 	NormalMappingRenderer.cpp \
 	NormalMappingShader.cpp \
 	OBJFileLoader.cpp \
