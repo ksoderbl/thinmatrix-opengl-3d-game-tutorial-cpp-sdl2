@@ -38,6 +38,9 @@ private:
 	vector<GLuint> *vaos;
 	vector<GLuint> *vbos;
 	vector<GLuint> *textures;
+
+	bool useMipMap;
+	GLfloat lodBias;
 };
 
 #endif

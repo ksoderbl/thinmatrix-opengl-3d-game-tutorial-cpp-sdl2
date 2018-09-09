@@ -385,52 +385,6 @@ int main(int argc, char *argv[])
 		     0, 0, 0, Terrain::SIZE/2);
 	entities.push_back(&rocks);
 
-	/*
-	for (int i = 0; i < 400; i++) {
-		if (i % 1 == 0) {
-			GLfloat x = my_rand() * Terrain::SIZE;
-			GLfloat z = my_rand() * Terrain::SIZE;
-			GLfloat y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(fernTexturedModel, glm::vec3(x, y, z), my_rand_int(4),
-					0, my_rand() * 360, 0, 0.9f));
-		}
-
-		if (i % 5 == 0) {
-			GLfloat x, y, z;
-
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(pineTexturedModel, glm::vec3(x, y, z),
-					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
-
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(lowPolyTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
-
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(grassTexturedModel, glm::vec3(x, y, z),
-					0, my_rand() * 360, 0, my_rand() * 0.1f + 0.6f));
-
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(toonRocksTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 1.0f + 1.0f));
-
-			x = my_rand() * Terrain::SIZE;
-			z = my_rand() * Terrain::SIZE;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
-			0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
-		}
-	}
-	*/
-
 	//*******************OTHER SETUP***************
 
 	vector<Light*> lights;
@@ -439,9 +393,9 @@ int main(int argc, char *argv[])
 	Light light3 = Light(glm::vec3(0, 20, -Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
 	Light light4 = Light(glm::vec3(Terrain::SIZE, 20, 0),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&sun);
-	lights.push_back(&light2);
-	lights.push_back(&light3);
-	lights.push_back(&light4);
+	//lights.push_back(&light2);
+	//lights.push_back(&light3);
+	//lights.push_back(&light4);
 
 	RawModel* lampRawModel = OBJFileLoader::loadOBJ("lamp", loader);
 	ModelTexture lampModelTexture = ModelTexture(loader.loadTexture("lamp"));
@@ -549,7 +503,7 @@ int main(int argc, char *argv[])
 		entity.increaseRotation(0.0f, 1.1f, 0.0f);
 		entity2.increaseRotation(0.0f, 1.2f, 0.0f);
 		entity3.increaseRotation(0.0f, 1.3f, 0.0f);
-		entity4.increaseRotation(0.0f, 1.4f, 0.0f);
+		entity4.increaseRotation(0.4f, 1.4f, 0.9f);
 
 		//render reflection texture
 		buffers.bindReflectionFrameBuffer();

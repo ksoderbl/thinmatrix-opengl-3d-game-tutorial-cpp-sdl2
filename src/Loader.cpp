@@ -7,6 +7,11 @@ Loader::Loader()
 	vaos = new vector<GLuint>();
 	vbos = new vector<GLuint>();
 	textures = new vector<GLuint>();
+	useMipMap = true;
+	//lodBias = 3.4f; // very strong mipmapping
+	//lodBias = -0.4f; // original value
+	//lodBias = -2.4f; // less severe mip mapping, slower
+	lodBias = -0.4f;
 }
 
 Loader::~Loader()
@@ -112,13 +117,12 @@ GLuint Loader::loadTexture(string fileName)
 	glTexImage2D(GL_TEXTURE_2D, 0, tx_fmt, tx_w, tx_h, 0, tx_fmt, GL_UNSIGNED_BYTE, tx_data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	bool useMipMap = true;
 	if (useMipMap) {
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		// lod bias can be e.g. between 4 and -4
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.4f);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, lodBias);
 	}
 	else {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

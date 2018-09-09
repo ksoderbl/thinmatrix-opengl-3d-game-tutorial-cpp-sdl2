@@ -13,7 +13,7 @@ out float visibility;
 uniform mat4 transformationMatrix; // objects translation, rotation and scaling in the world cooridinates
 uniform mat4 projectionMatrix;     // frustum
 uniform mat4 viewMatrix;           // camera
-uniform vec3 lightPosition[4];
+uniform vec3 lightPositionEyeSpace[4];
 
 uniform float useFakeLighting;
 
@@ -26,28 +26,30 @@ const float fogGradient = 5.0;
 uniform vec4 clipPlane;
 
 void main() {
-	// local space -> world space
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
-
 	gl_ClipDistance[0] = dot(worldPosition, clipPlane);
-
-	// world space -> eye space
-	vec4 positionRelativeToCam = viewMatrix * worldPosition;
-
-	// eye space -> homogenous clip space
+	mat4 modelViewMatrix = viewMatrix * transformationMatrix;
+	vec4 positionRelativeToCam = modelViewMatrix * vec4(position, 1.0);
 	gl_Position = projectionMatrix * positionRelativeToCam;
-	pass_textureCoordinates = (textureCoordinates/numberOfRows) + textureOffset;
 	
-	vec3 actualNormal = normal;
-	if (useFakeLighting > 0.5) {
-		actualNormal = vec3(0.0, 1.0, 0.0);
-	}
+	pass_textureCoordinates = (textureCoordinates/numberOfRows) + textureOffset;
 
-	vec3 surfaceNormal = (transformationMatrix * vec4(actualNormal,0.0)).xyz;
+	vec3 surfaceNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz;
+
+	vec3 norm = normalize(surfaceNormal);
+	vec3 tang = normalize((modelViewMatrix * vec4(tangent, 0.0)).xyz);
+	vec3 bitang = normalize(cross(norm, tang));
+
+	mat3 toTangentSpace = mat3(
+		tang.x, bitang.x, norm.x,
+		tang.y, bitang.y, norm.y,
+		tang.z, bitang.z, norm.z
+	);
+
 	for (int i = 0; i < 4; i++) {
-		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+		toLightVector[i] = toTangentSpace * (lightPositionEyeSpace[i] - positionRelativeToCam.xyz);
 	}
-	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+	toCameraVector = toTangentSpace * (-positionRelativeToCam.xyz);
 
 	float distance = length(positionRelativeToCam.xyz);
 	visibility = exp(-pow((distance * fogDensity), fogGradient));
