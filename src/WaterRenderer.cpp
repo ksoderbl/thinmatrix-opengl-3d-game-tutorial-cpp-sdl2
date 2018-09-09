@@ -25,7 +25,7 @@ WaterRenderer::WaterRenderer(
 	shader.loadProjectionMatrix(projectionMatrix);
 	shader.loadNearPlane(nearPlane);
 	shader.loadFarPlane(farPlane);
-	shader.loadSkyColor(MasterRenderer::SKY_RED, MasterRenderer::SKY_GREEN, MasterRenderer::SKY_BLUE);
+	shader.loadSkyColor(MasterRenderer::RED, MasterRenderer::GREEN, MasterRenderer::BLUE);
 	shader.stop();
 	setUpVAO(loader);
 }

@@ -220,11 +220,22 @@ int main(int argc, char *argv[])
 
 	OBJFileLoader objFileLoader;
 
+	// rocks
+	ModelData *rocksModelData = objFileLoader.loadOBJ("rocks");
+	RawModel* rocksRawModel = loader.loadToVAO(
+		rocksModelData->getVertices(), rocksModelData->getTextureCoords(),
+		rocksModelData->getNormals(), rocksModelData->getIndices());
+	GLuint rocksTextureID = loader.loadTexture("rocks");
+	ModelTexture rocksModelTexture = ModelTexture(rocksTextureID);
+	TexturedModel rocksTexturedModel = TexturedModel(*rocksRawModel, rocksModelTexture);
+
 	/*
 	TexturedModel rocks = TexturedModel(
 			"rocks", // obj
 			"rocks"  // png
 	);
+
+
 
 
 	ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
@@ -245,6 +256,7 @@ int main(int argc, char *argv[])
 	//stallModelTexture.setShineDamper(10);
 	//stallModelTexture.setReflectivity(1);
 
+	/*
 	// pine, was tree
 	ModelData *pineModelData = objFileLoader.loadOBJ("pine");
 	RawModel* pineRawModel = loader.loadToVAO(pineModelData->getVertices(), pineModelData->getTextureCoords(),
@@ -266,13 +278,13 @@ int main(int argc, char *argv[])
 	lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
-	//ModelData *bobbleTreeModelData = objFileLoader.loadOBJ("bobbleTree");
-	//RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(), bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
-	//GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
-	//ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
-	//TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
-	//bobbleTreeModelTexture.setShineDamper(4);
-	//bobbleTreeModelTexture.setReflectivity(0.3);
+	ModelData *bobbleTreeModelData = objFileLoader.loadOBJ("bobbleTree");
+	RawModel* bobbleTreeRawModel = loader.loadToVAO(bobbleTreeModelData->getVertices(), bobbleTreeModelData->getTextureCoords(), bobbleTreeModelData->getNormals(), bobbleTreeModelData->getIndices());
+	GLuint bobbleTreeTextureID = loader.loadTexture("bobbleTree");
+	ModelTexture bobbleTreeModelTexture = ModelTexture(bobbleTreeTextureID);
+	TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
+	bobbleTreeModelTexture.setShineDamper(4);
+	bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
 	ModelData *grassModelData = objFileLoader.loadOBJ("grassModel");
@@ -320,6 +332,7 @@ int main(int argc, char *argv[])
 	GLuint toonRocksTextureID = loader.loadTexture("toonRocks");
 	ModelTexture toonRocksModelTexture = ModelTexture(toonRocksTextureID);
 	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
+	*/
 
 	vector<Terrain*> terrains;
 	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
@@ -332,7 +345,103 @@ int main(int argc, char *argv[])
 	//terrains.push_back(&terrain4);
 
 	vector<Entity*> entities;
+	vector<Entity*> normalMapEntities;
 
+        //******************NORMAL MAP MODELS************************
+
+	// barrel
+	ModelData *barrelModelData = objFileLoader.loadOBJ("barrel");
+	RawModel* barrelRawModel = loader.loadToVAO(
+		barrelModelData->getVertices(), barrelModelData->getTextureCoords(),
+		barrelModelData->getNormals(), barrelModelData->getIndices());
+	GLuint barrelTextureID = loader.loadTexture("barrel");
+	ModelTexture barrelModelTexture = ModelTexture(barrelTextureID);
+	TexturedModel barrelTexturedModel = TexturedModel(*barrelRawModel, barrelModelTexture);
+
+	// crate
+	ModelData *crateModelData = objFileLoader.loadOBJ("crate");
+	RawModel* crateRawModel = loader.loadToVAO(
+		crateModelData->getVertices(), crateModelData->getTextureCoords(),
+		crateModelData->getNormals(), crateModelData->getIndices());
+	GLuint crateTextureID = loader.loadTexture("crate");
+	ModelTexture crateModelTexture = ModelTexture(crateTextureID);
+	TexturedModel crateTexturedModel = TexturedModel(*crateRawModel, crateModelTexture);
+
+	// boulder
+	ModelData *boulderModelData = objFileLoader.loadOBJ("boulder");
+	RawModel* boulderRawModel = loader.loadToVAO(
+		boulderModelData->getVertices(), boulderModelData->getTextureCoords(),
+		boulderModelData->getNormals(), boulderModelData->getIndices());
+	GLuint boulderTextureID = loader.loadTexture("boulder");
+	ModelTexture boulderModelTexture = ModelTexture(boulderTextureID);
+	TexturedModel boulderTexturedModel = TexturedModel(*boulderRawModel, boulderModelTexture);
+
+#if 0       
+        TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
+						      new ModelTexture(loader.loadTexture("barrel")));
+        barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
+        barrelModel.getTexture().setShineDamper(10);
+        barrelModel.getTexture().setReflectivity(0.5f);
+
+	TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
+						     new ModelTexture(loader.loadTexture("crate")));
+        crateModel.getTexture().setNormalMap(loader.loadTexture("crateNormal"));
+        crateModel.getTexture().setShineDamper(10);
+        crateModel.getTexture().setReflectivity(0.5f);
+
+        TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
+						       new ModelTexture(loader.loadTexture("boulder")));
+        boulderModel.getTexture().setNormalMap(loader.loadTexture("boulderNormal"));
+        boulderModel.getTexture().setShineDamper(10);
+        boulderModel.getTexture().setReflectivity(0.5f);
+#endif
+
+        //************ENTITIES*******************
+
+        Entity entity(barrelTexturedModel, glm::vec3(75, 0, -75), 0, 0, 0, 1.0f);
+        Entity entity2(boulderTexturedModel, glm::vec3(95, 0, -75), 0, 0, 0, 1.0f);
+        Entity entity3(crateTexturedModel, glm::vec3(55, 0, -75), 0, 0, 0, 0.04f);
+	/*
+        normalMapEntities.push_back(&entity);
+        normalMapEntities.push_back(&entity2);
+        normalMapEntities.push_back(&entity3);
+	*/
+        entities.push_back(&entity);
+        entities.push_back(&entity2);
+        entities.push_back(&entity3);
+
+	/*
+        for (int i = 0; i < 60; i++) {
+		if (i % 3 == 0) {
+			float x = random.nextFloat() * 150;
+			float z = random.nextFloat() * -150;
+			if ((x > 50 && x < 100) || (z < -50 && z > -100)) {
+			} else {
+				float y = terrain.getHeightOfTerrain(x, z);
+				entities.add(new Entity(fern, 3, new Vector3f(x, y, z), 0,
+							random.nextFloat() * 360, 0, 0.9f));
+			}
+		}
+		if (i % 2 == 0) {
+			float x = random.nextFloat() * 150;
+			float z = random.nextFloat() * -150;
+			if ((x > 50 && x < 100) || (z < -50 && z > -100)) {
+			} else {
+				float y = terrain.getHeightOfTerrain(x, z);
+				entities.add(new Entity(pine, 1, new Vector3f(x, y, z), 0,
+							random.nextFloat() * 360, 0, random.nextFloat() * 0.6f + 0.8f));
+			}
+		}
+        }
+	*/
+
+	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 4.6f, -Terrain::SIZE/2),
+		     0, 0, 0, Terrain::SIZE/2);
+	entities.push_back(&rocks);
+
+	//*******************OTHER SETUP***************  
+
+	/*
 	for (int i = 0; i < 400; i++) {
 		if (i % 1 == 0) {
 			GLfloat x = my_rand() * Terrain::SIZE;
@@ -369,24 +478,26 @@ int main(int argc, char *argv[])
 			entities.push_back(new Entity(toonRocksTexturedModel, glm::vec3(x, y, z),
 			0, my_rand() * 360, 0, my_rand() * 1.0f + 1.0f));
 
-			//x = my_rand() * Terrain::SIZE;
-			//z = my_rand() * Terrain::SIZE;
-			//y = terrain.getHeightOfTerrain(x, z);
-			//entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
-			//0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
+			x = my_rand() * Terrain::SIZE;
+			z = my_rand() * Terrain::SIZE;
+			y = terrain.getHeightOfTerrain(x, z);
+			entities.push_back(new Entity(bobbleTreeTexturedModel, glm::vec3(x, y, z),
+			0, my_rand() * 360, 0, my_rand() * 0.4f + 0.3f));
 		}
 	}
+	*/
 
 	vector<Light*> lights;
-	Light sun = Light(glm::vec3(10000, 3000, 3000), glm::vec3(1.0f, 1.0f, 1.0f));
-	Light light2 = Light(glm::vec3(185, 10, -293 + Terrain::SIZE), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
-	Light light3 = Light(glm::vec3(370, 17, -300 + Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
+	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));
+	//Light light2 = Light(glm::vec3(185, 10, -293 + Terrain::SIZE), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
+	//Light light3 = Light(glm::vec3(370, 17, -300 + Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
 	//Light light4 = Light(glm::vec3(293, 7, -305 + Terrain::SIZE),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&sun);
-	lights.push_back(&light2);
-	lights.push_back(&light3);
+	//lights.push_back(&light2);
+	//lights.push_back(&light3);
 	//lights.push_back(&light4);
 
+	/*
 	ModelData *lampModelData = objFileLoader.loadOBJ("lamp");
 	RawModel* lampRawModel = loader.loadToVAO(lampModelData->getVertices(), lampModelData->getTextureCoords(),
 		lampModelData->getNormals(), lampModelData->getIndices());
@@ -398,20 +509,21 @@ int main(int argc, char *argv[])
 	entities.push_back(new Entity(lampModel, glm::vec3(185, -4.7f, -293 + Terrain::SIZE), 0, 0, 0, 1));
 	entities.push_back(new Entity(lampModel, glm::vec3(370,  4.2f, -300 + Terrain::SIZE), 0, 0, 0, 1));
 	entities.push_back(new Entity(lampModel, glm::vec3(293, -6.8f, -305 + Terrain::SIZE), 0, 0, 0, 1));
+	*/
 
 
 
 	ModelData *playerModelData = objFileLoader.loadOBJ("person");
-	RawModel* playerRawModel = loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
-		playerModelData->getNormals(), playerModelData->getIndices());
+	RawModel* playerRawModel
+		= loader.loadToVAO(playerModelData->getVertices(), playerModelData->getTextureCoords(),
+				   playerModelData->getNormals(), playerModelData->getIndices());
 	GLuint playerTextureID = loader.loadTexture("playerTexture");
 	ModelTexture playerModelTexture = ModelTexture(playerTextureID);
 	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
 	playerModelTexture.setShineDamper(10);
 	playerModelTexture.setReflectivity(1);
 
-	Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/2, 0, Terrain::SIZE/2), 0, 0, 0, 0.5f);
-
+	Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/2, 5, -Terrain::SIZE/2), 0, 0, 0, 0.6f);
 	entities.push_back(&player);
 
 	Camera camera(player);
@@ -438,10 +550,10 @@ int main(int argc, char *argv[])
 	MasterRenderer renderer(loader, display);
 
 	/*MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);*/
-	Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
-	entities.push_back(lampEntity);
-	Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
-	lights.push_back(&light);
+	//Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
+	//entities.push_back(lampEntity);
+	//Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
+	//lights.push_back(&light);
 
 	//**********Water Renderer Set-up************************
 
@@ -486,27 +598,11 @@ int main(int argc, char *argv[])
 	int loops = 0;
 
 	while (!isCloseRequested) {
-
-		//cout << "MainGameLoop" << endl;
-
 		checkEvents(keyboard, mouse, display);
-
-		//cout << "MainGameLoop checkEvents OK" << endl;
-
 		//TODO: pass the correct terrain to move()
 		player.move(keyboard, display, terrain, water);
-
-		//cout << "MainGameLoop player move OK" << endl;
-
 		camera.move(keyboard, mouse);
-
-		//cout << "MainGameLoop camera move OK" << endl;
-
-		/*picker.update();*/
-
-		//cout << "MainGameLoop picker update OK" << endl;
-
-		/*
+		/*picker.update();
 		glm::vec3* terrainPoint = picker.getCurrentTerrainPoint();
 		if (terrainPoint != nullptr) {
 			glm::vec3 pt = *terrainPoint;
@@ -515,46 +611,37 @@ int main(int argc, char *argv[])
 		}
 		*/
 
-		//cout << "MainGameLoop picker terrain point OK" << endl;
+		entity.increaseRotation(0.1f, 0.2f, 0.3f);
+		entity2.increaseRotation(0.3f, 0.1f, 0.2f);
+		entity3.increaseRotation(0.2f, 0.3f, 0.1f);
 
 		//render reflection texture
 		buffers.bindReflectionFrameBuffer();
 		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
-		renderer.renderScene(entities, terrains, lights, camera, reflClipPlane, true, display);
+		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+				     reflClipPlane, true, display);
 		camera.getPosition().y += distance;
 		camera.invertPitch();
 
-		//cout << "MainGameLoop reflection frame buffer OK" << endl;
-
 		//render refraction texture
 		buffers.bindRefractionFrameBuffer();
-		renderer.renderScene(entities, terrains, lights, camera, refrClipPlane, true, /*player,*/ display);
-
-		//cout << "MainGameLoop refraction frame buffer OK" << endl;
-
+		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+				     refrClipPlane, true, /*player,*/ display);
 		//render to screen
 		buffers.unbindCurrentFrameBuffer();
 
-		renderer.renderScene(entities, terrains, lights, camera, screenClipPlane, false, /*player,*/ display);
-
-		//cout << "MainGameLoop render scene OK" << endl;
-
+		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+				     screenClipPlane, false, /*player,*/ display);
 		waterRenderer.render(waters, camera, sun, display);
-
-		//cout << "MainGameLoop water renderer OK" << endl;
-
 		guiRenderer.render(guis);
-
-		//cout << "MainGameLoop gui renderer OK" << endl;
-
 		display.updateDisplay();
-
-		//cout << "MainGameLoop update display OK" << endl;
 
 		loops++;
 	}
+
+	//*********Clean Up Below**************
 
 	buffers.cleanUp();
 	waterShader.cleanUp();

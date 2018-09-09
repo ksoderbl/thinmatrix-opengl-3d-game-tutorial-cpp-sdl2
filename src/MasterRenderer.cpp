@@ -26,6 +26,7 @@ MasterRenderer::~MasterRenderer()
 
 void MasterRenderer::renderScene(
 	vector<Entity*>& entities,
+	vector<Entity*>& normalMapEntities,
 	vector<Terrain*>& terrains,
 	vector<Light*>&lights,
 	Camera& camera,
@@ -81,7 +82,7 @@ void MasterRenderer::render(
 
 	shader->start();
 	shader->loadClipPlane(clipPlane);
-	shader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
+	shader->loadSkyColor(RED, GREEN, BLUE);
 	shader->loadLights(lights);
 	shader->loadViewMatrix(camera);
 	renderer->render(entitiesMap);
@@ -89,7 +90,7 @@ void MasterRenderer::render(
 
 	terrainShader->start();
 	terrainShader->loadClipPlane(clipPlane);
-	terrainShader->loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
+	terrainShader->loadSkyColor(RED, GREEN, BLUE);
 	terrainShader->loadLights(lights);
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);
@@ -99,7 +100,7 @@ void MasterRenderer::render(
 		glDisable(GL_CLIP_DISTANCE0);
 	}
 
-	skyboxRenderer->render(camera, SKY_RED, SKY_GREEN, SKY_BLUE, display);
+	skyboxRenderer->render(camera, RED, GREEN, BLUE, display);
 
 	entitiesMap->clear();
 	terrains->clear();
@@ -129,7 +130,7 @@ void MasterRenderer::processEntity(Entity& entity)
 void MasterRenderer::prepare()
 {
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(SKY_RED, SKY_GREEN, SKY_BLUE, 1);
+	glClearColor(RED, GREEN, BLUE, 1);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 

@@ -6,6 +6,7 @@
 #include "Headers.h"
 #include "StaticShader.h"
 #include "EntityRenderer.h"
+#include "NormalMappingRenderer.h"
 #include "TexturedModel.h"
 #include "Entity.h"
 #include "Light.h"
@@ -26,6 +27,7 @@ public:
 	void prepare();
 	void renderScene(
 		vector<Entity*>& entities,
+		vector<Entity*>& normalMapEntities,
 		vector<Terrain*>& terrains,
 		vector<Light*>&lights,
 		Camera& camera,
@@ -49,13 +51,13 @@ public:
 	static constexpr GLfloat FOV = 70;
 	static constexpr GLfloat NEAR_PLANE = 0.1f;
 	static constexpr GLfloat FAR_PLANE = 10000.0f;
-	//static constexpr GLfloat SKY_RED = 0.5444f;
-	//static constexpr GLfloat SKY_GREEN = 0.62f;
-	//static constexpr GLfloat SKY_BLUE = 0.69f;
+	//static constexpr GLfloat RED = 0.5444f;
+	//static constexpr GLfloat GREEN = 0.62f;
+	//static constexpr GLfloat BLUE = 0.69f;
 	//For Tutorial 30 Cel Shading
-	static constexpr GLfloat SKY_RED = 0.9444f;
-	static constexpr GLfloat SKY_GREEN = 0.52f;
-	static constexpr GLfloat SKY_BLUE = 0.79f;
+	static constexpr GLfloat RED = 0.9444f;
+	static constexpr GLfloat GREEN = 0.52f;
+	static constexpr GLfloat BLUE = 0.79f;
 
 private:
 	void createProjectionMatrix(DisplayManager& display);
@@ -64,10 +66,11 @@ private:
 
 	StaticShader* shader;
 	EntityRenderer* renderer;
-	std::map<TexturedModel*, vector<Entity*>*>* entitiesMap;
 
 	TerrainShader* terrainShader;
 	TerrainRenderer* terrainRenderer;
+
+	std::map<TexturedModel*, vector<Entity*>*>* entitiesMap;
 	vector<Terrain*>* terrains;
 
 	SkyboxRenderer* skyboxRenderer;
