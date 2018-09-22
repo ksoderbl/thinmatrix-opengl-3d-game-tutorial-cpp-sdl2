@@ -26,7 +26,7 @@ static bool isCloseRequested = false;
 
 /* ---------------------------------------------------------------------- */
 
-static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
+static void handle_keydown(SDL_KeyboardEvent key)
 {
 	keyboard.setKeyDown(key.keysym.sym, true);
 
@@ -50,7 +50,7 @@ static void handle_keydown(Keyboard& keyboard, SDL_KeyboardEvent key)
 	}
 }
 
-static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
+static void handle_keyup(SDL_KeyboardEvent key)
 {
 	keyboard.setKeyDown(key.keysym.sym, false);
 
@@ -74,7 +74,7 @@ static void handle_keyup(Keyboard& keyboard, SDL_KeyboardEvent key)
 }
 
 
-void checkEvents(Keyboard& keyboard, Mouse& mouse, DisplayManager& display)
+void checkEvents()
 {
 	SDL_Event event;
 
@@ -85,12 +85,12 @@ void checkEvents(Keyboard& keyboard, Mouse& mouse, DisplayManager& display)
 
 		else if (event.type == SDL_KEYDOWN)
 		{
-			handle_keydown(keyboard, event.key);
+			handle_keydown(event.key);
 		}
 
 		else if (event.type == SDL_KEYUP)
 		{
-			handle_keyup(keyboard, event.key);
+			handle_keyup(event.key);
 		}
 
 		else if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP) {
@@ -199,13 +199,9 @@ static int my_rand_int(int m)
 
 int main(int argc, char *argv[])
 {
-	DisplayManager display;
-
 	display.createDisplay();
 	srand(676452);
 
-	Keyboard keyboard;
-	Mouse mouse;
 	Loader loader;
 
 	//******** TERRAIN TEXTURE STUFF ********
@@ -225,11 +221,11 @@ int main(int argc, char *argv[])
 	TexturedModel rocksTexturedModel = TexturedModel(*rocksRawModel, rocksModelTexture);
 
 	// stall
-	RawModel* stallRawModel = OBJFileLoader::loadOBJ("stall", loader);
-	ModelTexture stallModelTexture = ModelTexture(loader.loadTexture("stallTexture"));
-	TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
-	stallModelTexture.setShineDamper(10);
-	stallModelTexture.setReflectivity(1);
+	//RawModel* stallRawModel = OBJFileLoader::loadOBJ("stall", loader);
+	//ModelTexture stallModelTexture = ModelTexture(loader.loadTexture("stallTexture"));
+	//TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
+	//stallModelTexture.setShineDamper(10);
+	//stallModelTexture.setReflectivity(1);
 
 	// pine, was tree
 	RawModel* pineRawModel = OBJFileLoader::loadOBJ("pine", loader);
@@ -239,18 +235,18 @@ int main(int argc, char *argv[])
 	pineModelTexture.setReflectivity(0.3);
 
 	// low poly tree
-	RawModel* lowPolyTreeRawModel = OBJFileLoader::loadOBJ("lowPolyTree", loader);
-	ModelTexture lowPolyTreeModelTexture = ModelTexture(loader.loadTexture("lowPolyTree"));
-	TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
-	lowPolyTreeModelTexture.setShineDamper(4);
-	lowPolyTreeModelTexture.setReflectivity(0.3);
+	//RawModel* lowPolyTreeRawModel = OBJFileLoader::loadOBJ("lowPolyTree", loader);
+	//ModelTexture lowPolyTreeModelTexture = ModelTexture(loader.loadTexture("lowPolyTree"));
+	//TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
+	//lowPolyTreeModelTexture.setShineDamper(4);
+	//lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
-	RawModel* bobbleTreeRawModel = OBJFileLoader::loadOBJ("bobbleTree", loader);
-	ModelTexture bobbleTreeModelTexture = ModelTexture(loader.loadTexture("bobbleTree"));
-	TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
-	bobbleTreeModelTexture.setShineDamper(4);
-	bobbleTreeModelTexture.setReflectivity(0.3);
+	//RawModel* bobbleTreeRawModel = OBJFileLoader::loadOBJ("bobbleTree", loader);
+	//ModelTexture bobbleTreeModelTexture = ModelTexture(loader.loadTexture("bobbleTree"));
+	//TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
+	//bobbleTreeModelTexture.setShineDamper(4);
+	//bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
 	RawModel* grassRawModel = OBJFileLoader::loadOBJ("grassModel", loader);
@@ -282,9 +278,9 @@ int main(int argc, char *argv[])
 	flowerTexturedModel.getTexture().setUseFakeLighting(true);
 
 	// toon rocks
-	RawModel* toonRocksRawModel = OBJFileLoader::loadOBJ("toonRocks", loader);
-	ModelTexture toonRocksModelTexture = ModelTexture(loader.loadTexture("toonRocks"));
-	TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
+	//RawModel* toonRocksRawModel = OBJFileLoader::loadOBJ("toonRocks", loader);
+	//ModelTexture toonRocksModelTexture = ModelTexture(loader.loadTexture("toonRocks"));
+	//TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
 	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
@@ -299,18 +295,18 @@ int main(int argc, char *argv[])
 	vector<Entity*> entities;
 	vector<Entity*> normalMapEntities;
 
-        //******************NORMAL MAP MODELS************************
+	//******************NORMAL MAP MODELS************************
 
 	// barrel
-        //TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
+	//TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
 	//new ModelTexture(loader.loadTexture("barrel")));
 
 	RawModel* barrelRawModel = NormalMappedObjLoader::loadOBJ("barrel", loader);
 	ModelTexture barrelModelTexture = ModelTexture(loader.loadTexture("barrel"));
 	TexturedModel barrelModel = TexturedModel(*barrelRawModel, barrelModelTexture);
 	barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
-        barrelModel.getTexture().setShineDamper(10);
-        barrelModel.getTexture().setReflectivity(0.5f);
+	barrelModel.getTexture().setShineDamper(10);
+	barrelModel.getTexture().setReflectivity(0.5f);
 
 	// crate
 	//TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
@@ -320,8 +316,8 @@ int main(int argc, char *argv[])
 	ModelTexture crateModelTexture = ModelTexture(loader.loadTexture("crate"));
 	TexturedModel crateModel = TexturedModel(*crateRawModel, crateModelTexture);
 	crateModel.getTexture().setNormalMap(loader.loadTexture("crateNormal"));
-        crateModel.getTexture().setShineDamper(10);
-        crateModel.getTexture().setReflectivity(0.5f);
+	crateModel.getTexture().setShineDamper(10);
+	crateModel.getTexture().setReflectivity(0.5f);
 
 	// boulder
 	//TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
@@ -331,32 +327,32 @@ int main(int argc, char *argv[])
 	ModelTexture boulderModelTexture = ModelTexture(loader.loadTexture("boulder"));
 	TexturedModel boulderModel = TexturedModel(*boulderRawModel, boulderModelTexture);
 	boulderModel.getTexture().setNormalMap(loader.loadTexture("boulderNormal"));
-        boulderModel.getTexture().setShineDamper(10);
-        boulderModel.getTexture().setReflectivity(0.5f);
+	boulderModel.getTexture().setShineDamper(10);
+	boulderModel.getTexture().setReflectivity(0.5f);
 
 	// football
 	RawModel* footRawModel = NormalMappedObjLoader::loadOBJ("foot", loader);
 	ModelTexture footModelTexture = ModelTexture(loader.loadTexture("foot"));
 	TexturedModel footModel = TexturedModel(*footRawModel, footModelTexture);
 	footModel.getTexture().setNormalMap(loader.loadTexture("footNormal"));
-        footModel.getTexture().setShineDamper(10);
-        footModel.getTexture().setReflectivity(0.5f);
+	footModel.getTexture().setShineDamper(10);
+	footModel.getTexture().setReflectivity(0.5f);
 
-        //************ENTITIES*******************
+	//************ENTITIES*******************
 
-        Entity entity(barrelModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
-        Entity entity2(boulderModel, glm::vec3(Terrain::SIZE/2 + 20, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
-        Entity entity3(crateModel, glm::vec3(Terrain::SIZE/2 -20, 0, -Terrain::SIZE/2), 0, 0, 0, 0.04f);
+	Entity entity(barrelModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
+	Entity entity2(boulderModel, glm::vec3(Terrain::SIZE/2 + 20, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
+	Entity entity3(crateModel, glm::vec3(Terrain::SIZE/2 -20, 0, -Terrain::SIZE/2), 0, 0, 0, 0.04f);
 	Entity entity4(footModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2 + 20), 0, 0, 0, 2.0f);
-        normalMapEntities.push_back(&entity);
-        normalMapEntities.push_back(&entity2);
-        normalMapEntities.push_back(&entity3);
+	normalMapEntities.push_back(&entity);
+	normalMapEntities.push_back(&entity2);
+	normalMapEntities.push_back(&entity3);
 	normalMapEntities.push_back(&entity4);
 
 	GLfloat limit1 = Terrain::SIZE / 4;
 	GLfloat limit2 = Terrain::SIZE - limit1;
 
-        for (int i = 0; i < 240; i++) {
+	for (int i = 0; i < 240; i++) {
 		if (i % 3 == 0) {
 			GLfloat x = my_rand() * Terrain::SIZE;
 			GLfloat z = my_rand() * -Terrain::SIZE;
@@ -379,7 +375,7 @@ int main(int argc, char *argv[])
 						   0, my_rand() * 360, 0, my_rand() * 0.6f + 0.8f));
 			}
 		}
-        }
+	}
 
 	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 4.6f, -Terrain::SIZE/2),
 		     0, 0, 0, Terrain::SIZE/2);
@@ -389,9 +385,9 @@ int main(int argc, char *argv[])
 
 	vector<Light*> lights;
 	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));
-	Light light2 = Light(glm::vec3(0, 20, 0), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
-	Light light3 = Light(glm::vec3(0, 20, -Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
-	Light light4 = Light(glm::vec3(Terrain::SIZE, 20, 0),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
+	//Light light2 = Light(glm::vec3(0, 20, 0), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
+	//Light light3 = Light(glm::vec3(0, 20, -Terrain::SIZE), glm::vec3(0, 2, 2), glm::vec3(1, 0.01f, 0.002f));
+	//Light light4 = Light(glm::vec3(Terrain::SIZE, 20, 0),  glm::vec3(2, 2, 0), glm::vec3(1, 0.01f, 0.002f));
 	lights.push_back(&sun);
 	//lights.push_back(&light2);
 	//lights.push_back(&light3);
@@ -436,9 +432,9 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	MasterRenderer renderer(loader, display);
+	MasterRenderer renderer(loader);
 
-	/*MousePicker picker(display, mouse, camera, renderer.getProjectionMatrix(), &terrain);*/
+	MousePicker picker(camera, renderer.getProjectionMatrix(), &terrain);
 	//Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
 	//entities.push_back(lampEntity);
 	//Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -446,7 +442,7 @@ int main(int argc, char *argv[])
 
 	//**********Water Renderer Set-up************************
 
-	WaterFrameBuffers buffers(display);
+	WaterFrameBuffers buffers;
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(),
 				    renderer.getNearPlane(), renderer.getFarPlane(), buffers);
@@ -487,10 +483,10 @@ int main(int argc, char *argv[])
 	int loops = 0;
 
 	while (!isCloseRequested) {
-		checkEvents(keyboard, mouse, display);
+		checkEvents();
 		//TODO: pass the correct terrain to move()
-		player.move(keyboard, display, terrain, water);
-		camera.move(keyboard, mouse);
+		player.move(terrain, water);
+		camera.move();
 		/*picker.update();
 		glm::vec3* terrainPoint = picker.getCurrentTerrainPoint();
 		if (terrainPoint != nullptr) {
@@ -511,20 +507,20 @@ int main(int argc, char *argv[])
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
 		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
-				     reflClipPlane, true, display);
+				     reflClipPlane, true);
 		camera.getPosition().y += distance;
 		camera.invertPitch();
 
 		//render refraction texture
 		buffers.bindRefractionFrameBuffer();
 		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
-				     refrClipPlane, true, /*player,*/ display);
+				     refrClipPlane, true);
 		//render to screen
 		buffers.unbindCurrentFrameBuffer();
 
 		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
-				     screenClipPlane, false, /*player,*/ display);
-		waterRenderer.render(waters, camera, sun, display);
+				     screenClipPlane, false);
+		waterRenderer.render(waters, camera, sun);
 		guiRenderer.render(guis);
 		display.updateDisplay();
 

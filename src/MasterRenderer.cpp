@@ -1,9 +1,9 @@
 #include "MasterRenderer.h"
 
-MasterRenderer::MasterRenderer(Loader& loader, DisplayManager& display)
+MasterRenderer::MasterRenderer(Loader& loader)
 {
 	enableCulling();
-	createProjectionMatrix(display);
+	createProjectionMatrix();
 	shader = new StaticShader();
 	renderer = new EntityRenderer(*shader, projectionMatrix);
 	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
@@ -35,9 +35,7 @@ void MasterRenderer::renderScene(
 	vector<Light*>&lights,
 	Camera& camera,
 	glm::vec4& clipPlane,
-	bool useClipping,
-	//Player& player,
-	DisplayManager& display)
+	bool useClipping)
 {
 	//processEntity(player);
 
@@ -51,7 +49,7 @@ void MasterRenderer::renderScene(
 		processNormalMapEntity(*entity);
 	}
 
-	render(lights, camera, clipPlane, useClipping, display);
+	render(lights, camera, clipPlane, useClipping);
 }
 
 void MasterRenderer::enableCulling()
@@ -76,8 +74,7 @@ void MasterRenderer::render(
 	vector<Light*>& lights,
 	Camera& camera,
 	glm::vec4& clipPlane,
-	bool useClipping,
-	DisplayManager& display)
+	bool useClipping)
 {
 	prepare();
 
@@ -109,7 +106,7 @@ void MasterRenderer::render(
 		glDisable(GL_CLIP_DISTANCE0);
 	}
 
-	skyboxRenderer->render(camera, RED, GREEN, BLUE, display);
+	skyboxRenderer->render(camera, RED, GREEN, BLUE);
 
 	terrains->clear();
 	entitiesMap->clear();
@@ -160,7 +157,7 @@ void MasterRenderer::prepare()
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
-void MasterRenderer::createProjectionMatrix(DisplayManager& display)
+void MasterRenderer::createProjectionMatrix()
 {
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=7m30s
 	// https://www.youtube.com/watch?v=50Y9u7K0PZo#t=10m10s

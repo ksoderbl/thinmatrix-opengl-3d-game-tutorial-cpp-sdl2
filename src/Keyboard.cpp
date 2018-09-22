@@ -1,5 +1,8 @@
 #include "Keyboard.h"
 
+// global object so one doesn't have to pass it as an argument everywhere.
+Keyboard keyboard;
+
 Keyboard::Keyboard()
 {
 	keys = new map<SDL_Keycode,bool>;

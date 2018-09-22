@@ -2,11 +2,9 @@
 #include "Maths.h"
 
 MousePicker::MousePicker(
-	DisplayManager& display,
-	Mouse& mouse,
 	Camera& camera,
 	glm::mat4& projection,
-	Terrain* terrain): display(display), mouse(mouse), camera(camera)
+	Terrain* terrain): camera(camera)
 {
 	this->projectionMatrix = projection;
 	this->viewMatrix = Maths::createViewMatrix(camera);
@@ -126,8 +124,8 @@ bool MousePicker::isUnderGround(glm::vec3& testPoint)
 Terrain* MousePicker::getTerrain(GLfloat worldX, GLfloat worldZ)
 {
 	// TODO
-    //int x = worldX / Terrain.SIZE;
-    //int z = worldZ / Terrain.SIZE;
-    //return terrains[x][z];
+	//int x = worldX / Terrain.SIZE;
+	//int z = worldZ / Terrain.SIZE;
+	//return terrains[x][z];
 	return terrain;
 }

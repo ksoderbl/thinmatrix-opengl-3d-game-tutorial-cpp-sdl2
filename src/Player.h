@@ -15,11 +15,11 @@ public:
 		glm::vec3 position,
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
 		GLfloat scale);
-	void move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain, WaterTile* water);
+	void move(Terrain& terrain, WaterTile* water);
 	
 private:
 	void jump();
-	void checkInputs(Keyboard& keyboard);
+	void checkInputs();
 
 	GLfloat RUN_SPEED = 40;
 	GLfloat TURN_SPEED = 160;

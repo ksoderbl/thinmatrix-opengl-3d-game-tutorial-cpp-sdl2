@@ -6,15 +6,14 @@
 class MousePicker
 {
 public:
-	MousePicker(
-		DisplayManager& display, Mouse& mouse,
-		Camera& camera, glm::mat4& projection, Terrain* terrain);
+	MousePicker(Camera& camera, glm::mat4& projection, Terrain* terrain);
 
 	glm::vec3* getCurrentTerrainPoint() {
-		if (currentTerrainPointIsOK)
+		if (currentTerrainPointIsOK) {
 			return &currentTerrainPoint;
-		else
+		} else {
 			return nullptr;
+		}
 	}
 	glm::vec3& getCurrentRay() {
 		return currentRay;
@@ -31,14 +30,12 @@ private:
 	bool isUnderGround(glm::vec3& testPoint);
 	Terrain* getTerrain(GLfloat worldX, GLfloat worldZ);
 
-    static constexpr int RECURSION_COUNT = 200;
-    static constexpr GLfloat RAY_RANGE = 1000; // 600;
+	static constexpr int RECURSION_COUNT = 200;
+	static constexpr GLfloat RAY_RANGE = 1000; // 600;
 
 	glm::vec3 currentRay;
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
-	DisplayManager& display;
-	Mouse& mouse;
 	Camera& camera;
 	Terrain* terrain;
 	glm::vec3 currentTerrainPoint;

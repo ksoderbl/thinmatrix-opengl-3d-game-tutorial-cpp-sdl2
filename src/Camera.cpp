@@ -11,7 +11,7 @@ Camera::Camera(Player& player) : player(player)
 	angleAroundPlayer = 0;
 }
 
-void Camera::move(Keyboard& keyboard, Mouse& mouse)
+void Camera::move()
 {
 	calculateZoom(mouse);
 	calculatePitch(mouse);

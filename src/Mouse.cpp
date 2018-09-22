@@ -1,5 +1,8 @@
 #include "Mouse.h"
 
+// global object so one doesn't have to pass it as an argument everywhere.
+Mouse mouse;
+
 Mouse::Mouse()
 {
 	dxTotal = 0;

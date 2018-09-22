@@ -11,8 +11,8 @@ WaterRenderer::WaterRenderer(
 	WaterFrameBuffers& fbos) : shader(shader), fbos(fbos)
 {
 	moveFactor = 0;
-	waterTiling = 3.0f; // was 4
-	waveStrength = 0.03f; // was 0.04
+	waterTiling = 4.0f; // was 4
+	waveStrength = 0.04f; // was 0.04
 	waterReflectivity = 2.0f; // for fresnel effect, thinmatrix had 0.5
 	shineDamper = 20.0f; // for normal maps
 	reflectivity = 0.5f;
@@ -30,9 +30,9 @@ WaterRenderer::WaterRenderer(
 	setUpVAO(loader);
 }
 
-void WaterRenderer::render(vector<WaterTile*>& water, Camera& camera, Light& sun, DisplayManager& display)
+void WaterRenderer::render(vector<WaterTile*>& water, Camera& camera, Light& sun)
 {
-	prepareRender(camera, sun, display);
+	prepareRender(camera, sun);
 	for (WaterTile* tile : water) {
 		glm::vec3 position(tile->getX(), tile->getHeight(), tile->getZ());
 		glm::mat4 modelMatrix = Maths::createTransformationMatrix(
@@ -43,7 +43,7 @@ void WaterRenderer::render(vector<WaterTile*>& water, Camera& camera, Light& sun
 	unbind();
 }
 
-void WaterRenderer::prepareRender(Camera& camera, Light& sun, DisplayManager& display)
+void WaterRenderer::prepareRender(Camera& camera, Light& sun)
 {
 	shader.start();
 	shader.loadViewMatrix(camera);

@@ -118,6 +118,7 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 	GLfloat furthest = convertDataToArrays(
 		vertices, textures, normals,
 		verticesArray, texturesArray, normalsArray, tangentsArray);
+	(void)furthest;
 
 	vector<GLuint> indicesArray;
 	for (int i = 0; i < (int) indices.size(); i++) {

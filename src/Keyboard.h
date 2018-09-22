@@ -12,4 +12,6 @@ private:
 	map<SDL_Keycode,bool> *keys;
 };
 
+extern Keyboard keyboard;
+
 #endif

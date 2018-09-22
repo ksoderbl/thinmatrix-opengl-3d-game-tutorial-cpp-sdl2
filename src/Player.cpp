@@ -8,7 +8,7 @@ Player::Player(	TexturedModel &model,
 	
 }
 
-void Player::checkInputs(Keyboard& keyboard)
+void Player::checkInputs()
 {
 	if (keyboard.isKeyDown(SDLK_w)) {
 		currentSpeed = RUN_SPEED;
@@ -31,16 +31,16 @@ void Player::checkInputs(Keyboard& keyboard)
 	}
 }
 
-void Player::move(Keyboard &keyboard, DisplayManager &manager, Terrain& terrain, WaterTile* water)
+void Player::move(Terrain& terrain, WaterTile* water)
 {
-	checkInputs(keyboard);
-	increaseRotation(0, currentTurnSpeed * manager.getFrameTimeSeconds(), 0);
-	GLfloat distance = currentSpeed * manager.getFrameTimeSeconds();
+	checkInputs();
+	increaseRotation(0, currentTurnSpeed * display.getFrameTimeSeconds(), 0);
+	GLfloat distance = currentSpeed * display.getFrameTimeSeconds();
 	GLfloat dx = distance * sin(glm::radians(getRotY()));
 	GLfloat dz = distance * cos(glm::radians(getRotY()));
 	increasePosition(dx, 0, dz);
-	upwardsSpeed += GRAVITY * manager.getFrameTimeSeconds();
-	increasePosition(0, upwardsSpeed * manager.getFrameTimeSeconds(), 0);
+	upwardsSpeed += GRAVITY * display.getFrameTimeSeconds();
+	increasePosition(0, upwardsSpeed * display.getFrameTimeSeconds(), 0);
 	glm::vec3& pos = getPosition();
 	GLfloat terrainHeight = terrain.getHeightOfTerrain(pos.x, pos.z);
 	if (pos.y < terrainHeight) {

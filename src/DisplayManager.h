@@ -34,4 +34,6 @@ private:
 	int fps = 0;
 };
 
+extern DisplayManager display;
+
 #endif

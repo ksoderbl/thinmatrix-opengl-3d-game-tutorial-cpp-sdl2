@@ -31,7 +31,7 @@ void SkyboxShader::loadProjectionMatrix(glm::mat4& matrix)
 	loadMatrix(location_projectionMatrix, matrix);
 }
 
-void SkyboxShader::loadViewMatrix(Camera& camera, DisplayManager& display)
+void SkyboxShader::loadViewMatrix(Camera& camera)
 {
 	glm::mat4 viewMatrix = Maths::createViewMatrix(camera);
 	// set translations to 0 in view matrix

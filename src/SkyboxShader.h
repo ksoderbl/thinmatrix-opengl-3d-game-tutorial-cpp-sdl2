@@ -11,7 +11,7 @@ public:
 	void bindAttributes();
 	void getAllUniformLocations();
 	void loadProjectionMatrix(glm::mat4& matrix);
-	void loadViewMatrix(Camera& camera, DisplayManager& display);
+	void loadViewMatrix(Camera& camera);
 	void loadFogColor(GLfloat r, GLfloat g, GLfloat b);
 	void loadBlendFactor(GLfloat blend);
 	void connectTextureUnits();

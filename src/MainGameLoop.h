@@ -14,6 +14,4 @@ using std::string;
 
 #include <SDL2/SDL.h>
 
-#define DATADIR "../data"
-
 #endif /* MAIN_H */

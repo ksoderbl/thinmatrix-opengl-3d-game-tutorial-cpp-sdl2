@@ -28,8 +28,8 @@ void WaterShader::connectTextureUnits()
 
 void WaterShader::loadShineVariables(GLfloat shineDamper, GLfloat reflectivity)
 {
-        loadFloat(location_shineDamper, shineDamper);
-        loadFloat(location_reflectivity, reflectivity);
+	loadFloat(location_shineDamper, shineDamper);
+	loadFloat(location_reflectivity, reflectivity);
 }
 
 // TODO: multiple lights
@@ -46,18 +46,18 @@ void WaterShader::loadNearPlane(GLfloat nearPlane)
 
 void WaterShader::loadFarPlane(GLfloat farPlane)
 {
-        loadFloat(location_farPlane, farPlane);
+	loadFloat(location_farPlane, farPlane);
 }
 
 // 10.0: very reflective, 0.5: quite transparent
 void WaterShader::loadWaterReflectivity(GLfloat reflectivity)
 {
-        loadFloat(location_waterReflectivity, reflectivity);
+	loadFloat(location_waterReflectivity, reflectivity);
 }
 
 void WaterShader::loadWaterTiling(GLfloat factor)
 {
-        loadFloat(location_waterTiling, factor);
+	loadFloat(location_waterTiling, factor);
 }
 
 void WaterShader::loadMoveFactor(GLfloat factor)
@@ -68,7 +68,7 @@ void WaterShader::loadMoveFactor(GLfloat factor)
 
 void WaterShader::loadWaveStrength(GLfloat factor)
 {
-        loadFloat(location_waveStrength, factor);
+	loadFloat(location_waveStrength, factor);
 }
 
 
@@ -102,19 +102,19 @@ void WaterShader::getAllUniformLocations()
 	location_modelMatrix = getUniformLocation("modelMatrix");
 	location_waterTiling = getUniformLocation("waterTiling");
 	location_reflectionTexture = getUniformLocation("reflectionTexture");
-        location_refractionTexture = getUniformLocation("refractionTexture");
-        location_dudvMap = getUniformLocation("dudvMap");
-        location_waveStrength = getUniformLocation("waveStrength");
-        location_moveFactor = getUniformLocation("moveFactor");
-        location_cameraPosition = getUniformLocation("cameraPosition");
-        location_waterReflectivity = getUniformLocation("waterReflectivity");
-        location_normalMap = getUniformLocation("normalMap");
-        location_lightColor = getUniformLocation("lightColor");
-        location_lightPosition = getUniformLocation("lightPosition");
-        location_shineDamper = getUniformLocation("shineDamper");
-        location_reflectivity = getUniformLocation("reflectivity");
-        location_depthMap = getUniformLocation("depthMap");
-        location_nearPlane = getUniformLocation("nearPlane");
-        location_farPlane = getUniformLocation("farPlane");
+	location_refractionTexture = getUniformLocation("refractionTexture");
+	location_dudvMap = getUniformLocation("dudvMap");
+	location_waveStrength = getUniformLocation("waveStrength");
+	location_moveFactor = getUniformLocation("moveFactor");
+	location_cameraPosition = getUniformLocation("cameraPosition");
+	location_waterReflectivity = getUniformLocation("waterReflectivity");
+	location_normalMap = getUniformLocation("normalMap");
+	location_lightColor = getUniformLocation("lightColor");
+	location_lightPosition = getUniformLocation("lightPosition");
+	location_shineDamper = getUniformLocation("shineDamper");
+	location_reflectivity = getUniformLocation("reflectivity");
+	location_depthMap = getUniformLocation("depthMap");
+	location_nearPlane = getUniformLocation("nearPlane");
+	location_farPlane = getUniformLocation("farPlane");
 	location_skyColor = getUniformLocation("skyColor");
 }

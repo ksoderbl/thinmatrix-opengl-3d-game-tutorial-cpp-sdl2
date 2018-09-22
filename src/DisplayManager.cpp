@@ -4,13 +4,15 @@
 
 const char *S_APPNAME = "OpenGL 3D Game Tutorial 31: Normal Mapping & OpenGL Water Tutorial 8: Soft Edges";
 
+DisplayManager display;
+
 void DisplayManager::createDisplay()
 {
 	int val;
 	GLenum error;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-	        cerr << "SDL_Init failed: " << SDL_GetError() << endl;
+		cerr << "SDL_Init failed: " << SDL_GetError() << endl;
 		exit(1);
 	}
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);

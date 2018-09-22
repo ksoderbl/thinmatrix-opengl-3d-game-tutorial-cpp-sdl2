@@ -35,4 +35,6 @@ private:
 	bool rightButtonIsDown;
 };
 
+extern Mouse mouse;
+
 #endif

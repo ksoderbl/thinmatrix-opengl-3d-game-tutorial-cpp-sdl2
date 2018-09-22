@@ -20,7 +20,7 @@
 
 class MasterRenderer {
 public:
-	MasterRenderer(Loader& loader, DisplayManager& display);
+	MasterRenderer(Loader& loader);
 	~MasterRenderer();
 	static void enableCulling();
 	static void disableCulling();
@@ -32,15 +32,12 @@ public:
 		vector<Light*>&lights,
 		Camera& camera,
 		glm::vec4& clipPlane,
-		bool useClipping,
-		//Player& player,
-		DisplayManager& display);
+		bool useClipping);
 	void render(
 		vector<Light*>& lights,
 		Camera& camera,
 		glm::vec4& clipPlane,
-		bool useClipping,
-		DisplayManager& display);
+		bool useClipping);
 	void processTerrain(Terrain& terrain);
 	void processEntity(Entity& entity);
 	void processNormalMapEntity(Entity& entity);
@@ -61,7 +58,7 @@ public:
 	static constexpr GLfloat BLUE = 0.79f;
 
 private:
-	void createProjectionMatrix(DisplayManager& display);
+	void createProjectionMatrix();
 
 	glm::mat4 projectionMatrix;
 

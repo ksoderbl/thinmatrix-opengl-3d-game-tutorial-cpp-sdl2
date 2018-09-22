@@ -18,7 +18,7 @@ public:
 	static constexpr GLfloat PITCH_CHANGE_FACTOR = 0.3f;
 
 	Camera(Player& player);
-	void move(Keyboard& keyboard, Mouse& mouse);
+	void move();
 	glm::vec3& getPosition() { return position; }
 	GLfloat getPitch() { return pitch; }
 	GLfloat getYaw() { return yaw; }

@@ -23,12 +23,10 @@ public:
 	void render(
 		vector<WaterTile*>& water,
 		Camera& camera,
-		Light& sun,
-		DisplayManager& display);
+		Light& sun);
 	void prepareRender(
 		Camera& camera,
-		Light& sun,
-		DisplayManager& display);
+		Light& sun);
 	void unbind();
 	void setUpVAO(Loader& loader);
 private:

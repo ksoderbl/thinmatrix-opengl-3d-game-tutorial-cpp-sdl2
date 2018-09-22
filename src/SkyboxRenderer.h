@@ -10,10 +10,9 @@
 class SkyboxRenderer {
 public:
 	SkyboxRenderer(Loader& loader, glm::mat4& projectionMatrix);
-	void render(Camera& camera, GLfloat r, GLfloat g, GLfloat b,
-		DisplayManager& display);
+	void render(Camera& camera, GLfloat r, GLfloat g, GLfloat b);
 private:
-	void bindTextures(DisplayManager& display);
+	void bindTextures();
 
 	static constexpr GLfloat SIZE = 5000.0f;
 	vector<GLfloat> VERTICES = {

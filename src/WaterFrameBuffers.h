@@ -2,11 +2,10 @@
 #define WATERFRAMEBUFFERS_H
 
 #include "Headers.h"
-#include "DisplayManager.h"
 
 class WaterFrameBuffers {
 public:
-	WaterFrameBuffers(DisplayManager &display);
+	WaterFrameBuffers();
 	void cleanUp();
 	void bindReflectionFrameBuffer();
 	void bindRefractionFrameBuffer();
@@ -16,8 +15,6 @@ public:
 	GLuint getRefractionDepthTexture() { return refractionDepthTextureID; }
 	
 private:
-	DisplayManager& display;
-
 	GLuint reflectionFrameBufferID;
 	GLuint reflectionTextureID;
 	GLuint reflectionDepthBufferID;

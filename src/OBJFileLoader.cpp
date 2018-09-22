@@ -120,6 +120,7 @@ RawModel *OBJFileLoader::loadOBJ(string objFileName, Loader& loader)
 
 	GLfloat furthest = convertDataToArrays(vertices, textures, normals,
 		verticesArray, texturesArray, normalsArray);
+	(void)furthest;
 
 	for (int i = 0; i < (int) indices.size(); i++) {
 		GLuint u = indices[i];
