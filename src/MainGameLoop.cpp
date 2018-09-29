@@ -7,19 +7,22 @@
 #include "TexturedModel.h"
 #include "Keyboard.h"
 #include "OBJFileLoader.h"
-#include "NormalMappedObjLoader.h"
+#include "normalMappingRenderer/NormalMappedObjLoader.h"
 #include "MasterRenderer.h"
 #include "TerrainTexture.h"
 #include "TerrainTexturePack.h"
 #include "Player.h"
 #include "Mouse.h"
 #include "MousePicker.h"
-#include "GuiTexture.h"
-#include "GuiRenderer.h"
-#include "WaterRenderer.h"
-#include "WaterShader.h"
-#include "WaterTile.h"
-#include "WaterFrameBuffers.h"
+#include "guis/GuiTexture.h"
+#include "guis/GuiRenderer.h"
+#include "water/WaterRenderer.h"
+#include "water/WaterShader.h"
+#include "water/WaterTile.h"
+#include "water/WaterFrameBuffers.h"
+#include "fontRendering/TextMaster.h"
+#include "fontRendering/FontType.h"
+#include "fontRendering/GUIText.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -203,54 +206,74 @@ int main(int argc, char *argv[])
 	srand(676452);
 
 	Loader loader;
+	textMaster.init(&loader);
 
+	//string sampleText = "This is a test text!"
+	string sampleText =
+		"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
+		"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
+		"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
+		"consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+		"cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
+
+	string fontFile = "../res/fonts/harrington.fnt";
+	FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
+	GUIText text(sampleText, 2.8, &font, glm::vec2(0.0f, 0.0f), 0.5f, false);
+	text.setColor(0.5, 1, 1);
+
+	string fontFile2 = "../res/fonts/segoe.fnt";
+	FontType font2(loader.loadFontTextureAtlas("fonts/segoe"), fontFile2);
+	GUIText text2(sampleText, 1.4, &font2, glm::vec2(0.6f, 0.1f), 0.3f, false);
+	text2.setColor(1, 1, 0.5);
+	
 	//******** TERRAIN TEXTURE STUFF ********
 
-	TerrainTexture backgroundTexture(loader.loadTexture("grassy2")); // was "grassy"
-	TerrainTexture rTexture(loader.loadTexture("mud"));  // was "dirt"
-	TerrainTexture gTexture(loader.loadTexture("pinkFlowers"));
-	TerrainTexture bTexture(loader.loadTexture("path"));
+	TerrainTexture backgroundTexture(loader.loadGameTexture("grassy2")); // was "grassy"
+	TerrainTexture rTexture(loader.loadGameTexture("mud"));  // was "dirt"
+	TerrainTexture gTexture(loader.loadGameTexture("pinkFlowers"));
+	TerrainTexture bTexture(loader.loadGameTexture("path"));
 	TerrainTexturePack texturePack(backgroundTexture, rTexture, gTexture, bTexture);
-	TerrainTexture blendMap(loader.loadTexture("blendMapLake"));
+	TerrainTexture blendMap(loader.loadGameTexture("blendMapLake"));
 
 	//******** LOAD MODELS ******************
-
+	
 	// rocks
 	RawModel *rocksRawModel = OBJFileLoader::loadOBJ("rocks", loader);
-	ModelTexture rocksModelTexture = ModelTexture(loader.loadTexture("rocks"));
+	ModelTexture rocksModelTexture = ModelTexture(loader.loadGameTexture("rocks"));
 	TexturedModel rocksTexturedModel = TexturedModel(*rocksRawModel, rocksModelTexture);
 
 	// stall
 	//RawModel* stallRawModel = OBJFileLoader::loadOBJ("stall", loader);
-	//ModelTexture stallModelTexture = ModelTexture(loader.loadTexture("stallTexture"));
+	//ModelTexture stallModelTexture = ModelTexture(loader.loadGameTexture("stallTexture"));
 	//TexturedModel stallTexturedModel = TexturedModel(*stallRawModel, stallModelTexture);
 	//stallModelTexture.setShineDamper(10);
 	//stallModelTexture.setReflectivity(1);
 
 	// pine, was tree
 	RawModel* pineRawModel = OBJFileLoader::loadOBJ("pine", loader);
-	ModelTexture pineModelTexture = ModelTexture(loader.loadTexture("pine"));
+	ModelTexture pineModelTexture = ModelTexture(loader.loadGameTexture("pine"));
 	TexturedModel pineTexturedModel = TexturedModel(*pineRawModel, pineModelTexture);
 	pineModelTexture.setShineDamper(4);
 	pineModelTexture.setReflectivity(0.3);
 
 	// low poly tree
 	//RawModel* lowPolyTreeRawModel = OBJFileLoader::loadOBJ("lowPolyTree", loader);
-	//ModelTexture lowPolyTreeModelTexture = ModelTexture(loader.loadTexture("lowPolyTree"));
+	//ModelTexture lowPolyTreeModelTexture = ModelTexture(loader.loadGameTexture("lowPolyTree"));
 	//TexturedModel lowPolyTreeTexturedModel = TexturedModel(*lowPolyTreeRawModel, lowPolyTreeModelTexture);
 	//lowPolyTreeModelTexture.setShineDamper(4);
 	//lowPolyTreeModelTexture.setReflectivity(0.3);
 
 	// bobble tree
 	//RawModel* bobbleTreeRawModel = OBJFileLoader::loadOBJ("bobbleTree", loader);
-	//ModelTexture bobbleTreeModelTexture = ModelTexture(loader.loadTexture("bobbleTree"));
+	//ModelTexture bobbleTreeModelTexture = ModelTexture(loader.loadGameTexture("bobbleTree"));
 	//TexturedModel bobbleTreeTexturedModel = TexturedModel(*bobbleTreeRawModel, bobbleTreeModelTexture);
 	//bobbleTreeModelTexture.setShineDamper(4);
 	//bobbleTreeModelTexture.setReflectivity(0.3);
 
 	// grass
 	RawModel* grassRawModel = OBJFileLoader::loadOBJ("grassModel", loader);
-	ModelTexture grassModelTexture = ModelTexture(loader.loadTexture("grassTexture"));
+	ModelTexture grassModelTexture = ModelTexture(loader.loadGameTexture("grassTexture"));
 	TexturedModel grassTexturedModel = TexturedModel(*grassRawModel, grassModelTexture);
 	grassTexturedModel.getTexture().setHasTransparency(true);
 	grassTexturedModel.getTexture().setUseFakeLighting(true);
@@ -259,7 +282,7 @@ int main(int argc, char *argv[])
 
 	// fern
 	RawModel* fernRawModel = OBJFileLoader::loadOBJ("fern", loader);
-	ModelTexture fernTextureAtlas = ModelTexture(loader.loadTexture("fern"));
+	ModelTexture fernTextureAtlas = ModelTexture(loader.loadGameTexture("fern"));
 	fernTextureAtlas.setShineDamper(4);
 	fernTextureAtlas.setReflectivity(0.1);
 	fernTextureAtlas.setNumberOfRows(2);
@@ -269,7 +292,7 @@ int main(int argc, char *argv[])
 
 	// flower, using fern as raw model, seems to work
 	RawModel* flowerRawModel = OBJFileLoader::loadOBJ("fern", loader);
-	ModelTexture flowerTextureAtlas = ModelTexture(loader.loadTexture("diffuse"));
+	ModelTexture flowerTextureAtlas = ModelTexture(loader.loadGameTexture("diffuse"));
 	flowerTextureAtlas.setShineDamper(5);
 	flowerTextureAtlas.setReflectivity(0.2);
 	flowerTextureAtlas.setNumberOfRows(2);
@@ -279,7 +302,7 @@ int main(int argc, char *argv[])
 
 	// toon rocks
 	//RawModel* toonRocksRawModel = OBJFileLoader::loadOBJ("toonRocks", loader);
-	//ModelTexture toonRocksModelTexture = ModelTexture(loader.loadTexture("toonRocks"));
+	//ModelTexture toonRocksModelTexture = ModelTexture(loader.loadGameTexture("toonRocks"));
 	//TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
@@ -296,63 +319,74 @@ int main(int argc, char *argv[])
 	vector<Entity*> normalMapEntities;
 
 	//******************NORMAL MAP MODELS************************
-
+	
 	// barrel
 	//TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
-	//new ModelTexture(loader.loadTexture("barrel")));
+	//new ModelTexture(loader.loadGameTexture("barrel")));
 
 	RawModel* barrelRawModel = NormalMappedObjLoader::loadOBJ("barrel", loader);
-	ModelTexture barrelModelTexture = ModelTexture(loader.loadTexture("barrel"));
+	ModelTexture barrelModelTexture = ModelTexture(loader.loadGameTexture("barrel"));
 	TexturedModel barrelModel = TexturedModel(*barrelRawModel, barrelModelTexture);
-	barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
+	barrelModel.getTexture().setNormalMap(loader.loadGameTexture("barrelNormal"));
 	barrelModel.getTexture().setShineDamper(10);
 	barrelModel.getTexture().setReflectivity(0.5f);
 
 	// crate
 	//TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
-	//new ModelTexture(loader.loadTexture("crate")));
+	//new ModelTexture(loader.loadGameTexture("crate")));
 
 	RawModel* crateRawModel = NormalMappedObjLoader::loadOBJ("crate", loader);
-	ModelTexture crateModelTexture = ModelTexture(loader.loadTexture("crate"));
+	ModelTexture crateModelTexture = ModelTexture(loader.loadGameTexture("crate"));
 	TexturedModel crateModel = TexturedModel(*crateRawModel, crateModelTexture);
-	crateModel.getTexture().setNormalMap(loader.loadTexture("crateNormal"));
+	crateModel.getTexture().setNormalMap(loader.loadGameTexture("crateNormal"));
 	crateModel.getTexture().setShineDamper(10);
 	crateModel.getTexture().setReflectivity(0.5f);
 
 	// boulder
 	//TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
-	//new ModelTexture(loader.loadTexture("boulder")));
+	//new ModelTexture(loader.loadGameTexture("boulder")));
 
 	RawModel* boulderRawModel = NormalMappedObjLoader::loadOBJ("boulder", loader);
-	ModelTexture boulderModelTexture = ModelTexture(loader.loadTexture("boulder"));
+	ModelTexture boulderModelTexture = ModelTexture(loader.loadGameTexture("boulder"));
 	TexturedModel boulderModel = TexturedModel(*boulderRawModel, boulderModelTexture);
-	boulderModel.getTexture().setNormalMap(loader.loadTexture("boulderNormal"));
+	boulderModel.getTexture().setNormalMap(loader.loadGameTexture("boulderNormal"));
 	boulderModel.getTexture().setShineDamper(10);
 	boulderModel.getTexture().setReflectivity(0.5f);
 
 	// football
-	RawModel* footRawModel = NormalMappedObjLoader::loadOBJ("foot", loader);
-	ModelTexture footModelTexture = ModelTexture(loader.loadTexture("foot"));
-	TexturedModel footModel = TexturedModel(*footRawModel, footModelTexture);
-	footModel.getTexture().setNormalMap(loader.loadTexture("footNormal"));
-	footModel.getTexture().setShineDamper(10);
-	footModel.getTexture().setReflectivity(0.5f);
+	//RawModel* footRawModel = NormalMappedObjLoader::loadOBJ("foot", loader);
+	//ModelTexture footModelTexture = ModelTexture(loader.loadGameTexture("foot"));
+	//TexturedModel footModel = TexturedModel(*footRawModel, footModelTexture);
+	//footModel.getTexture().setNormalMap(loader.loadGameTexture("footNormal"));
+	//footModel.getTexture().setShineDamper(10);
+	//footModel.getTexture().setReflectivity(0.5f);
 
 	//************ENTITIES*******************
-
+	
 	Entity entity(barrelModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
-	Entity entity2(boulderModel, glm::vec3(Terrain::SIZE/2 + 20, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
+	//Entity entity2(boulderModel, glm::vec3(Terrain::SIZE/2 + 20, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
 	Entity entity3(crateModel, glm::vec3(Terrain::SIZE/2 -20, 0, -Terrain::SIZE/2), 0, 0, 0, 0.04f);
-	Entity entity4(footModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2 + 20), 0, 0, 0, 2.0f);
+	//Entity entity4(footModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2 + 20), 0, 0, 0, 2.0f);
 	normalMapEntities.push_back(&entity);
-	normalMapEntities.push_back(&entity2);
+	//normalMapEntities.push_back(&entity2);
 	normalMapEntities.push_back(&entity3);
-	normalMapEntities.push_back(&entity4);
+	//normalMapEntities.push_back(&entity4);
 
 	GLfloat limit1 = Terrain::SIZE / 4;
 	GLfloat limit2 = Terrain::SIZE - limit1;
 
-	for (int i = 0; i < 240; i++) {
+	for (int i = 0; i < 2*240; i++) {
+		if (i % 4 == 0) {
+			GLfloat x = my_rand() * Terrain::SIZE;
+			GLfloat z = my_rand() * -Terrain::SIZE;
+			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			{
+				normalMapEntities.push_back(
+					new Entity(boulderModel, glm::vec3(x, y, z), 
+						   my_rand() * 360, my_rand() * 360,  my_rand() * 360,
+						   my_rand() * 0.9f + 0.1f));
+			}
+		}
 		if (i % 3 == 0) {
 			GLfloat x = my_rand() * Terrain::SIZE;
 			GLfloat z = my_rand() * -Terrain::SIZE;
@@ -382,7 +416,7 @@ int main(int argc, char *argv[])
 	entities.push_back(&rocks);
 
 	//*******************OTHER SETUP***************
-
+	
 	vector<Light*> lights;
 	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));
 	//Light light2 = Light(glm::vec3(0, 20, 0), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -393,17 +427,17 @@ int main(int argc, char *argv[])
 	//lights.push_back(&light3);
 	//lights.push_back(&light4);
 
-	RawModel* lampRawModel = OBJFileLoader::loadOBJ("lamp", loader);
-	ModelTexture lampModelTexture = ModelTexture(loader.loadTexture("lamp"));
-	TexturedModel lampModel = TexturedModel(*lampRawModel, lampModelTexture);
-	lampModel.getTexture().setUseFakeLighting(true);
+	//RawModel* lampRawModel = OBJFileLoader::loadOBJ("lamp", loader);
+	//ModelTexture lampModelTexture = ModelTexture(loader.loadGameTexture("lamp"));
+	//TexturedModel lampModel = TexturedModel(*lampRawModel, lampModelTexture);
+	//lampModel.getTexture().setUseFakeLighting(true);
 
-	entities.push_back(new Entity(lampModel, glm::vec3(0, 5, 0), 0, 0, 0, 1));
-	entities.push_back(new Entity(lampModel, glm::vec3(0, 5, -Terrain::SIZE), 0, 0, 0, 1));
-	entities.push_back(new Entity(lampModel, glm::vec3(Terrain::SIZE, 5, 0), 0, 0, 0, 1));
-
+	//entities.push_back(new Entity(lampModel, glm::vec3(0, 5, 0), 0, 0, 0, 1));
+	//entities.push_back(new Entity(lampModel, glm::vec3(0, 5, -Terrain::SIZE), 0, 0, 0, 1));
+	//entities.push_back(new Entity(lampModel, glm::vec3(Terrain::SIZE, 5, 0), 0, 0, 0, 1));
+	
 	RawModel* playerRawModel = OBJFileLoader::loadOBJ("person", loader);
-	ModelTexture playerModelTexture = ModelTexture(loader.loadTexture("playerTexture"));
+	ModelTexture playerModelTexture = ModelTexture(loader.loadGameTexture("playerTexture"));
 	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
 	playerModelTexture.setShineDamper(10);
 	playerModelTexture.setReflectivity(1);
@@ -416,15 +450,15 @@ int main(int argc, char *argv[])
 	vector<GuiTexture*> guis;
 	//glm::vec2 position(0.7f, 0.5f);
 	//glm::vec2 scale(0.125f, 0.125f);
-	//GuiTexture *gui = new GuiTexture(loader.loadTexture("socuwan"), position, scale);
+	//GuiTexture *gui = new GuiTexture(loader.loadGameTexture("socuwan"), position, scale);
 
 	//glm::vec2 position2(0.5f, 0.6f);
 	//glm::vec2 scale2(0.2f, 0.2f);
-	//GuiTexture *gui2 = new GuiTexture(loader.loadTexture("thinmatrix"), position2, scale2);
+	//GuiTexture *gui2 = new GuiTexture(loader.loadGameTexture("thinmatrix"), position2, scale2);
 
 	glm::vec2 position3(0.8f, 0.9f);
 	glm::vec2 scale3(0.2f, 0.2f);
-	GuiTexture *gui3 = new GuiTexture(loader.loadTexture("health"), position3, scale3);
+	GuiTexture *gui3 = new GuiTexture(loader.loadGameTexture("health"), position3, scale3);
 
 	//guis.push_back(gui);
 	//guis.push_back(gui2);
@@ -441,7 +475,7 @@ int main(int argc, char *argv[])
 	//lights.push_back(&light);
 
 	//**********Water Renderer Set-up************************
-
+	
 	WaterFrameBuffers buffers;
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(),
@@ -464,13 +498,13 @@ int main(int argc, char *argv[])
 	WaterTile* water = new WaterTile(Terrain::SIZE / 2, -Terrain::SIZE / 2, 0);
 	waters.push_back(water);
 
-	glm::vec2 refrGuiPosition(0.8f, -0.8f);
-	glm::vec2 refrGuiScale(0.2f, 0.2f);
+	glm::vec2 refrGuiPosition(-0.7f, -0.9f);
+	glm::vec2 refrGuiScale(0.1f, 0.1f);
 	GuiTexture *refrGui = new GuiTexture(buffers.getRefractionTexture(), refrGuiPosition, refrGuiScale);
 	guis.push_back(refrGui);
 
-	glm::vec2 reflGuiPosition(-0.8f, -0.8f);
-	glm::vec2 reflGuiScale(0.2f, 0.2f);
+	glm::vec2 reflGuiPosition(-0.9f, -0.9f);
+	glm::vec2 reflGuiScale(0.1f, 0.1f);
 	GuiTexture *reflGui = new GuiTexture(buffers.getReflectionTexture(), reflGuiPosition, reflGuiScale);
 	guis.push_back(reflGui);
 
@@ -479,7 +513,7 @@ int main(int argc, char *argv[])
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
 	//****************Game Loop Below*********************
-
+	
 	int loops = 0;
 
 	while (!isCloseRequested) {
@@ -497,9 +531,9 @@ int main(int argc, char *argv[])
 		*/
 
 		entity.increaseRotation(0.0f, 1.1f, 0.0f);
-		entity2.increaseRotation(0.0f, 1.2f, 0.0f);
+		//entity2.increaseRotation(0.0f, 1.2f, 0.0f);
 		entity3.increaseRotation(0.0f, 1.3f, 0.0f);
-		entity4.increaseRotation(0.4f, 1.4f, 0.9f);
+		//entity4.increaseRotation(0.4f, 1.4f, 0.9f);
 
 		//render reflection texture
 		buffers.bindReflectionFrameBuffer();
@@ -522,13 +556,20 @@ int main(int argc, char *argv[])
 				     screenClipPlane, false);
 		waterRenderer.render(waters, camera, sun);
 		guiRenderer.render(guis);
-		display.updateDisplay();
+		textMaster.render();
 
+		display.updateDisplay();
 		loops++;
+		
+		if (loops > 60*60) {
+			textMaster.removeText(&text);
+			textMaster.removeText(&text2);
+		}
 	}
 
 	//*********Clean Up Below**************
 
+	textMaster.cleanUp();
 	buffers.cleanUp();
 	waterShader.cleanUp();
 	guiRenderer.cleanUp();

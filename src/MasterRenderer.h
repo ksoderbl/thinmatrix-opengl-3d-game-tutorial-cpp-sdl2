@@ -6,7 +6,7 @@
 #include "Headers.h"
 #include "StaticShader.h"
 #include "EntityRenderer.h"
-#include "NormalMappingRenderer.h"
+#include "normalMappingRenderer/NormalMappingRenderer.h"
 #include "TexturedModel.h"
 #include "Entity.h"
 #include "Light.h"
@@ -14,7 +14,7 @@
 #include "Terrain.h"
 #include "TerrainShader.h"
 #include "TerrainRenderer.h"
-#include "SkyboxRenderer.h"
+#include "skybox/SkyboxRenderer.h"
 #include "Loader.h"
 #include "DisplayManager.h"
 
@@ -52,10 +52,9 @@ public:
 	//static constexpr GLfloat RED = 0.5444f;
 	//static constexpr GLfloat GREEN = 0.62f;
 	//static constexpr GLfloat BLUE = 0.69f;
-	//For Tutorial 30 Cel Shading
-	static constexpr GLfloat RED = 0.9444f;
-	static constexpr GLfloat GREEN = 0.52f;
-	static constexpr GLfloat BLUE = 0.79f;
+	static constexpr GLfloat RED = 157.0f / 256;   //0.9444f;
+	static constexpr GLfloat GREEN = 197.0f / 256; //0.52f;
+	static constexpr GLfloat BLUE = 213.0f / 256;  //0.79f;
 
 private:
 	void createProjectionMatrix();

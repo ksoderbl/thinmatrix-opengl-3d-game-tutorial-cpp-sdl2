@@ -6,13 +6,24 @@
 SHELL	= /bin/sh
 
 SOURCES = \
+	fontRendering/Character.cpp \
+	fontRendering/FontRenderer.cpp \
+	fontRendering/FontShader.cpp \
+	fontRendering/FontType.cpp \
+	fontRendering/GUIText.cpp \
+	fontRendering/Line.cpp \
+	fontRendering/MetaFile.cpp \
+	fontRendering/TextMaster.cpp \
+	fontRendering/TextMeshCreator.cpp \
+	fontRendering/TextMeshData.cpp \
+	fontRendering/Word.cpp \
 	Camera.cpp \
 	DisplayManager.cpp \
 	Entity.cpp \
 	EntityRenderer.cpp \
-	GuiRenderer.cpp \
-	GuiShader.cpp \
-	GuiTexture.cpp \
+	guis/GuiRenderer.cpp \
+	guis/GuiShader.cpp \
+	guis/GuiTexture.cpp \
 	Keyboard.cpp \
 	Light.cpp \
 	Loader.cpp \
@@ -23,15 +34,15 @@ SOURCES = \
 	ModelTexture.cpp \
 	Mouse.cpp \
 	MousePicker.cpp \
-	NormalMappedObjLoader.cpp \
-	NormalMappingRenderer.cpp \
-	NormalMappingShader.cpp \
+	normalMappingRenderer/NormalMappedObjLoader.cpp \
+	normalMappingRenderer/NormalMappingRenderer.cpp \
+	normalMappingRenderer/NormalMappingShader.cpp \
 	OBJFileLoader.cpp \
 	Player.cpp \
 	RawModel.cpp \
 	ShaderProgram.cpp \
-	SkyboxRenderer.cpp \
-	SkyboxShader.cpp \
+	skybox/SkyboxRenderer.cpp \
+	skybox/SkyboxShader.cpp \
 	StaticShader.cpp \
 	Terrain.cpp \
 	TerrainRenderer.cpp \
@@ -41,10 +52,12 @@ SOURCES = \
 	TextureData.cpp \
 	TexturedModel.cpp \
 	Vertex.cpp \
-	WaterFrameBuffers.cpp \
-	WaterRenderer.cpp \
-	WaterShader.cpp \
-	WaterTile.cpp
+	water/WaterFrameBuffers.cpp \
+	water/WaterRenderer.cpp \
+	water/WaterShader.cpp \
+	water/WaterTile.cpp
+
+
 
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)
@@ -68,4 +81,4 @@ $(TARGET): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	-rm -f core \#*\# *~ *.o $(OBJECTS) $(TARGET)
+	-rm -f core \#*\# *~ */*~ $(OBJECTS) $(TARGET)

@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #include <cassert>
 #include <cmath>
@@ -41,5 +42,6 @@ using std::istringstream;
 using std::vector;
 using std::map;
 using std::pair;
+using std::stringstream;
 
 #endif

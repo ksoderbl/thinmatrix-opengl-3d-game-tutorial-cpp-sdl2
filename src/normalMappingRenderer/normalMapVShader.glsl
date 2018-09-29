@@ -20,8 +20,8 @@ uniform float useFakeLighting;
 uniform float numberOfRows;
 uniform vec2 textureOffset;
 
-const float fogDensity = 0.0;
-const float fogGradient = 5.0;
+const float fogDensity = 0.00155;
+const float fogGradient = 2.0;
 
 uniform vec4 clipPlane;
 

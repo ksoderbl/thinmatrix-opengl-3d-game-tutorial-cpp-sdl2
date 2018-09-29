@@ -11,7 +11,7 @@ Loader::Loader()
 	//lodBias = 3.4f; // very strong mipmapping
 	//lodBias = -0.4f; // original value
 	//lodBias = -2.4f; // less severe mip mapping, slower
-	lodBias = -0.4f;
+	//lodBias = -0.4f;
 }
 
 Loader::~Loader()
@@ -63,6 +63,47 @@ RawModel *Loader::loadToVAO(
 	return new RawModel(vaoID, positions.size() / dimensions);
 }
 
+// OpenGL Tutorial 32: Font Rendering
+GLuint Loader::loadToVAO(
+	vector<GLfloat>&positions,
+	vector<GLfloat>&textureCoords)
+{
+	/*
+	cout << "Loader::loadToVAO positions size:" << positions.size() << endl;
+	
+	int count = 0;
+	for (GLfloat f : positions) {
+		if ((count & 1) == 0) {
+			cout << "(" << f << ", ";
+		}
+		else {
+			cout << f << ")" << endl;
+		}
+		count++;
+	}
+	
+	count = 0;
+	cout << "Loader::loadToVAO textureCoords size:" << textureCoords.size() << endl;
+	
+	for (GLfloat f : textureCoords) {
+		if ((count & 1) == 0) {
+			cout << "(" << f << ", ";
+		}
+		else {
+			cout << f << ")" << endl;
+		}
+		count++;
+	}
+	*/
+	
+	GLuint vaoID = createVAO();
+	storeDataInAttributeList(0, 2, positions);
+	storeDataInAttributeList(1, 2, textureCoords);
+	unbindVAO();
+	return vaoID;
+}
+
+
 /*
  * GL_TEXTURE_CUBE_MAP_POSITIVE_X   = Right Face
  * GL_TEXTURE_CUBE_MAP_NEGATIVE_X   = Left Face
@@ -94,7 +135,17 @@ GLuint Loader::loadCubeMap(vector<string>& textureFiles)
 	return textureID;
 }
 
-GLuint Loader::loadTexture(string fileName)
+GLuint Loader::loadGameTexture(string fileName)
+{
+	return loadTexture(fileName, -0.4);
+}
+
+GLuint Loader::loadFontTextureAtlas(string fileName)
+{
+	return loadTexture(fileName, 0.0);
+}
+
+GLuint Loader::loadTexture(string fileName, GLfloat lodBias)
 {
 	GLuint textureID; /* texture name (from glGenTextures) */
 	GLsizei tx_w;     /* width in pixels */

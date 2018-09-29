@@ -29,59 +29,59 @@ uniform float farPlane;
 
 void main(void) {
 
-    // ndc = normalized device coordinates
-    vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;
-    vec2 refractTexCoords = vec2(ndc.x, ndc.y);
-    vec2 reflectTexCoords = vec2(ndc.x, -ndc.y);
+	// ndc = normalized device coordinates
+	vec2 ndc = (clipSpace.xy/clipSpace.w)/2.0 + 0.5;
+	vec2 refractTexCoords = vec2(ndc.x, ndc.y);
+	vec2 reflectTexCoords = vec2(ndc.x, -ndc.y);
 
-    float near = nearPlane;
-    float far = farPlane;
-    float depth = texture(depthMap, refractTexCoords).r;
-    float floorDistance = 2.0 * near * far / (far + near - (2.0 * depth - 1.0) * (far - near));
+	float near = nearPlane;
+	float far = farPlane;
+	float depth = texture(depthMap, refractTexCoords).r;
+	float floorDistance = 2.0 * near * far / (far + near - (2.0 * depth - 1.0) * (far - near));
 
-    depth = gl_FragCoord.z;
-    float waterDistance = 2.0 * near * far / (far + near - (2.0 * depth - 1.0) * (far - near));
-    float waterDepth = floorDistance - waterDistance;
+	depth = gl_FragCoord.z;
+	float waterDistance = 2.0 * near * far / (far + near - (2.0 * depth - 1.0) * (far - near));
+	float waterDepth = floorDistance - waterDistance;
 
-    vec2 distortedTexCoords = texture(dudvMap, vec2(textureCoords.x + moveFactor, textureCoords.y)).rg * 0.1;
-    distortedTexCoords = textureCoords + vec2(distortedTexCoords.x, distortedTexCoords.y  + moveFactor);
+	vec2 distortedTexCoords = texture(dudvMap, vec2(textureCoords.x + moveFactor, textureCoords.y)).rg * 0.1;
+	distortedTexCoords = textureCoords + vec2(distortedTexCoords.x, distortedTexCoords.y  + moveFactor);
 
-    // f makes distortion very small at small water depths
-    float f = clamp(waterDepth / 20.0, 0.0, 1.0);
-    vec2 totalDistortion = (texture(dudvMap, distortedTexCoords).rg * 2.0 - 1.0) * waveStrength * f;
+	// f makes distortion very small at small water depths
+	float f = clamp(waterDepth / 20.0, 0.0, 1.0);
+	vec2 totalDistortion = (texture(dudvMap, distortedTexCoords).rg * 2.0 - 1.0) * waveStrength * f;
 
-    float minTexCoord = 0.005;
-    float maxTexCoord = 1.0 - minTexCoord;
+	float minTexCoord = 0.005;
+	float maxTexCoord = 1.0 - minTexCoord;
 
-    refractTexCoords += totalDistortion;
-    refractTexCoords = clamp(refractTexCoords, minTexCoord, maxTexCoord);
+	refractTexCoords += totalDistortion;
+	refractTexCoords = clamp(refractTexCoords, minTexCoord, maxTexCoord);
 
-    reflectTexCoords += totalDistortion;
-    reflectTexCoords.x = clamp(reflectTexCoords.x, minTexCoord, maxTexCoord);
-    reflectTexCoords.y = clamp(reflectTexCoords.y, -maxTexCoord, -minTexCoord);
+	reflectTexCoords += totalDistortion;
+	reflectTexCoords.x = clamp(reflectTexCoords.x, minTexCoord, maxTexCoord);
+	reflectTexCoords.y = clamp(reflectTexCoords.y, -maxTexCoord, -minTexCoord);
 
-    vec4 reflectColor = texture(reflectionTexture, reflectTexCoords);
-    vec4 refractColor = texture(refractionTexture, refractTexCoords);
+	vec4 reflectColor = texture(reflectionTexture, reflectTexCoords);
+	vec4 refractColor = texture(refractionTexture, refractTexCoords);
 
-    // Normal map
-    vec4 normalMapColor = texture(normalMap, distortedTexCoords);
-    // multiply b component by a factor > 1 (e.g. 3) to make the surface more flat
-    vec3 normal = vec3(normalMapColor.r * 2.0 - 1.0, normalMapColor.b * 3, normalMapColor.g * 2.0 - 1.0);
-    vec3 unitNormal = normalize(normal);
+	// Normal map
+	vec4 normalMapColor = texture(normalMap, distortedTexCoords);
+	// multiply b component by a factor > 1 (e.g. 3) to make the surface more flat
+	vec3 normal = vec3(normalMapColor.r * 2.0 - 1.0, normalMapColor.b * 3, normalMapColor.g * 2.0 - 1.0);
+	vec3 unitNormal = normalize(normal);
 
-    // Fresnel calculation
-    vec3 viewVector = normalize(toCameraVector);
-    float refractiveFactor = dot(viewVector, unitNormal);
-    refractiveFactor = pow(refractiveFactor, waterReflectivity);
-    refractiveFactor = clamp(refractiveFactor, 0.0, 1.0);
+	// Fresnel calculation
+	vec3 viewVector = normalize(toCameraVector);
+	float refractiveFactor = dot(viewVector, unitNormal);
+	refractiveFactor = pow(refractiveFactor, waterReflectivity);
+	refractiveFactor = clamp(refractiveFactor, 0.0, 1.0);
 
-    vec3 reflectedLight = reflect(normalize(fromLightVector), unitNormal);
-    float specular = max(dot(reflectedLight, viewVector), 0.0);
-    specular = pow(specular, shineDamper);
+	vec3 reflectedLight = reflect(normalize(fromLightVector), unitNormal);
+	float specular = max(dot(reflectedLight, viewVector), 0.0);
+	specular = pow(specular, shineDamper);
 
-    // soften specular highlights near water edge
-    float g = clamp(waterDepth / 5.0, 0.0, 1.0);
-    vec3 specularHighlights = lightColor * specular * reflectivity * g;
+	// soften specular highlights near water edge
+	float g = clamp(waterDepth / 5.0, 0.0, 1.0);
+	vec3 specularHighlights = lightColor * specular * reflectivity * g;
 
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 

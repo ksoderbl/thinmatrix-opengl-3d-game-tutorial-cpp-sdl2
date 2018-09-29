@@ -6,7 +6,7 @@
 #include "Keyboard.h"
 #include "DisplayManager.h"
 #include "Terrain.h"
-#include "WaterTile.h"
+#include "water/WaterTile.h"
 
 class Player : public Entity
 {
