@@ -13,7 +13,7 @@ class MetaFile {
 public:
 	MetaFile(string file);
 	double getSpaceWidth();
-	Character* getCharacter(int ascii);
+	Character* getCharacter(unsigned ascii);
 
 private:
 	bool processNextLine();
@@ -23,15 +23,15 @@ private:
 	bool openFile(string file);
 	void loadPaddingData();
 	void loadLineSizes();
-	void loadCharacterData(int imageWidth);
-	Character* loadCharacter(int imageSize);
+	void loadCharacterData(int imageWidth, int desiredPadding);
+	Character* loadCharacter(int imageSize, int desiredPadding);
 
 	static constexpr int PAD_TOP = 0;
 	static constexpr int PAD_LEFT = 1;
 	static constexpr int PAD_BOTTOM = 2;
 	static constexpr int PAD_RIGHT = 3;
 
-	static constexpr int DESIRED_PADDING = 3;
+	//static constexpr int DESIRED_PADDING = 8; // was 3
 
 	string SPLITTER = " ";
 	string NUMBER_SEPARATOR = ",";

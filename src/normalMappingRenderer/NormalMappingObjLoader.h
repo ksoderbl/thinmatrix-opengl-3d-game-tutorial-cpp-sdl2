@@ -6,7 +6,7 @@
 #include "../Vertex.h"
 #include "../ModelData.h"
 
-class NormalMappedObjLoader {
+class NormalMappingObjLoader {
 public:
 	static RawModel *loadOBJ(string objFileName, Loader& loader);
 private:

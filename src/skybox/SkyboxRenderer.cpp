@@ -1,4 +1,4 @@
-#include "../RawModel.h"
+#include "../models/RawModel.h"
 #include "SkyboxRenderer.h"
 #include "../DisplayManager.h"
 #include "../MasterRenderer.h"

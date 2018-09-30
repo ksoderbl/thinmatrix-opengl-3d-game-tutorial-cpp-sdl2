@@ -7,7 +7,7 @@
 #include "WaterTile.h"
 #include "WaterFrameBuffers.h"
 #include "../Camera.h"
-#include "../RawModel.h"
+#include "../models/RawModel.h"
 #include "../DisplayManager.h"
 #include "../Light.h"
 

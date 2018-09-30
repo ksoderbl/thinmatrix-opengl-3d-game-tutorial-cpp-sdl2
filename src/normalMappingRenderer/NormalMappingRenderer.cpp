@@ -1,4 +1,4 @@
-#include "../RawModel.h"
+#include "../models/RawModel.h"
 #include "NormalMappingRenderer.h"
 #include "../DisplayManager.h"
 #include "../MasterRenderer.h"

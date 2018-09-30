@@ -4,7 +4,7 @@
 #define ENTITY_H
 
 #include "Headers.h"
-#include "TexturedModel.h"
+#include "models/TexturedModel.h"
 
 class Entity {
 public:

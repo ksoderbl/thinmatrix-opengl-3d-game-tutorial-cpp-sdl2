@@ -4,7 +4,7 @@
 #define TERRAIN_H
 
 #include "Headers.h"
-#include "RawModel.h"
+#include "models/RawModel.h"
 #include "Loader.h"
 #include "TerrainTexturePack.h"
 #include "TerrainTexture.h"

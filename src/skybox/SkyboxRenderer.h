@@ -3,7 +3,7 @@
 
 #include "../Headers.h"
 #include "SkyboxShader.h"
-#include "../RawModel.h"
+#include "../models/RawModel.h"
 #include "../Loader.h"
 #include "../Camera.h"
 

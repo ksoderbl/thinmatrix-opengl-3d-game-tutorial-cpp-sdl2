@@ -1,13 +1,13 @@
 #include "DisplayManager.h"
-#include "RawModel.h"
+#include "models/RawModel.h"
 #include "Loader.h"
 #include "EntityRenderer.h"
 #include "StaticShader.h"
 #include "ModelTexture.h"
-#include "TexturedModel.h"
+#include "models/TexturedModel.h"
 #include "Keyboard.h"
 #include "OBJFileLoader.h"
-#include "normalMappingRenderer/NormalMappedObjLoader.h"
+#include "normalMappingRenderer/NormalMappingObjLoader.h"
 #include "MasterRenderer.h"
 #include "TerrainTexture.h"
 #include "TerrainTexturePack.h"
@@ -208,8 +208,27 @@ int main(int argc, char *argv[])
 	Loader loader;
 	textMaster.init(&loader);
 
-	//string sampleText = "This is a test text!"
-	string sampleText =
+	string sampleText1 = 
+	
+	"void TextMaster::loadText(GUIText* text)"
+	"{"
+    "    FontType* font = text->getFont();"
+    "    TextMeshData* data = font->loadText(text);"
+    "    GLuint vao = loader->loadToVAO(data->getVertexPositions(), data->getTextureCoords());"
+    "    text->setMeshInfo(vao, data->getVertexCount());"
+    "    vector<GUIText*>* textBatch = nullptr;"
+    "    map<FontType*, vector<GUIText*>*>::iterator it = texts->find(font);"
+    "    if (it == texts->end()) {"
+    "            textBatch = new vector<GUIText*>;"
+    "            texts->insert(std::pair<FontType*, vector<GUIText*>*>(font, textBatch));"
+    "    } else {"
+    "            textBatch = it->second;"
+    "    }"
+    "    textBatch->push_back(text);"
+	"}";
+
+	
+	string sampleText2 =
 		"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
 		"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
 		"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
@@ -217,15 +236,20 @@ int main(int argc, char *argv[])
 		"cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
 		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
 
-	string fontFile = "../res/fonts/harrington.fnt";
-	FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
-	GUIText text(sampleText, 2.8, &font, glm::vec2(0.0f, 0.0f), 0.5f, false);
-	text.setColor(0.5, 1, 1);
+	string fontFile = "../res/fonts/candara.fnt";
+	FontType font(loader.loadFontTextureAtlas("fonts/candara"), fontFile);
+	//string fontFile = "../res/fonts/harrington.fnt";
+	//FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
+	GUIText text(sampleText1, 2.0, &font, glm::vec2(0.0f, 0.1f), 0.6f, false);
+	text.setColor(1.0, 1.0, 1.0);
 
-	string fontFile2 = "../res/fonts/segoe.fnt";
-	FontType font2(loader.loadFontTextureAtlas("fonts/segoe"), fontFile2);
-	GUIText text2(sampleText, 1.4, &font2, glm::vec2(0.6f, 0.1f), 0.3f, false);
-	text2.setColor(1, 1, 0.5);
+	//string fontFile2 = "../res/fonts/segoe.fnt";
+	//FontType font2(loader.loadFontTextureAtlas("fonts/segoe"), fontFile2);
+	
+	string fontFile2 = "../res/fonts/ebGaramond12AllSC.fnt";
+	FontType font2(loader.loadFontTextureAtlas("fonts/ebGaramond12AllSC"), fontFile2);
+	GUIText text2(sampleText2, 2.5, &font2, glm::vec2(0.6f, 0.1f), 0.4f, true);
+	text2.setColor(1.0, 1.0, 0.0);
 	
 	//******** TERRAIN TEXTURE STUFF ********
 
@@ -321,10 +345,10 @@ int main(int argc, char *argv[])
 	//******************NORMAL MAP MODELS************************
 	
 	// barrel
-	//TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
+	//TexturedModel barrelModel = new TexturedModel(NormalMappingObjLoader.loadOBJ("barrel", loader),
 	//new ModelTexture(loader.loadGameTexture("barrel")));
 
-	RawModel* barrelRawModel = NormalMappedObjLoader::loadOBJ("barrel", loader);
+	RawModel* barrelRawModel = NormalMappingObjLoader::loadOBJ("barrel", loader);
 	ModelTexture barrelModelTexture = ModelTexture(loader.loadGameTexture("barrel"));
 	TexturedModel barrelModel = TexturedModel(*barrelRawModel, barrelModelTexture);
 	barrelModel.getTexture().setNormalMap(loader.loadGameTexture("barrelNormal"));
@@ -332,10 +356,10 @@ int main(int argc, char *argv[])
 	barrelModel.getTexture().setReflectivity(0.5f);
 
 	// crate
-	//TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
+	//TexturedModel crateModel = new TexturedModel(NormalMappingObjLoader.loadOBJ("crate", loader),
 	//new ModelTexture(loader.loadGameTexture("crate")));
 
-	RawModel* crateRawModel = NormalMappedObjLoader::loadOBJ("crate", loader);
+	RawModel* crateRawModel = NormalMappingObjLoader::loadOBJ("crate", loader);
 	ModelTexture crateModelTexture = ModelTexture(loader.loadGameTexture("crate"));
 	TexturedModel crateModel = TexturedModel(*crateRawModel, crateModelTexture);
 	crateModel.getTexture().setNormalMap(loader.loadGameTexture("crateNormal"));
@@ -343,10 +367,10 @@ int main(int argc, char *argv[])
 	crateModel.getTexture().setReflectivity(0.5f);
 
 	// boulder
-	//TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
+	//TexturedModel boulderModel = new TexturedModel(NormalMappingObjLoader.loadOBJ("boulder", loader),
 	//new ModelTexture(loader.loadGameTexture("boulder")));
 
-	RawModel* boulderRawModel = NormalMappedObjLoader::loadOBJ("boulder", loader);
+	RawModel* boulderRawModel = NormalMappingObjLoader::loadOBJ("boulder", loader);
 	ModelTexture boulderModelTexture = ModelTexture(loader.loadGameTexture("boulder"));
 	TexturedModel boulderModel = TexturedModel(*boulderRawModel, boulderModelTexture);
 	boulderModel.getTexture().setNormalMap(loader.loadGameTexture("boulderNormal"));
@@ -354,7 +378,7 @@ int main(int argc, char *argv[])
 	boulderModel.getTexture().setReflectivity(0.5f);
 
 	// football
-	//RawModel* footRawModel = NormalMappedObjLoader::loadOBJ("foot", loader);
+	//RawModel* footRawModel = NormalMappingObjLoader::loadOBJ("foot", loader);
 	//ModelTexture footModelTexture = ModelTexture(loader.loadGameTexture("foot"));
 	//TexturedModel footModel = TexturedModel(*footRawModel, footModelTexture);
 	//footModel.getTexture().setNormalMap(loader.loadGameTexture("footNormal"));

@@ -2,7 +2,7 @@
 #define LOADER_H
 
 #include "Headers.h"
-#include "RawModel.h"
+#include "models/RawModel.h"
 #include "TextureData.h"
 
 class Loader {

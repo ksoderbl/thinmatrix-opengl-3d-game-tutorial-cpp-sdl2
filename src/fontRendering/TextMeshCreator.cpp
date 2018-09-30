@@ -15,15 +15,12 @@ TextMeshData* TextMeshCreator::createTextMesh(GUIText* text)
 vector<Line*>* TextMeshCreator::createStructure(GUIText *text)
 {
 	string chars = text->getTextString();
-	
-	cout << "TextMeshCreator::createStructure for \"" << chars << "\"" << endl;
-	
 	auto lines = new vector<Line*>;
 	Line* currentLine = new Line(metaData->getSpaceWidth(), text->getFontSize(), text->getMaxLineSize());
 	Word* currentWord = new Word(text->getFontSize());
 	
 	for (char c : chars) {
-		int ascii = (int) c;
+		unsigned ascii = (unsigned) c;
 		if (ascii == SPACE_ASCII) {
 			bool added = currentLine->attemptToAddWord(*currentWord);
 			if (!added) {
@@ -34,8 +31,10 @@ vector<Line*>* TextMeshCreator::createStructure(GUIText *text)
 			currentWord = new Word(text->getFontSize());
 			continue;
 		}
+		
 		Character* character = metaData->getCharacter(ascii);
-		currentWord->addCharacter(*character);
+		if (character != nullptr)
+			currentWord->addCharacter(*character);
 	}
 	completeStructure(lines, currentLine, currentWord, text);
 	return lines;

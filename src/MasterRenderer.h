@@ -7,7 +7,7 @@
 #include "StaticShader.h"
 #include "EntityRenderer.h"
 #include "normalMappingRenderer/NormalMappingRenderer.h"
-#include "TexturedModel.h"
+#include "models/TexturedModel.h"
 #include "Entity.h"
 #include "Light.h"
 #include "Camera.h"

@@ -2,7 +2,7 @@
 #define ENTITYRENDERER_H
 
 #include "Headers.h"
-#include "TexturedModel.h"
+#include "models/TexturedModel.h"
 #include "Entity.h"
 #include "StaticShader.h"
 

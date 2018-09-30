@@ -15,10 +15,9 @@ MetaFile::MetaFile(string file)
 	loadPaddingData();
 	loadLineSizes();
 	int imageWidth = getValueOfVariable("scaleW");
-	
-	//cout << "MetaFile: got imagewidth = " << imageWidth << endl;
-	
-	loadCharacterData(imageWidth);
+	// Use padding[PAD_LEFT] as desiredPadding, this works at least
+	// if all the 4 padding values are equal
+	loadCharacterData(imageWidth, padding[PAD_LEFT]);
 	close();
 }
 
@@ -27,7 +26,7 @@ double MetaFile::getSpaceWidth()
 	return spaceWidth;
 }
 
-Character* MetaFile::getCharacter(int ascii)
+Character* MetaFile::getCharacter(unsigned ascii)
 {
 	map<int, Character*>::iterator it = metaData.find(ascii);
 	if (it == metaData.end()) {
@@ -49,7 +48,7 @@ bool MetaFile::processNextLine()
 	
 	string line;
 	if (!getline(ifs, line)) {
-		cout << "processNextLine() returned false" << endl;
+		//cout << "processNextLine() returned false" << endl;
 		return false;
 	}
 	
@@ -193,7 +192,7 @@ void MetaFile::loadLineSizes()
 {
 	processNextLine();
 	
-	cout << "MetaFile: lineHeight = " << getValueOfVariable("lineHeight") << endl;
+	//cout << "MetaFile: lineHeight = " << getValueOfVariable("lineHeight") << endl;
 	
 	int lineHeightPixels = getValueOfVariable("lineHeight") - paddingHeight;
 	verticalPerPixelSize = TextMeshCreator::LINE_HEIGHT / (double) lineHeightPixels;
@@ -207,13 +206,13 @@ void MetaFile::loadLineSizes()
  * @param imageWidth
  *	    - the width of the texture atlas in pixels.
  */
-void MetaFile::loadCharacterData(int imageWidth)
+void MetaFile::loadCharacterData(int imageWidth, int desiredPadding)
 {
 	processNextLine();
 	processNextLine();
 	int count = 0;
 	while (processNextLine()) {
-		Character* c = loadCharacter(imageWidth);
+		Character* c = loadCharacter(imageWidth, desiredPadding);
 		if (c != nullptr) {
 			metaData.insert(pair<int, Character*>(c->getId(), c));
 		}
@@ -231,23 +230,23 @@ void MetaFile::loadCharacterData(int imageWidth)
  *	    - the size of the texture atlas in pixels.
  * @return The data about the character.
  */
-Character* MetaFile::loadCharacter(int imageSize)
+Character* MetaFile::loadCharacter(int imageSize, int desiredPadding)
 {
 	int id = getValueOfVariable("id");
     if (id == TextMeshCreator::SPACE_ASCII) {
 		this->spaceWidth = (getValueOfVariable("xadvance") - paddingWidth) * horizontalPerPixelSize;
 		return nullptr;
     }
-	double xTex = ((double) getValueOfVariable("x") + (padding[PAD_LEFT] - DESIRED_PADDING)) / imageSize;
-	double yTex = ((double) getValueOfVariable("y") + (padding[PAD_TOP] - DESIRED_PADDING)) / imageSize;
-	int width = getValueOfVariable("width") - (paddingWidth - (2 * DESIRED_PADDING));
-	int height = getValueOfVariable("height") - ((paddingHeight) - (2 * DESIRED_PADDING));
+	double xTex = ((double) getValueOfVariable("x") + (padding[PAD_LEFT] - desiredPadding)) / imageSize;
+	double yTex = ((double) getValueOfVariable("y") + (padding[PAD_TOP] - desiredPadding)) / imageSize;
+	int width = getValueOfVariable("width") - (paddingWidth - (2 * desiredPadding));
+	int height = getValueOfVariable("height") - ((paddingHeight) - (2 * desiredPadding));
 	double quadWidth = width * horizontalPerPixelSize;
 	double quadHeight = height * verticalPerPixelSize;
 	double xTexSize = (double) width / imageSize;
 	double yTexSize = (double) height / imageSize;
-	double xOff = (getValueOfVariable("xoffset") + padding[PAD_LEFT] - DESIRED_PADDING) * horizontalPerPixelSize;
-	double yOff = (getValueOfVariable("yoffset") + (padding[PAD_TOP] - DESIRED_PADDING)) * verticalPerPixelSize;
+	double xOff = (getValueOfVariable("xoffset") + padding[PAD_LEFT] - desiredPadding) * horizontalPerPixelSize;
+	double yOff = (getValueOfVariable("yoffset") + (padding[PAD_TOP] - desiredPadding)) * verticalPerPixelSize;
 	double xAdvance = (getValueOfVariable("xadvance") - paddingWidth) * horizontalPerPixelSize;
 	return new Character(id, xTex, yTex, xTexSize, yTexSize, xOff, yOff, quadWidth, quadHeight, xAdvance);
 }

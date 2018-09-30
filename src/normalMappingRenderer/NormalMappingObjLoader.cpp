@@ -1,13 +1,13 @@
-#include "NormalMappedObjLoader.h"
+#include "NormalMappingObjLoader.h"
 
-RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
+RawModel *NormalMappingObjLoader::loadOBJ(string objFileName, Loader& loader)
 {
 	string RES_LOC = "../res/";
 	string fileName = RES_LOC + objFileName + ".obj";
 	ifstream inFile(fileName, ios::in);
 
 	if (!inFile) {
-		cerr << "NormalMappedObjLoader: File " << fileName << " could not be opened" << endl;
+		cerr << "NormalMappingObjLoader: File " << fileName << " could not be opened" << endl;
 		exit(1);
 	}
 
@@ -54,9 +54,9 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 		}
 		else if (starts == "f") {
 			// break when faces start
-			//cout << "NormalMappedObjLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
-			//cout << "NormalMappedObjLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
-			//cout << "NormalMappedObjLoader: Read " << normals.size() << " normals from " << fileName << endl;
+			//cout << "NormalMappingObjLoader: Read " << vertices.size() << " vertices from " << fileName << endl;
+			//cout << "NormalMappingObjLoader: Read " << textures.size() << " texture coords from " << fileName << endl;
+			//cout << "NormalMappingObjLoader: Read " << normals.size() << " normals from " << fileName << endl;
 			break;
 		}
 	}
@@ -108,7 +108,7 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 		getline(inFile, line);
 	}
 
-	//cout << "NormalMappedObjLoader: Read " << faces << " faces from " << fileName << endl;
+	//cout << "NormalMappingObjLoader: Read " << faces << " faces from " << fileName << endl;
 
 	removeUnusedVertices(vertices);
 	vector<GLfloat> verticesArray;
@@ -135,7 +135,7 @@ RawModel *NormalMappedObjLoader::loadOBJ(string objFileName, Loader& loader)
 				tangentsArray, indicesArray);
 }
 
-void NormalMappedObjLoader::calculateTangents(
+void NormalMappingObjLoader::calculateTangents(
 	Vertex* v0, Vertex* v1, Vertex* v2,
 	vector<glm::vec2>& textures)
 {
@@ -157,7 +157,7 @@ void NormalMappedObjLoader::calculateTangents(
 	v2->addTangent(tangent);
 }
 
-Vertex* NormalMappedObjLoader::processVertex(
+Vertex* NormalMappingObjLoader::processVertex(
 	int index,
 	int textureIndex,
 	int normalIndex,
@@ -177,7 +177,7 @@ Vertex* NormalMappedObjLoader::processVertex(
 	}
 }
 
-GLfloat NormalMappedObjLoader::convertDataToArrays(
+GLfloat NormalMappingObjLoader::convertDataToArrays(
 	vector<Vertex*>& vertices,
 	vector<glm::vec2>& textures,
 	vector<glm::vec3>& normals,
@@ -213,7 +213,7 @@ GLfloat NormalMappedObjLoader::convertDataToArrays(
 	return furthestPoint;
 }
 
-Vertex* NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
+Vertex* NormalMappingObjLoader::dealWithAlreadyProcessedVertex(
 	Vertex *previousVertex,
 	int newTextureIndex,
 	int newNormalIndex,
@@ -240,7 +240,7 @@ Vertex* NormalMappedObjLoader::dealWithAlreadyProcessedVertex(
 	}
 }
 
-void NormalMappedObjLoader::removeUnusedVertices(vector<Vertex*>& vertices)
+void NormalMappingObjLoader::removeUnusedVertices(vector<Vertex*>& vertices)
 {
 	/*
 	vector<Vertex*>::iterator it;

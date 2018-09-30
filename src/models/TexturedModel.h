@@ -3,9 +3,9 @@
 #ifndef TEXTUREDMODEL_H
 #define TEXTUREDMODEL_H
 
-#include "Headers.h"
+#include "../Headers.h"
 #include "RawModel.h"
-#include "ModelTexture.h"
+#include "../ModelTexture.h"
 
 class TexturedModel {
 public:

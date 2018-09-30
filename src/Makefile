@@ -6,6 +6,8 @@
 SHELL	= /bin/sh
 
 SOURCES = \
+	models/RawModel.cpp \
+	models/TexturedModel.cpp \
 	fontRendering/Character.cpp \
 	fontRendering/FontRenderer.cpp \
 	fontRendering/FontShader.cpp \
@@ -17,13 +19,22 @@ SOURCES = \
 	fontRendering/TextMeshCreator.cpp \
 	fontRendering/TextMeshData.cpp \
 	fontRendering/Word.cpp \
+	guis/GuiRenderer.cpp \
+	guis/GuiShader.cpp \
+	guis/GuiTexture.cpp \
+	normalMappingRenderer/NormalMappingObjLoader.cpp \
+	normalMappingRenderer/NormalMappingRenderer.cpp \
+	normalMappingRenderer/NormalMappingShader.cpp \
+	skybox/SkyboxRenderer.cpp \
+	skybox/SkyboxShader.cpp \
+	water/WaterFrameBuffers.cpp \
+	water/WaterRenderer.cpp \
+	water/WaterShader.cpp \
+	water/WaterTile.cpp \
 	Camera.cpp \
 	DisplayManager.cpp \
 	Entity.cpp \
 	EntityRenderer.cpp \
-	guis/GuiRenderer.cpp \
-	guis/GuiShader.cpp \
-	guis/GuiTexture.cpp \
 	Keyboard.cpp \
 	Light.cpp \
 	Loader.cpp \
@@ -34,15 +45,9 @@ SOURCES = \
 	ModelTexture.cpp \
 	Mouse.cpp \
 	MousePicker.cpp \
-	normalMappingRenderer/NormalMappedObjLoader.cpp \
-	normalMappingRenderer/NormalMappingRenderer.cpp \
-	normalMappingRenderer/NormalMappingShader.cpp \
 	OBJFileLoader.cpp \
 	Player.cpp \
-	RawModel.cpp \
 	ShaderProgram.cpp \
-	skybox/SkyboxRenderer.cpp \
-	skybox/SkyboxShader.cpp \
 	StaticShader.cpp \
 	Terrain.cpp \
 	TerrainRenderer.cpp \
@@ -50,12 +55,7 @@ SOURCES = \
 	TerrainTexture.cpp \
 	TerrainTexturePack.cpp \
 	TextureData.cpp \
-	TexturedModel.cpp \
-	Vertex.cpp \
-	water/WaterFrameBuffers.cpp \
-	water/WaterRenderer.cpp \
-	water/WaterShader.cpp \
-	water/WaterTile.cpp
+	Vertex.cpp
 
 
 

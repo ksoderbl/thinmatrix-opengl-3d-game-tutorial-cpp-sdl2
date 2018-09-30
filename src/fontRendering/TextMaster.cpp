@@ -35,7 +35,6 @@ void TextMaster::loadText(GUIText* text)
 		textBatch = it->second;
 	}
 	textBatch->push_back(text);
-
 }
 
 void TextMaster::removeText(GUIText* text)
