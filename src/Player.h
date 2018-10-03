@@ -16,15 +16,16 @@ public:
 		GLfloat rotX, GLfloat rotY, GLfloat rotZ,
 		GLfloat scale);
 	void move(Terrain& terrain, WaterTile* water);
+
+	static constexpr GLfloat GRAVITY = -50;
 	
 private:
 	void jump();
 	void checkInputs();
 
-	GLfloat RUN_SPEED = 40;
-	GLfloat TURN_SPEED = 160;
-	GLfloat GRAVITY = -50;
-	GLfloat JUMP_POWER = 18;
+	static constexpr GLfloat RUN_SPEED = 40;
+	static constexpr GLfloat TURN_SPEED = 160;
+	static constexpr GLfloat JUMP_POWER = 18;
 	
 	GLfloat currentSpeed = 0;
 	GLfloat currentTurnSpeed = 0;

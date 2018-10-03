@@ -6,8 +6,6 @@
 SHELL	= /bin/sh
 
 SOURCES = \
-	models/RawModel.cpp \
-	models/TexturedModel.cpp \
 	fontRendering/Character.cpp \
 	fontRendering/FontRenderer.cpp \
 	fontRendering/FontShader.cpp \
@@ -22,9 +20,15 @@ SOURCES = \
 	guis/GuiRenderer.cpp \
 	guis/GuiShader.cpp \
 	guis/GuiTexture.cpp \
+	models/RawModel.cpp \
+	models/TexturedModel.cpp \
 	normalMappingRenderer/NormalMappingObjLoader.cpp \
 	normalMappingRenderer/NormalMappingRenderer.cpp \
 	normalMappingRenderer/NormalMappingShader.cpp \
+	particles/Particle.cpp \
+	particles/ParticleMaster.cpp \
+	particles/ParticleRenderer.cpp \
+	particles/ParticleShader.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
 	water/WaterFrameBuffers.cpp \

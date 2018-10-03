@@ -23,6 +23,7 @@
 #include "fontRendering/TextMaster.h"
 #include "fontRendering/FontType.h"
 #include "fontRendering/GUIText.h"
+#include "particles/ParticleMaster.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -208,8 +209,11 @@ int main(int argc, char *argv[])
 	Loader loader;
 	textMaster.init(&loader);
 
-	string sampleText1 = 
-	
+	MasterRenderer renderer(loader);
+	particleMaster.init(loader, renderer.getProjectionMatrix());
+
+	string sampleText0 =
+
 	"void TextMaster::loadText(GUIText* text)"
 	"{"
     "    FontType* font = text->getFont();"
@@ -227,7 +231,11 @@ int main(int argc, char *argv[])
     "    textBatch->push_back(text);"
 	"}";
 
-	
+	string sampleText1 =
+
+	  "Use w, a, s, d to move, mouse to change the view, y to launch particles and 1 and 2 for water effects.";
+
+
 	string sampleText2 =
 		"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
 		"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
@@ -240,17 +248,17 @@ int main(int argc, char *argv[])
 	FontType font(loader.loadFontTextureAtlas("fonts/candara"), fontFile);
 	//string fontFile = "../res/fonts/harrington.fnt";
 	//FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
-	GUIText text(sampleText1, 2.0, &font, glm::vec2(0.0f, 0.1f), 0.6f, false);
-	text.setColor(1.0, 1.0, 1.0);
+	GUIText text(sampleText1, 2.0, &font, glm::vec2(0.2f, 0.2f), 0.3f, true);
+	text.setColor(0.6, 0.8, 1.0);
 
 	//string fontFile2 = "../res/fonts/segoe.fnt";
 	//FontType font2(loader.loadFontTextureAtlas("fonts/segoe"), fontFile2);
-	
+
 	string fontFile2 = "../res/fonts/ebGaramond12AllSC.fnt";
 	FontType font2(loader.loadFontTextureAtlas("fonts/ebGaramond12AllSC"), fontFile2);
 	GUIText text2(sampleText2, 2.5, &font2, glm::vec2(0.6f, 0.1f), 0.4f, true);
 	text2.setColor(1.0, 1.0, 0.0);
-	
+
 	//******** TERRAIN TEXTURE STUFF ********
 
 	TerrainTexture backgroundTexture(loader.loadGameTexture("grassy2")); // was "grassy"
@@ -261,7 +269,7 @@ int main(int argc, char *argv[])
 	TerrainTexture blendMap(loader.loadGameTexture("blendMapLake"));
 
 	//******** LOAD MODELS ******************
-	
+
 	// rocks
 	RawModel *rocksRawModel = OBJFileLoader::loadOBJ("rocks", loader);
 	ModelTexture rocksModelTexture = ModelTexture(loader.loadGameTexture("rocks"));
@@ -343,7 +351,7 @@ int main(int argc, char *argv[])
 	vector<Entity*> normalMapEntities;
 
 	//******************NORMAL MAP MODELS************************
-	
+
 	// barrel
 	//TexturedModel barrelModel = new TexturedModel(NormalMappingObjLoader.loadOBJ("barrel", loader),
 	//new ModelTexture(loader.loadGameTexture("barrel")));
@@ -386,7 +394,7 @@ int main(int argc, char *argv[])
 	//footModel.getTexture().setReflectivity(0.5f);
 
 	//************ENTITIES*******************
-	
+
 	Entity entity(barrelModel, glm::vec3(Terrain::SIZE/2, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
 	//Entity entity2(boulderModel, glm::vec3(Terrain::SIZE/2 + 20, 0, -Terrain::SIZE/2), 0, 0, 0, 1.0f);
 	Entity entity3(crateModel, glm::vec3(Terrain::SIZE/2 -20, 0, -Terrain::SIZE/2), 0, 0, 0, 0.04f);
@@ -440,7 +448,7 @@ int main(int argc, char *argv[])
 	entities.push_back(&rocks);
 
 	//*******************OTHER SETUP***************
-	
+
 	vector<Light*> lights;
 	Light sun = Light(glm::vec3(10000, 10000, -10000), glm::vec3(1.3f, 1.3f, 1.3f));
 	//Light light2 = Light(glm::vec3(0, 20, 0), glm::vec3(2, 0, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -459,7 +467,7 @@ int main(int argc, char *argv[])
 	//entities.push_back(new Entity(lampModel, glm::vec3(0, 5, 0), 0, 0, 0, 1));
 	//entities.push_back(new Entity(lampModel, glm::vec3(0, 5, -Terrain::SIZE), 0, 0, 0, 1));
 	//entities.push_back(new Entity(lampModel, glm::vec3(Terrain::SIZE, 5, 0), 0, 0, 0, 1));
-	
+
 	RawModel* playerRawModel = OBJFileLoader::loadOBJ("person", loader);
 	ModelTexture playerModelTexture = ModelTexture(loader.loadGameTexture("playerTexture"));
 	TexturedModel playerTexturedModel = TexturedModel(*playerRawModel, playerModelTexture);
@@ -490,8 +498,6 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	MasterRenderer renderer(loader);
-
 	MousePicker picker(camera, renderer.getProjectionMatrix(), &terrain);
 	//Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
 	//entities.push_back(lampEntity);
@@ -499,7 +505,7 @@ int main(int argc, char *argv[])
 	//lights.push_back(&light);
 
 	//**********Water Renderer Set-up************************
-	
+
 	WaterFrameBuffers buffers;
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(),
@@ -537,7 +543,7 @@ int main(int argc, char *argv[])
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
 	//****************Game Loop Below*********************
-	
+
 	int loops = 0;
 
 	while (!isCloseRequested) {
@@ -553,6 +559,12 @@ int main(int argc, char *argv[])
 			light.setPosition(glm::vec3(pt.x, pt.y + 14, pt.z));
 		}
 		*/
+		if (keyboard.isKeyDown(SDLK_y)) {
+			glm::vec3 velocity(0, 50, 0);
+			Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
+		}
+
+		particleMaster.update();
 
 		entity.increaseRotation(0.0f, 1.1f, 0.0f);
 		//entity2.increaseRotation(0.0f, 1.2f, 0.0f);
@@ -579,13 +591,17 @@ int main(int argc, char *argv[])
 		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
 				     screenClipPlane, false);
 		waterRenderer.render(waters, camera, sun);
+
+		// after 3d stuff, before the 2d stuff
+		particleMaster.renderParticles(camera);
+
 		guiRenderer.render(guis);
 		textMaster.render();
 
 		display.updateDisplay();
 		loops++;
-		
-		if (loops > 60*60) {
+
+		if (loops > 1000) {
 			textMaster.removeText(&text);
 			textMaster.removeText(&text2);
 		}
@@ -593,6 +609,7 @@ int main(int argc, char *argv[])
 
 	//*********Clean Up Below**************
 
+	particleMaster.cleanUp();
 	textMaster.cleanUp();
 	buffers.cleanUp();
 	waterShader.cleanUp();
