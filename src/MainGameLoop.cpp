@@ -534,7 +534,12 @@ int main(int argc, char *argv[])
 	glm::vec4 refrClipPlane(0, -1, 0, water->getHeight() + 0.5f);
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
-	ParticleSystem system(100, 100, 0.3, 4);
+	ParticleSystem system(100, 50, 0.3, 4, 1);
+	system.randomizeRotation();
+	system.setDirection(glm::vec3(0, 1, 0), 0.1f);
+	system.setLifeError(0.1f);
+	system.setSpeedError(0.4f);
+	system.setScaleError(0.4f);
 
 	//****************Game Loop Below*********************
 
@@ -558,6 +563,7 @@ int main(int argc, char *argv[])
 		//	Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
 		//}
 		system.generateParticles(player.getPosition());
+		system.generateParticles(glm::vec3(200.0f, 10.0f, -200.0f));
 
 		particleMaster.update();
 
