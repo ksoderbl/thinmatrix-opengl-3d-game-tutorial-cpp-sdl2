@@ -24,6 +24,8 @@
 #include "fontRendering/FontType.h"
 #include "fontRendering/GUIText.h"
 #include "particles/ParticleMaster.h"
+#include "particles/ParticleSystem.h"
+#include "Utils.h"
 
 static bool pausing = false;
 static bool isCloseRequested = false;
@@ -188,18 +190,7 @@ void checkEvents()
 	}
 }
 
-static GLfloat my_rand()
-{
-	int x = rand();
-	GLfloat f = (GLfloat)x / RAND_MAX;
-	return f;
-}
 
-static int my_rand_int(int m)
-{
-	int x = rand() % m;
-	return x;
-}
 
 int main(int argc, char *argv[])
 {
@@ -233,7 +224,8 @@ int main(int argc, char *argv[])
 
 	string sampleText1 =
 
-	  "Use w, a, s, d to move, mouse to change the view, y to launch particles and 1 and 2 for water effects.";
+	  //"Use w, a, s, d to move, mouse to change the view, y to launch particles and 1 and 2 for water effects.";
+	  "Use w, a, s, d to move, mouse to change the view, and 1 and 2 for water effects.";
 
 
 	string sampleText2 =
@@ -409,36 +401,36 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < 2*240; i++) {
 		if (i % 4 == 0) {
-			GLfloat x = my_rand() * Terrain::SIZE;
-			GLfloat z = my_rand() * -Terrain::SIZE;
+			GLfloat x = Utils::Rand() * Terrain::SIZE;
+			GLfloat z = Utils::Rand() * -Terrain::SIZE;
 			GLfloat y = terrain.getHeightOfTerrain(x, z);
 			{
 				normalMapEntities.push_back(
 					new Entity(boulderModel, glm::vec3(x, y, z), 
-						   my_rand() * 360, my_rand() * 360,  my_rand() * 360,
-						   my_rand() * 0.9f + 0.1f));
+						   Utils::Rand() * 360, Utils::Rand() * 360,  Utils::Rand() * 360,
+						   Utils::Rand() * 0.9f + 0.1f));
 			}
 		}
 		if (i % 3 == 0) {
-			GLfloat x = my_rand() * Terrain::SIZE;
-			GLfloat z = my_rand() * -Terrain::SIZE;
+			GLfloat x = Utils::Rand() * Terrain::SIZE;
+			GLfloat z = Utils::Rand() * -Terrain::SIZE;
 			if ((x > limit1 && x < limit2) && (z < -limit1 && z > -limit2)) {
 			} else {
 				GLfloat y = terrain.getHeightOfTerrain(x, z);
 				entities.push_back(
-					new Entity(fernTexturedModel, my_rand_int(4), glm::vec3(x, y, z), 
-						   0, my_rand() * 360, 0, 0.9f));
+					new Entity(fernTexturedModel, Utils::RandInt(4), glm::vec3(x, y, z), 
+						   0, Utils::Rand() * 360, 0, 0.9f));
 			}
 		}
 		if (i % 2 == 0) {
-			GLfloat x = my_rand() * Terrain::SIZE;
-			GLfloat z = my_rand() * -Terrain::SIZE;
+			GLfloat x = Utils::Rand() * Terrain::SIZE;
+			GLfloat z = Utils::Rand() * -Terrain::SIZE;
 			if ((x > limit1 && x < limit2) && (z < -limit1 && z > -limit2)) {
 			} else {
 				GLfloat y = terrain.getHeightOfTerrain(x, z);
 				entities.push_back(
 					new Entity(pineTexturedModel, glm::vec3(x, y, z),
-						   0, my_rand() * 360, 0, my_rand() * 0.6f + 0.8f));
+						   0, Utils::Rand() * 360, 0, Utils::Rand() * 0.6f + 0.8f));
 			}
 		}
 	}
@@ -542,6 +534,8 @@ int main(int argc, char *argv[])
 	glm::vec4 refrClipPlane(0, -1, 0, water->getHeight() + 0.5f);
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
+	ParticleSystem system(100, 100, 0.3, 4);
+
 	//****************Game Loop Below*********************
 
 	int loops = 0;
@@ -559,10 +553,11 @@ int main(int argc, char *argv[])
 			light.setPosition(glm::vec3(pt.x, pt.y + 14, pt.z));
 		}
 		*/
-		if (keyboard.isKeyDown(SDLK_y)) {
-			glm::vec3 velocity(0, 50, 0);
-			Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
-		}
+		//if (keyboard.isKeyDown(SDLK_y)) {
+		//	glm::vec3 velocity(0, 50, 0);
+		//	Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
+		//}
+		system.generateParticles(player.getPosition());
 
 		particleMaster.update();
 

@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(
-	TexturedModel &model,
+	TexturedModel& model,
 	glm::vec3 position,
 	GLfloat rotX, GLfloat rotY, GLfloat rotZ,
 	GLfloat scale) : model(model), position(position)
@@ -13,7 +13,7 @@ Entity::Entity(
 }
 
 Entity::Entity(
-	TexturedModel &model,
+	TexturedModel& model,
 	int textureIndex,
 	glm::vec3 position,
 	GLfloat rotX, GLfloat rotY, GLfloat rotZ,

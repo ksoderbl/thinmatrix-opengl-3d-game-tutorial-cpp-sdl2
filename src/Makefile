@@ -29,6 +29,7 @@ SOURCES = \
 	particles/ParticleMaster.cpp \
 	particles/ParticleRenderer.cpp \
 	particles/ParticleShader.cpp \
+	particles/ParticleSystem.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
 	water/WaterFrameBuffers.cpp \
@@ -59,6 +60,7 @@ SOURCES = \
 	TerrainTexture.cpp \
 	TerrainTexturePack.cpp \
 	TextureData.cpp \
+	Utils.cpp \
 	Vertex.cpp
 
 
