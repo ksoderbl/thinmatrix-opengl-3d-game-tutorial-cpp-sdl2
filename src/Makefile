@@ -30,6 +30,13 @@ SOURCES = \
 	particles/ParticleRenderer.cpp \
 	particles/ParticleShader.cpp \
 	particles/ParticleSystem.cpp \
+	particles/ParticleTexture.cpp \
+	renderEngine/DisplayManager.cpp \
+	renderEngine/EntityRenderer.cpp \
+	renderEngine/Loader.cpp \
+	renderEngine/MasterRenderer.cpp \
+	renderEngine/OBJFileLoader.cpp \
+	renderEngine/TerrainRenderer.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
 	water/WaterFrameBuffers.cpp \
@@ -37,25 +44,19 @@ SOURCES = \
 	water/WaterShader.cpp \
 	water/WaterTile.cpp \
 	Camera.cpp \
-	DisplayManager.cpp \
 	Entity.cpp \
-	EntityRenderer.cpp \
 	Keyboard.cpp \
 	Light.cpp \
-	Loader.cpp \
 	MainGameLoop.cpp \
-	MasterRenderer.cpp \
 	Maths.cpp \
 	ModelData.cpp \
 	ModelTexture.cpp \
 	Mouse.cpp \
 	MousePicker.cpp \
-	OBJFileLoader.cpp \
 	Player.cpp \
 	ShaderProgram.cpp \
 	StaticShader.cpp \
 	Terrain.cpp \
-	TerrainRenderer.cpp \
 	TerrainShader.cpp \
 	TerrainTexture.cpp \
 	TerrainTexturePack.cpp \

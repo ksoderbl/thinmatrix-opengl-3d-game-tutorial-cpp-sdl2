@@ -1,10 +1,10 @@
 #include "MetaFile.h"
 #include "TextMeshCreator.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 
 /**
  * Opens a font file in preparation for reading.
- * 
+ *
  * @param file
  *	    - the font file.
  */

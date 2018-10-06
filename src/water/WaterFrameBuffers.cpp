@@ -1,5 +1,5 @@
 #include "WaterFrameBuffers.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 #include "../Maths.h"
 
 static constexpr GLsizei DIVISOR1 = 2;

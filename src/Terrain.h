@@ -5,7 +5,7 @@
 
 #include "Headers.h"
 #include "models/RawModel.h"
-#include "Loader.h"
+#include "renderEngine/Loader.h"
 #include "TerrainTexturePack.h"
 #include "TerrainTexture.h"
 #include "TextureData.h"

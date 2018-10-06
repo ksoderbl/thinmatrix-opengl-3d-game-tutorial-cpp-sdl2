@@ -1,10 +1,10 @@
 #ifndef ENTITYRENDERER_H
 #define ENTITYRENDERER_H
 
-#include "Headers.h"
-#include "models/TexturedModel.h"
-#include "Entity.h"
-#include "StaticShader.h"
+#include "../Headers.h"
+#include "../models/TexturedModel.h"
+#include "../Entity.h"
+#include "../StaticShader.h"
 
 class EntityRenderer {
 public:

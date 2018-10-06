@@ -4,7 +4,7 @@
 #include "../Headers.h"
 #include "SkyboxShader.h"
 #include "../models/RawModel.h"
-#include "../Loader.h"
+#include "../renderEngine/Loader.h"
 #include "../Camera.h"
 
 class SkyboxRenderer {

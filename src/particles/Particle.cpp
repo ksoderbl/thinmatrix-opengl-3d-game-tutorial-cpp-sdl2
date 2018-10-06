@@ -2,10 +2,10 @@
 #include "ParticleMaster.h"
 #include "../Player.h"
 #include "../Maths.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 
-Particle::Particle(glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
-		   GLfloat lifeLength, GLfloat rotation, GLfloat scale)
+Particle::Particle(ParticleTexture& texture, glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
+		   GLfloat lifeLength, GLfloat rotation, GLfloat scale) : texture(texture)
 {
 	this->position = position;
 	this->velocity = velocity;

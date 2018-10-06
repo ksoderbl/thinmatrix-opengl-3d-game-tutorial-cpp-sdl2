@@ -1,7 +1,7 @@
 #include "ParticleMaster.h"
 #include "../Player.h"
 #include "../Maths.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 
 ParticleMaster particleMaster;
 

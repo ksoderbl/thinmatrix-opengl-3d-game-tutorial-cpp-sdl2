@@ -1,7 +1,7 @@
 #ifndef DISPLAYMANAGER_H
 #define DISPLAYMANAGER_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class DisplayManager {
 public:

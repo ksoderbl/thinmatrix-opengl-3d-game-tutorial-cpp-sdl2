@@ -2,7 +2,7 @@
 #define TEXTMASTER_H
 
 #include "../Headers.h"
-#include "../Loader.h"
+#include "../renderEngine/Loader.h"
 
 #include "FontType.h"
 #include "GUIText.h"
@@ -14,8 +14,6 @@ public:
 	void init(Loader* loader);
 	void loadText(GUIText* text);
 	void render();
-	
-	
 	void removeText(GUIText* text);
 	void cleanUp();
 private:

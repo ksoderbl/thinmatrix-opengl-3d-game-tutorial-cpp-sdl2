@@ -1,9 +1,9 @@
 #ifndef LOADER_H
 #define LOADER_H
 
-#include "Headers.h"
-#include "models/RawModel.h"
-#include "TextureData.h"
+#include "../Headers.h"
+#include "../models/RawModel.h"
+#include "../TextureData.h"
 
 class Loader {
 public:
@@ -22,7 +22,7 @@ public:
 		vector<GLuint>&indices);
 	RawModel *loadToVAO(vector<GLfloat>&positions, int dimensions);
 	GLuint loadToVAO(vector<GLfloat>&positions, vector<GLfloat>&textureCoords);
-	GLuint loadGameTexture(string fileName);
+	GLuint loadTexture(string fileName);
 	GLuint loadFontTextureAtlas(string fileName);
 	GLubyte* LoadPNGImage(string imageFile, GLsizei *width, GLsizei *height, GLenum *format);
 	TextureData* decodeTextureFile(string fileName);

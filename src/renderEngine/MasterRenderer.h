@@ -3,18 +3,18 @@
 #ifndef MASTERRENDERER_H
 #define MASTERRENDERER_H
 
-#include "Headers.h"
-#include "StaticShader.h"
+#include "../Headers.h"
+#include "../StaticShader.h"
 #include "EntityRenderer.h"
-#include "normalMappingRenderer/NormalMappingRenderer.h"
-#include "models/TexturedModel.h"
-#include "Entity.h"
-#include "Light.h"
-#include "Camera.h"
-#include "Terrain.h"
-#include "TerrainShader.h"
+#include "../normalMappingRenderer/NormalMappingRenderer.h"
+#include "../models/TexturedModel.h"
+#include "../Entity.h"
+#include "../Light.h"
+#include "../Camera.h"
+#include "../Terrain.h"
+#include "../TerrainShader.h"
 #include "TerrainRenderer.h"
-#include "skybox/SkyboxRenderer.h"
+#include "../skybox/SkyboxRenderer.h"
 #include "Loader.h"
 #include "DisplayManager.h"
 

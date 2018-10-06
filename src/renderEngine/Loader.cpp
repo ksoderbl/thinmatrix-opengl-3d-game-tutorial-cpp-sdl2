@@ -135,7 +135,8 @@ GLuint Loader::loadCubeMap(vector<string>& textureFiles)
 	return textureID;
 }
 
-GLuint Loader::loadGameTexture(string fileName)
+// was loadGameTexture
+GLuint Loader::loadTexture(string fileName)
 {
 	return loadTexture(fileName, -0.4);
 }

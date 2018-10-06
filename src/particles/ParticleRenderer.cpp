@@ -1,6 +1,6 @@
 #include "../models/RawModel.h"
 #include "ParticleRenderer.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 #include "../Maths.h"
 
 ParticleRenderer::ParticleRenderer(Loader& loader, glm::mat4& projectionMatrix)
@@ -20,6 +20,11 @@ void ParticleRenderer::render(vector<Particle>& particles, Camera& camera)
 	prepare();
 
 	auto it = particles.begin();
+	if (it != particles.end()) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, it->getTexture().getTextureId());
+	}
+
 	while (it != particles.end()) {
 		Particle& particle = *it;
 		updateModelViewMatrix(particle.getPosition(), particle.getRotation(),

@@ -1,7 +1,7 @@
 #include "../models/RawModel.h"
 #include "NormalMappingRenderer.h"
-#include "../DisplayManager.h"
-#include "../MasterRenderer.h"
+#include "../renderEngine/DisplayManager.h"
+#include "../renderEngine/MasterRenderer.h"
 #include "../Maths.h"
 
 NormalMappingRenderer::NormalMappingRenderer(glm::mat4& projectionMatrix)

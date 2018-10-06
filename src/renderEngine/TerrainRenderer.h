@@ -1,11 +1,11 @@
 #ifndef TERRAINRENDERER_H
 #define TERRAINRENDERER_H
 
-#include "Headers.h"
-#include "models/TexturedModel.h"
-#include "Entity.h"
-#include "TerrainShader.h"
-#include "Terrain.h"
+#include "../Headers.h"
+#include "../models/TexturedModel.h"
+#include "../Entity.h"
+#include "../TerrainShader.h"
+#include "../Terrain.h"
 
 class TerrainRenderer {
 public:

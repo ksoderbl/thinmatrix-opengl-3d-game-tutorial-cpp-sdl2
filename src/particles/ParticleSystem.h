@@ -2,10 +2,11 @@
 #define PARTICLESYSTEM_H
 
 #include "../Headers.h"
+#include "ParticleTexture.h"
 
 class ParticleSystem {
 public:
-	ParticleSystem(GLfloat pps, GLfloat speed, GLfloat gravityCompliant, GLfloat lifeLength, GLfloat scale);
+	ParticleSystem(ParticleTexture& texture, GLfloat pps, GLfloat speed, GLfloat gravityCompliant, GLfloat lifeLength, GLfloat scale);
 	void setDirection(glm::vec3 direction, GLfloat deviation);
 	void randomizeRotation();
 	/**
@@ -32,6 +33,7 @@ public:
 	glm::vec3 generateRandomUnitVectorWithinCone(glm::vec3& coneDirection, GLfloat angle);
 	glm::vec3 generateRandomUnitVector();
 private:
+	ParticleTexture& texture;
 	GLfloat pps;
 	GLfloat averageSpeed;
 	GLfloat gravityCompliant;

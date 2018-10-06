@@ -1,9 +1,10 @@
 #include "ParticleSystem.h"
 #include "Particle.h"
-#include "../DisplayManager.h"
+#include "ParticleTexture.h"
+#include "../renderEngine/DisplayManager.h"
 #include "../Utils.h"
 
-ParticleSystem::ParticleSystem(GLfloat pps, GLfloat speed, GLfloat gravityCompliant, GLfloat lifeLength, GLfloat scale)
+ParticleSystem::ParticleSystem(ParticleTexture& texture, GLfloat pps, GLfloat speed, GLfloat gravityCompliant, GLfloat lifeLength, GLfloat scale) : texture(texture)
 {
 	this->pps = pps;
 	this->averageSpeed = speed;
@@ -60,7 +61,7 @@ void ParticleSystem::emitParticle(glm::vec3& center)
 	GLfloat scale = generateValue(averageScale, scaleError);
 	GLfloat lifeLength = generateValue(averageLifeLength, lifeError);
 
-	Particle particle(center, velocity, gravityCompliant, lifeLength, generateRotation(), scale);
+	Particle particle(texture, center, velocity, gravityCompliant, lifeLength, generateRotation(), scale);
 }
 
 GLfloat ParticleSystem::generateValue(GLfloat average, GLfloat errorMargin)

@@ -2,13 +2,13 @@
 #define WATERRENDERER_H
 
 #include "../Headers.h"
-#include "../Loader.h"
+#include "../renderEngine/Loader.h"
 #include "WaterShader.h"
 #include "WaterTile.h"
 #include "WaterFrameBuffers.h"
 #include "../Camera.h"
 #include "../models/RawModel.h"
-#include "../DisplayManager.h"
+#include "../renderEngine/DisplayManager.h"
 #include "../Light.h"
 
 class WaterRenderer {

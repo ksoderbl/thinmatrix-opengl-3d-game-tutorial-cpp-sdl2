@@ -1,6 +1,6 @@
 #include "WaterRenderer.h"
 #include "../Maths.h"
-#include "../MasterRenderer.h"
+#include "../renderEngine/MasterRenderer.h"
 
 WaterRenderer::WaterRenderer(
 	Loader& loader,
@@ -18,8 +18,8 @@ WaterRenderer::WaterRenderer(
 	reflectivity = 0.5f;
 	waveSpeed = 0.1f; // was 0.3f
 
-	dudvTexture = loader.loadGameTexture(DUDV_MAP);
-	normalMap = loader.loadGameTexture(NORMAL_MAP);
+	dudvTexture = loader.loadTexture(DUDV_MAP);
+	normalMap = loader.loadTexture(NORMAL_MAP);
 	shader.start();
 	shader.connectTextureUnits();
 	shader.loadProjectionMatrix(projectionMatrix);
