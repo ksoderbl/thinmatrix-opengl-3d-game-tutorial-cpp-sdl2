@@ -11,9 +11,9 @@ WaterRenderer::WaterRenderer(
 	WaterFrameBuffers& fbos) : shader(shader), fbos(fbos)
 {
 	moveFactor = 0;
-	waterTiling = 12.0f; // was 4
+	waterTiling = 4.0f; // was 4
 	waveStrength = 0.04f; // was 0.04
-	waterReflectivity = 2.0f; // for fresnel effect, thinmatrix had 0.5
+	waterReflectivity = 0.7f; // for fresnel effect, thinmatrix had 0.5
 	shineDamper = 20.0f; // for normal maps
 	reflectivity = 0.5f;
 	waveSpeed = 0.1f; // was 0.3f
@@ -25,7 +25,8 @@ WaterRenderer::WaterRenderer(
 	shader.loadProjectionMatrix(projectionMatrix);
 	shader.loadNearPlane(nearPlane);
 	shader.loadFarPlane(farPlane);
-	shader.loadSkyColor(MasterRenderer::RED, MasterRenderer::GREEN, MasterRenderer::BLUE);
+	shader.loadSkyColor(masterRenderer.RED, masterRenderer.GREEN, masterRenderer.BLUE);
+	shader.loadFogVariables(masterRenderer.FOG_DENSITY, masterRenderer.FOG_GRADIENT);
 	shader.stop();
 	setUpVAO(loader);
 }
@@ -35,9 +36,9 @@ void WaterRenderer::render(vector<WaterTile*>& water, Camera& camera, Light& sun
 	prepareRender(camera, sun);
 	for (WaterTile* tile : water) {
 		glm::vec3 position(tile->getX(), tile->getHeight(), tile->getZ());
-		glm::mat4 modelMatrix = Maths::createTransformationMatrix(
+		glm::mat4 matrix = Maths::createTransformationMatrix(
 			position, 0.0f, 0.0f, 0.0f, WaterTile::TILE_SCALE);
-		shader.loadModelMatrix(modelMatrix);
+		shader.loadTransformationMatrix(matrix);
 		glDrawArrays(GL_TRIANGLES, 0, quad->getVertexCount());
 	}
 	unbind();

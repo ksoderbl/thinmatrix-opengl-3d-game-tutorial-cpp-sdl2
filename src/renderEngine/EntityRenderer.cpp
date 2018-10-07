@@ -47,7 +47,7 @@ void EntityRenderer::prepareTexturedModel(TexturedModel &model)
 	ModelTexture& texture = model.getTexture();
 	shader.loadNumberOfRows(texture.getNumberOfRows());
 	if (texture.getHasTransparency()) {
-		MasterRenderer::disableCulling();
+		masterRenderer.disableCulling();
 	}
 	shader.loadFakeLightingVariable(texture.getUseFakeLighting());
 	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
@@ -57,7 +57,7 @@ void EntityRenderer::prepareTexturedModel(TexturedModel &model)
 
 void EntityRenderer::unbindTexturedModel()
 {
-	MasterRenderer::enableCulling();
+	masterRenderer.enableCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

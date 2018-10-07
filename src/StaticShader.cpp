@@ -27,6 +27,8 @@ void StaticShader::getAllUniformLocations()
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_useFakeLighting = getUniformLocation("useFakeLighting");
 	location_skyColor = getUniformLocation("skyColor");
+	location_fogDensity = getUniformLocation("fogDensity");
+	location_fogGradient = getUniformLocation("fogGradient");
 	location_numberOfRows = getUniformLocation("numberOfRows");
 	location_textureOffset = getUniformLocation("textureOffset");
 	location_clipPlane = getUniformLocation("clipPlane");
@@ -90,6 +92,12 @@ void StaticShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
 {
 	glm::vec3 vec(r, g, b);
 	loadVector(location_skyColor, vec);
+}
+
+void StaticShader::loadFogVariables(GLfloat density, GLfloat gradient)
+{
+	loadFloat(location_fogDensity, density);
+	loadFloat(location_fogGradient, gradient);
 }
 
 void StaticShader::loadNumberOfRows(int numberOfRows)

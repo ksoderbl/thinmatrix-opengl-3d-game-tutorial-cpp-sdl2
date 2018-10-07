@@ -19,6 +19,7 @@ public:
 	void loadViewMatrix(Camera& camera);
 	void loadFakeLightingVariable(bool useFakeLighting);
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
+	void loadFogVariables(GLfloat density, GLfloat gradient);
 	void loadNumberOfRows(int numberOfRows);
 	void loadTextureOffset(GLfloat x, GLfloat y);
 	void loadClipPlane(glm::vec4& vec);
@@ -34,6 +35,8 @@ private:
 	int location_reflectivity;
 	int location_useFakeLighting;
 	int location_skyColor;
+	int location_fogDensity;
+	int location_fogGradient;
 	int location_numberOfRows;
 	int location_textureOffset;
 	int location_clipPlane;

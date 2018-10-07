@@ -1,18 +1,20 @@
 #include "MasterRenderer.h"
 
-MasterRenderer::MasterRenderer(Loader& loader)
+MasterRenderer masterRenderer;
+
+MasterRenderer::MasterRenderer()
 {
-	enableCulling();
-	createProjectionMatrix();
-	shader = new StaticShader();
-	renderer = new EntityRenderer(*shader, projectionMatrix);
-	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
-	normalMapEntitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
-	terrainShader = new TerrainShader();
-	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
-	terrains = new vector<Terrain*>;
-	skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
-	normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
+	FOV = 70;
+	NEAR_PLANE = 0.1f;
+	FAR_PLANE = 10000.0f;
+	RED = 0.5444f;
+	GREEN = 0.62f;
+	BLUE = 0.69f;
+	//RED = 157.0f / 256;   //0.9444f;
+	//GREEN = 197.0f / 256; //0.52f;
+	//BLUE = 213.0f / 256;  //0.79f;
+	FOG_DENSITY = 0.001f;
+	FOG_GRADIENT = 5.0f;
 }
 
 MasterRenderer::~MasterRenderer()
@@ -26,6 +28,21 @@ MasterRenderer::~MasterRenderer()
 	delete terrainShader;
 	delete skyboxRenderer;
 	delete normalMapRenderer;
+}
+
+void MasterRenderer::init(Loader& loader)
+{
+	enableCulling();
+	createProjectionMatrix();
+	shader = new StaticShader();
+	renderer = new EntityRenderer(*shader, projectionMatrix);
+	entitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
+	normalMapEntitiesMap = new std::map<TexturedModel*, vector<Entity*>*>;
+	terrainShader = new TerrainShader();
+	terrainRenderer = new TerrainRenderer(*terrainShader, projectionMatrix);
+	terrains = new vector<Terrain*>;
+	skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+	normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
 }
 
 void MasterRenderer::renderScene(
@@ -87,6 +104,7 @@ void MasterRenderer::render(
 	shader->start();
 	shader->loadClipPlane(clipPlane);
 	shader->loadSkyColor(RED, GREEN, BLUE);
+	shader->loadFogVariables(MasterRenderer::FOG_DENSITY, MasterRenderer::FOG_GRADIENT);
 	shader->loadLights(lights);
 	shader->loadViewMatrix(camera);
 	renderer->render(entitiesMap);
@@ -97,6 +115,7 @@ void MasterRenderer::render(
 	terrainShader->start();
 	terrainShader->loadClipPlane(clipPlane);
 	terrainShader->loadSkyColor(RED, GREEN, BLUE);
+	terrainShader->loadFogVariables(MasterRenderer::FOG_DENSITY, MasterRenderer::FOG_GRADIENT);
 	terrainShader->loadLights(lights);
 	terrainShader->loadViewMatrix(camera);
 	terrainRenderer->render(terrains);

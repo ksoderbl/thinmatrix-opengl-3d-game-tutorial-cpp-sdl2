@@ -78,6 +78,12 @@ void WaterShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
 	loadVector(location_skyColor, vec);
 }
 
+void WaterShader::loadFogVariables(GLfloat density, GLfloat gradient)
+{
+	loadFloat(location_fogDensity, density);
+	loadFloat(location_fogGradient, gradient);
+}
+
 void WaterShader::loadProjectionMatrix(glm::mat4& matrix)
 {
 	loadMatrix(location_projectionMatrix, matrix);
@@ -90,16 +96,16 @@ void WaterShader::loadViewMatrix(Camera& camera)
 	loadVector(location_cameraPosition, camera.getPosition());
 }
 
-void WaterShader::loadModelMatrix(glm::mat4& matrix)
+void WaterShader::loadTransformationMatrix(glm::mat4& matrix)
 {
-	loadMatrix(location_modelMatrix, matrix);
+	loadMatrix(location_transformationMatrix, matrix);
 }
 
 void WaterShader::getAllUniformLocations()
 {
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
 	location_viewMatrix = getUniformLocation("viewMatrix");
-	location_modelMatrix = getUniformLocation("modelMatrix");
+	location_transformationMatrix = getUniformLocation("transformationMatrix");
 	location_waterTiling = getUniformLocation("waterTiling");
 	location_reflectionTexture = getUniformLocation("reflectionTexture");
 	location_refractionTexture = getUniformLocation("refractionTexture");
@@ -117,4 +123,6 @@ void WaterShader::getAllUniformLocations()
 	location_nearPlane = getUniformLocation("nearPlane");
 	location_farPlane = getUniformLocation("farPlane");
 	location_skyColor = getUniformLocation("skyColor");
+	location_fogDensity = getUniformLocation("fogDensity");
+	location_fogGradient = getUniformLocation("fogGradient");
 }

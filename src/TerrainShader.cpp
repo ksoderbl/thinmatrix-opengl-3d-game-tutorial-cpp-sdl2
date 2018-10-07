@@ -62,6 +62,8 @@ void TerrainShader::getAllUniformLocations()
 	location_shineDamper = getUniformLocation("shineDamper");
 	location_reflectivity = getUniformLocation("reflectivity");
 	location_skyColor = getUniformLocation("skyColor");
+	location_fogDensity = getUniformLocation("fogDensity");
+	location_fogGradient = getUniformLocation("fogGradient");
 	location_backgroundTexture = getUniformLocation("backgroundTexture");
 	location_rTexture = getUniformLocation("rTexture");
 	location_gTexture = getUniformLocation("gTexture");
@@ -98,8 +100,13 @@ void TerrainShader::loadSkyColor(GLfloat r, GLfloat g, GLfloat b)
 	loadVector(location_skyColor, vec);
 }
 
+void TerrainShader::loadFogVariables(GLfloat density, GLfloat gradient)
+{
+	loadFloat(location_fogDensity, density);
+	loadFloat(location_fogGradient, gradient);
+}
+
 void TerrainShader::loadClipPlane(glm::vec4& vec)
 {
 	loadVector(location_clipPlane, vec);
 }
-

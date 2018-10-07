@@ -63,7 +63,7 @@ void NormalMappingRenderer::prepareTexturedModel(TexturedModel &model)
 	ModelTexture& texture = model.getTexture();
 	shader.loadNumberOfRows(texture.getNumberOfRows());
 	if (texture.getHasTransparency()) {
-		MasterRenderer::disableCulling();
+		masterRenderer.disableCulling();
 	}
 	shader.loadFakeLightingVariable(texture.getUseFakeLighting());
 	shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
@@ -75,7 +75,7 @@ void NormalMappingRenderer::prepareTexturedModel(TexturedModel &model)
 
 void NormalMappingRenderer::unbindTexturedModel()
 {
-	MasterRenderer::enableCulling();
+	masterRenderer.enableCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
@@ -106,7 +106,8 @@ void NormalMappingRenderer::prepare(
 	Camera& camera)
 {
 	shader.loadClipPlane(clipPlane);
-	shader.loadSkyColor(MasterRenderer::RED, MasterRenderer::GREEN, MasterRenderer::BLUE);
+	shader.loadSkyColor(masterRenderer.RED, masterRenderer.GREEN, masterRenderer.BLUE);
+	shader.loadFogVariables(masterRenderer.FOG_DENSITY, masterRenderer.FOG_GRADIENT);
 	shader.loadLights(lights);
 	shader.loadViewMatrix(camera);
 }

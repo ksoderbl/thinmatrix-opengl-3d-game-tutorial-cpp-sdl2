@@ -20,12 +20,13 @@ public:
 	void loadMoveFactor(GLfloat factor);
 	void loadWaveStrength(GLfloat factor);
 	void loadSkyColor(GLfloat r, GLfloat g, GLfloat b);
+	void loadFogVariables(GLfloat density, GLfloat gradient);
 	void loadProjectionMatrix(glm::mat4& matrix);
 	void loadViewMatrix(Camera& camera);
-	void loadModelMatrix(glm::mat4& matrix);
+	void loadTransformationMatrix(glm::mat4& matrix);
 	void getAllUniformLocations();
 private:
-	int location_modelMatrix;
+	int location_transformationMatrix;
 	int location_viewMatrix;
 	int location_projectionMatrix;
 	int location_waterTiling;
@@ -45,6 +46,8 @@ private:
 	int location_nearPlane;
 	int location_farPlane;
 	int location_skyColor;
+	int location_fogDensity;
+	int location_fogGradient;
 };
 
 #endif

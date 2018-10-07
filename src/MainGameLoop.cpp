@@ -201,8 +201,8 @@ int main(int argc, char *argv[])
 	Loader loader;
 	textMaster.init(&loader);
 
-	MasterRenderer renderer(loader);
-	particleMaster.init(loader, renderer.getProjectionMatrix());
+	masterRenderer.init(loader);
+	particleMaster.init(loader, masterRenderer.getProjectionMatrix());
 
 	string sampleText0 =
 
@@ -436,7 +436,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 4.6f, -Terrain::SIZE/2),
+	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 2*4.6f, -Terrain::SIZE/2),
 		     0, 0, 0, Terrain::SIZE/2);
 	entities.push_back(&rocks);
 
@@ -491,7 +491,7 @@ int main(int argc, char *argv[])
 
 	GuiRenderer guiRenderer(loader);
 
-	MousePicker picker(camera, renderer.getProjectionMatrix(), &terrain);
+	MousePicker picker(camera, masterRenderer.getProjectionMatrix(), &terrain);
 	//Entity *lampEntity = new Entity(lampModel, glm::vec3(0, 0, 0), 0, 0, 0, 1);
 	//entities.push_back(lampEntity);
 	//Light light = Light(glm::vec3(0, 14, 0), glm::vec3(3, 3, 0), glm::vec3(1, 0.01f, 0.002f));
@@ -501,8 +501,8 @@ int main(int argc, char *argv[])
 
 	WaterFrameBuffers buffers;
 	WaterShader waterShader;
-	WaterRenderer waterRenderer(loader, waterShader, renderer.getProjectionMatrix(),
-				    renderer.getNearPlane(), renderer.getFarPlane(), buffers);
+	WaterRenderer waterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(),
+				    masterRenderer.getNearPlane(), masterRenderer.getFarPlane(), buffers);
 	vector<WaterTile*> waters;
 
 	/*
@@ -580,19 +580,19 @@ int main(int argc, char *argv[])
 		GLfloat distance = 2 * (camera.getPosition().y - waters[0]->getHeight());
 		camera.getPosition().y -= distance;
 		camera.invertPitch();
-		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+		masterRenderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
 				     reflClipPlane, true);
 		camera.getPosition().y += distance;
 		camera.invertPitch();
 
 		//render refraction texture
 		buffers.bindRefractionFrameBuffer();
-		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+		masterRenderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
 				     refrClipPlane, true);
 		//render to screen
 		buffers.unbindCurrentFrameBuffer();
 
-		renderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
+		masterRenderer.renderScene(entities, normalMapEntities, terrains, lights, camera,
 				     screenClipPlane, false);
 		waterRenderer.render(waters, camera, sun);
 
@@ -618,7 +618,7 @@ int main(int argc, char *argv[])
 	buffers.cleanUp();
 	waterShader.cleanUp();
 	guiRenderer.cleanUp();
-	renderer.cleanUp();
+	masterRenderer.cleanUp();
 	loader.cleanUp();
 	display.closeDisplay();
 

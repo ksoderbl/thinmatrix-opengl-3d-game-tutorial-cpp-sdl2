@@ -20,10 +20,22 @@
 
 class MasterRenderer {
 public:
-	MasterRenderer(Loader& loader);
+	GLfloat FOV;
+	GLfloat NEAR_PLANE;
+	GLfloat FAR_PLANE;
+	GLfloat RED;
+	GLfloat GREEN;
+	GLfloat BLUE;
+	GLfloat FOG_DENSITY;
+	GLfloat FOG_GRADIENT;
+
+	MasterRenderer();
 	~MasterRenderer();
-	static void enableCulling();
-	static void disableCulling();
+	void init(Loader& loader);
+
+	void enableCulling();
+	void disableCulling();
+
 	void prepare();
 	void renderScene(
 		vector<Entity*>& entities,
@@ -46,16 +58,6 @@ public:
 	GLfloat getNearPlane() { return NEAR_PLANE; }
 	GLfloat getFarPlane() { return FAR_PLANE; }
 
-	static constexpr GLfloat FOV = 70;
-	static constexpr GLfloat NEAR_PLANE = 0.1f;
-	static constexpr GLfloat FAR_PLANE = 10000.0f;
-	//static constexpr GLfloat RED = 0.5444f;
-	//static constexpr GLfloat GREEN = 0.62f;
-	//static constexpr GLfloat BLUE = 0.69f;
-	static constexpr GLfloat RED = 157.0f / 256;   //0.9444f;
-	static constexpr GLfloat GREEN = 197.0f / 256; //0.52f;
-	static constexpr GLfloat BLUE = 213.0f / 256;  //0.79f;
-
 private:
 	void createProjectionMatrix();
 
@@ -75,5 +77,7 @@ private:
 	std::map<TexturedModel*, vector<Entity*>*>* normalMapEntitiesMap;
 	vector<Terrain*>* terrains;
 };
+
+extern MasterRenderer masterRenderer;
 
 #endif

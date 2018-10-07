@@ -15,8 +15,8 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition[4];
 
-const float fogDensity = 0.00155;
-const float fogGradient = 2.0;
+uniform float fogDensity;
+uniform float fogGradient;
 
 uniform vec4 clipPlane;
 

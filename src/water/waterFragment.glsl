@@ -4,6 +4,7 @@ in vec4 clipSpace;
 in vec2 textureCoords;
 in vec3 toCameraVector;
 in vec3 fromLightVector;
+in float visibility;
 
 out vec4 out_Color;
 
@@ -24,7 +25,7 @@ uniform float reflectivity; // = 0.6.  for normal map
 uniform float nearPlane;
 uniform float farPlane;
 
-//uniform vec3 skyColor;
+uniform vec3 skyColor;
 
 
 void main(void) {
@@ -86,14 +87,15 @@ void main(void) {
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 
 	// make water more blue, thinmatrix had (0.0, 0.3, 0.5, 1.0), 0.2
-	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2) + vec4(specularHighlights, 0.0);
+	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.1) + vec4(specularHighlights, 0.0);
 
 	//out_Color = normalMapColor;
 
-	//out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 	//out_Color = vec4(0.0, 0.0, 1.0, 1.0);
 	//out_Color = vec4(waterDepth/100);
 
 	// alpha = 1 at water depth 5
 	out_Color.a = clamp(waterDepth/5.0, 0.0, 1.0);
+
+	out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 }
