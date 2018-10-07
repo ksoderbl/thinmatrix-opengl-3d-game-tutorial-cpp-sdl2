@@ -7,37 +7,40 @@ ParticleRenderer::ParticleRenderer(Loader& loader, glm::mat4& projectionMatrix)
 {
 	vector<GLfloat> vertices = { -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
 	quad = loader.loadToVAO(vertices, 2);
-	shader = new ParticleShader();
-	shader->start();
-	shader->loadProjectionMatrix(projectionMatrix);
-	shader->stop();
+	shader.start();
+	shader.loadProjectionMatrix(projectionMatrix);
+	shader.stop();
 }
 
 
-void ParticleRenderer::render(vector<Particle>& particles, Camera& camera)
+void ParticleRenderer::render(map<ParticleTexture*, vector<Particle>>& particlesMap, Camera& camera)
 {
 	glm::mat4 viewMatrix = Maths::createViewMatrix(camera);
+
 	prepare();
 
-	auto it = particles.begin();
-	if (it != particles.end()) {
+	for (auto mit = particlesMap.begin();  mit != particlesMap.end(); mit++) {
+		ParticleTexture* texture = mit->first;
+		vector<Particle>& particles = mit->second;
+
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, it->getTexture().getTextureId());
+		glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
+
+		for (auto vit = particles.begin(); vit != particles.end(); vit++) {
+			Particle& particle = *vit;
+
+			updateModelViewMatrix(particle.getPosition(), particle.getRotation(),
+					      particle.getScale(), viewMatrix);
+			glDrawArrays(GL_TRIANGLE_STRIP, 0, quad->getVertexCount());
+		}
 	}
 
-	while (it != particles.end()) {
-		Particle& particle = *it;
-		updateModelViewMatrix(particle.getPosition(), particle.getRotation(),
-				      particle.getScale(), viewMatrix);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, quad->getVertexCount());
-		it++;
-	}
 	finishRendering();
 }
 
 void ParticleRenderer::cleanUp()
 {
-	shader->cleanUp();
+	shader.cleanUp();
 }
 
 void ParticleRenderer::updateModelViewMatrix(
@@ -59,12 +62,12 @@ void ParticleRenderer::updateModelViewMatrix(
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
 	glm::mat4 modelViewMatrix = viewMatrix * modelMatrix;
-	shader->loadModelViewMatrix(modelViewMatrix);
+	shader.loadModelViewMatrix(modelViewMatrix);
 }
 
 void ParticleRenderer::prepare()
 {
-	shader->start();
+	shader.start();
 	glBindVertexArray(quad->getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnable(GL_BLEND);
@@ -79,5 +82,5 @@ void ParticleRenderer::finishRendering()
 	glDisable(GL_BLEND);
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
-	shader->stop();
+	shader.stop();
 }

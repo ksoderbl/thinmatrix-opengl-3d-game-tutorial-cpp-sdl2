@@ -61,7 +61,7 @@ void ParticleSystem::emitParticle(glm::vec3& center)
 	GLfloat scale = generateValue(averageScale, scaleError);
 	GLfloat lifeLength = generateValue(averageLifeLength, lifeError);
 
-	Particle particle(texture, center, velocity, gravityCompliant, lifeLength, generateRotation(), scale);
+	Particle particle(&texture, center, velocity, gravityCompliant, lifeLength, generateRotation(), scale);
 }
 
 GLfloat ParticleSystem::generateValue(GLfloat average, GLfloat errorMargin)

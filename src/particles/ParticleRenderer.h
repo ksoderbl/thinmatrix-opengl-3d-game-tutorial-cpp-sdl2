@@ -8,11 +8,12 @@
 #include "../Camera.h"
 #include "ParticleShader.h"
 #include "Particle.h"
+#include "ParticleTexture.h"
 
 class ParticleRenderer {
 public:
 	ParticleRenderer(Loader& loader, glm::mat4& projectionMatrix);
-	void render(vector<Particle>& particles, Camera& camera);
+	void render(map<ParticleTexture*, vector<Particle>>& particlesMap, Camera& camera);
 	void cleanUp();
 	void updateModelViewMatrix(glm::vec3& position, GLfloat rotation, GLfloat scale, glm::mat4& viewMatrix);
 	void prepare();
@@ -23,7 +24,7 @@ public:
 	void unbindTexturedModel();
 private:
 	RawModel* quad;
-	ParticleShader* shader;
+	ParticleShader shader;
 };
 
 #endif

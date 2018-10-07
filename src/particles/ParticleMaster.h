@@ -7,6 +7,7 @@
 #include "../TextureData.h"
 #include "Particle.h"
 #include "ParticleRenderer.h"
+#include "ParticleTexture.h"
 #include "../Camera.h"
 
 class ParticleMaster {
@@ -18,7 +19,8 @@ public:
 	void cleanUp();
 	void addParticle(Particle particle);
 private:
-	vector<Particle> particles;
+	//vector<Particle> particles;
+	map<ParticleTexture*, vector<Particle>> particlesMap;
 	ParticleRenderer* renderer;
 };
 

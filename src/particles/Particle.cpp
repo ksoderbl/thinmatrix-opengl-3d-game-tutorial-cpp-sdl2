@@ -4,9 +4,10 @@
 #include "../Maths.h"
 #include "../renderEngine/DisplayManager.h"
 
-Particle::Particle(ParticleTexture& texture, glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
-		   GLfloat lifeLength, GLfloat rotation, GLfloat scale) : texture(texture)
+Particle::Particle(ParticleTexture* texture, glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
+		   GLfloat lifeLength, GLfloat rotation, GLfloat scale)
 {
+	this->texture = texture;
 	this->position = position;
 	this->velocity = velocity;
 	this->gravityEffect = gravityEffect;

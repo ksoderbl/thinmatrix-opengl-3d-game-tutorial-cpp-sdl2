@@ -6,10 +6,10 @@
 class ParticleTexture {
 public:
 	ParticleTexture(GLuint textureID, int numberOfRows);
-        GLuint getTextureId();
+	GLuint getTextureId();
 	int getNumberOfRows();
 private:
-        GLuint textureID;
+	GLuint textureID;
 	int numberOfRows = 1;
 };
 

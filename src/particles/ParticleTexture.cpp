@@ -2,16 +2,16 @@
 
 ParticleTexture::ParticleTexture(GLuint textureID, int numberOfRows)
 {
-        this->textureID = textureID;
+	this->textureID = textureID;
 	this->numberOfRows = numberOfRows;
 }
 
 GLuint ParticleTexture::getTextureId()
 {
-        return this->textureID;
+	return this->textureID;
 }
 
 int ParticleTexture::getNumberOfRows()
 {
-        return this->numberOfRows;
+	return this->numberOfRows;
 }

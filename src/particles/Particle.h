@@ -9,9 +9,9 @@
 
 class Particle {
 public:
-	Particle(ParticleTexture& texture,  glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
+	Particle(ParticleTexture* texture,  glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,
 		 GLfloat lifeLength, GLfloat rotation, GLfloat scale);
-	ParticleTexture& getTexture() {
+	ParticleTexture* getTexture() {
 		return texture;
 	}
 	glm::vec3& getPosition() {
@@ -37,7 +37,7 @@ private:
 	GLfloat scale;
 	GLfloat elapsedTime = 0.0f;
 
-	ParticleTexture texture;
+	ParticleTexture* texture;
 };
 
 #endif
