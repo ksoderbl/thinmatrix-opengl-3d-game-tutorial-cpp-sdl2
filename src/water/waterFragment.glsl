@@ -87,7 +87,7 @@ void main(void) {
 	out_Color = mix(reflectColor, refractColor, refractiveFactor);
 
 	// make water more blue, thinmatrix had (0.0, 0.3, 0.5, 1.0), 0.2
-	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.1) + vec4(specularHighlights, 0.0);
+	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2) + vec4(specularHighlights, 0.0);
 
 	//out_Color = normalMapColor;
 

@@ -7,14 +7,14 @@ MasterRenderer::MasterRenderer()
 	FOV = 70;
 	NEAR_PLANE = 0.1f;
 	FAR_PLANE = 10000.0f;
-	RED = 0.5444f;
-	GREEN = 0.62f;
-	BLUE = 0.69f;
-	//RED = 157.0f / 256;   //0.9444f;
-	//GREEN = 197.0f / 256; //0.52f;
-	//BLUE = 213.0f / 256;  //0.79f;
-	FOG_DENSITY = 0.001f;
-	FOG_GRADIENT = 5.0f;
+	//RED = 0.5444f;
+	//GREEN = 0.62f;
+	//BLUE = 0.69f;
+	RED = 157.0f / 256;   //0.9444f;
+	GREEN = 197.0f / 256; //0.52f;
+	BLUE = 213.0f / 256;  //0.79f;
+	FOG_DENSITY = 0.0005f;
+	FOG_GRADIENT = 1.0f;
 }
 
 MasterRenderer::~MasterRenderer()

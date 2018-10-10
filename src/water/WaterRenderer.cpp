@@ -11,10 +11,11 @@ WaterRenderer::WaterRenderer(
 	WaterFrameBuffers& fbos) : shader(shader), fbos(fbos)
 {
 	moveFactor = 0;
-	waterTiling = 4.0f; // was 4
-	waveStrength = 0.04f; // was 0.04
-	waterReflectivity = 0.7f; // for fresnel effect, thinmatrix had 0.5
-	shineDamper = 20.0f; // for normal maps
+
+	waterTiling = 10.0f; // was 4
+	waveStrength = 0.1f; // was 0.04
+	waterReflectivity = 1.0f; // for fresnel effect, thinmatrix had 0.5
+	shineDamper = 15.0f; // for normal maps
 	reflectivity = 0.5f;
 	waveSpeed = 0.1f; // was 0.3f
 

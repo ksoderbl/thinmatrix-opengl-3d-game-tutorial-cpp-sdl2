@@ -7,16 +7,13 @@ out vec4 out_color;
 uniform vec3 color;
 uniform sampler2D fontAtlas;
 
-const float width = 0.5;
+const float width = 0.45;
 const float edge = 0.1;
 
-//const float borderWidth = 0.7;
-//const float borderEdge = 0.1;
+const float borderWidth = 0.7;
+const float borderEdge = 0.1;
 
-const float borderWidth = 0.4;
-const float borderEdge = 0.3;
-
-const vec2 offset = vec2(0.0001, 0.0001);
+const vec2 offset = vec2(0.001, 0.001);
 
 const vec3 outlineColor = vec3(0.0, 0.0, 0.0);
 

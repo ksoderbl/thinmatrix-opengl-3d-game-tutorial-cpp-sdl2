@@ -241,7 +241,7 @@ int main(int argc, char *argv[])
 	FontType font(loader.loadFontTextureAtlas("fonts/candara"), fontFile);
 	//string fontFile = "../res/fonts/harrington.fnt";
 	//FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
-	GUIText text(sampleText1, 2.0, &font, glm::vec2(0.2f, 0.2f), 0.3f, true);
+	GUIText text(sampleText1, 2.0, &font, glm::vec2(0.0f, 0.1f), 1.0f, true);
 	text.setColor(0.6, 0.8, 1.0);
 
 	//string fontFile2 = "../res/fonts/segoe.fnt";
@@ -249,8 +249,8 @@ int main(int argc, char *argv[])
 
 	string fontFile2 = "../res/fonts/ebGaramond12AllSC.fnt";
 	FontType font2(loader.loadFontTextureAtlas("fonts/ebGaramond12AllSC"), fontFile2);
-	GUIText text2(sampleText2, 2.5, &font2, glm::vec2(0.6f, 0.1f), 0.4f, true);
-	text2.setColor(1.0, 1.0, 0.0);
+	GUIText text2(sampleText2, 3, &font2, glm::vec2(0.0f, 0.2f), 1.0f, true);
+	text2.setColor(1.0, 1.0, 1.0);
 
 	//******** TERRAIN TEXTURE STUFF ********
 
@@ -537,9 +537,9 @@ int main(int argc, char *argv[])
 
 
 	ParticleTexture particleTexture(loader.loadTexture("particleStar"), 1);
-	ParticleSystem system(particleTexture, 100, 50, 0.3, 4, 1);
+	ParticleSystem system(particleTexture, 1000, 150, 1.0, 10, 2);
 	system.randomizeRotation();
-	system.setDirection(glm::vec3(0, 1, 0), 0.1f);
+	system.setDirection(glm::vec3(0, 1, 0), 0.4f);
 	system.setLifeError(0.1f);
 	system.setSpeedError(0.4f);
 	system.setScaleError(0.4f);
@@ -565,7 +565,7 @@ int main(int argc, char *argv[])
 		//	glm::vec3 velocity(0, 50, 0);
 		//	Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
 		//}
-		system.generateParticles(player.getPosition());
+		//system.generateParticles(player.getPosition());
 		system.generateParticles(glm::vec3(200.0f, 10.0f, -200.0f));
 
 		particleMaster.update();
