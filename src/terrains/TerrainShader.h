@@ -1,7 +1,7 @@
 #ifndef TERRAINSHADER_H
 #define TERRAINSHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"
 

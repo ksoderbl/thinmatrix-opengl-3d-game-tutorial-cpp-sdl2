@@ -1,7 +1,7 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class ShaderProgram
 {

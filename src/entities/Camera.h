@@ -2,9 +2,9 @@
 #define CAMERA_H
 
 #include "../Headers.h"
-#include "../Keyboard.h"
+#include "../input/Keyboard.h"
 #include "../entities/Player.h"
-#include "../Mouse.h"
+#include "../input/Mouse.h"
 
 class Camera {
 public:

@@ -2,7 +2,7 @@
 #include "Particle.h"
 #include "ParticleTexture.h"
 #include "../renderEngine/DisplayManager.h"
-#include "../Utils.h"
+#include "../toolbox/Utils.h"
 
 ParticleSystem::ParticleSystem(ParticleTexture& texture, GLfloat pps, GLfloat speed, GLfloat gravityCompliant, GLfloat lifeLength, GLfloat scale) : texture(texture)
 {

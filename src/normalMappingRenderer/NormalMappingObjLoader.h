@@ -3,8 +3,8 @@
 
 #include "../Headers.h"
 #include "../renderEngine/Loader.h"
-#include "../Vertex.h"
-#include "../ModelData.h"
+#include "../objConverter/Vertex.h"
+#include "../objConverter/ModelData.h"
 
 class NormalMappingObjLoader {
 public:

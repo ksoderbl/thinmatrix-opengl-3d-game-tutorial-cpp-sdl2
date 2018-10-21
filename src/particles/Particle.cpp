@@ -1,7 +1,7 @@
 #include "Particle.h"
 #include "ParticleMaster.h"
 #include "../entities/Player.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 #include "../renderEngine/DisplayManager.h"
 
 Particle::Particle(ParticleTexture* texture, glm::vec3& position, glm::vec3& velocity, GLfloat gravityEffect,

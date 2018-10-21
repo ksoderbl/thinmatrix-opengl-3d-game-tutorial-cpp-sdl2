@@ -1,7 +1,7 @@
 #ifndef FONTSHADER_H
 #define FONTSHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 
 class FontShader: public ShaderProgram
 {

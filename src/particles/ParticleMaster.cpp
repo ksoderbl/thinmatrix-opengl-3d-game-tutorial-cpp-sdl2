@@ -1,6 +1,6 @@
 #include "ParticleMaster.h"
 #include "../entities/Player.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 #include "../renderEngine/DisplayManager.h"
 
 ParticleMaster particleMaster;

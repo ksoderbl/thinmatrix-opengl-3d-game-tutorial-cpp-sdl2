@@ -1,7 +1,7 @@
 #ifndef MODELDATA_H
 #define MODELDATA_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class ModelData
 {

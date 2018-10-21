@@ -4,7 +4,7 @@
 #define MASTERRENDERER_H
 
 #include "../Headers.h"
-#include "../StaticShader.h"
+#include "../shaders/StaticShader.h"
 #include "EntityRenderer.h"
 #include "../normalMappingRenderer/NormalMappingRenderer.h"
 #include "../models/TexturedModel.h"

@@ -2,8 +2,8 @@
 #ifndef MATHS_H
 #define MATHS_H
 
-#include "Headers.h"
-#include "entities/Camera.h"
+#include "../Headers.h"
+#include "../entities/Camera.h"
 
 class Maths {
 public:

@@ -1,7 +1,7 @@
 #ifndef NORMALMAPPINGSHADER_H
 #define NORMALMAPPINGSHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"
 

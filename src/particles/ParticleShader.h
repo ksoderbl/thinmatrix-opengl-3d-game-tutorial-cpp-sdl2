@@ -1,7 +1,7 @@
 #ifndef PARTICLESHADER_H
 #define PARTICLESHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 #include "../entities/Light.h"
 #include "../entities/Camera.h"
 

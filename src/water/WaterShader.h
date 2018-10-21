@@ -1,7 +1,7 @@
 #ifndef WATERSHADER_H
 #define WATERSHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 #include "../entities/Camera.h"
 #include "../entities/Light.h"
 

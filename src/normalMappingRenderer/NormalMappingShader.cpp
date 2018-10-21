@@ -1,5 +1,5 @@
 #include "NormalMappingShader.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "normalMappingRenderer/normalMapVShader.glsl";
 const string FRAGMENT_FILE = "normalMappingRenderer/normalMapFShader.glsl";

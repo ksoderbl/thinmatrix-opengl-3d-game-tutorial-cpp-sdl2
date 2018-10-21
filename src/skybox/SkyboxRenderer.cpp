@@ -2,7 +2,7 @@
 #include "SkyboxRenderer.h"
 #include "../renderEngine/DisplayManager.h"
 #include "../renderEngine/MasterRenderer.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 SkyboxRenderer::SkyboxRenderer(Loader& loader, glm::mat4& projectionMatrix)
 {

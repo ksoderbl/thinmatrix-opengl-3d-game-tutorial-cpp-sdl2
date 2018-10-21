@@ -2,7 +2,7 @@
 #include "EntityRenderer.h"
 #include "DisplayManager.h"
 #include "MasterRenderer.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 EntityRenderer::EntityRenderer(StaticShader& shader, glm::mat4& projectionMatrix) : shader(shader)
 {

@@ -6,6 +6,7 @@
 SHELL	= /bin/sh
 
 SOURCES = \
+	engineTester/MainGameLoop.cpp \
 	entities/Camera.cpp \
 	entities/Entity.cpp \
 	entities/Light.cpp \
@@ -21,6 +22,8 @@ SOURCES = \
 	fontRendering/TextMeshCreator.cpp \
 	fontRendering/TextMeshData.cpp \
 	fontRendering/Word.cpp \
+	input/Keyboard.cpp \
+	input/Mouse.cpp \
 	guis/GuiRenderer.cpp \
 	guis/GuiShader.cpp \
 	guis/GuiTexture.cpp \
@@ -29,6 +32,9 @@ SOURCES = \
 	normalMappingRenderer/NormalMappingObjLoader.cpp \
 	normalMappingRenderer/NormalMappingRenderer.cpp \
 	normalMappingRenderer/NormalMappingShader.cpp \
+	objConverter/ModelData.cpp \
+	objConverter/OBJFileLoader.cpp \
+	objConverter/Vertex.cpp \
 	particles/Particle.cpp \
 	particles/ParticleMaster.cpp \
 	particles/ParticleRenderer.cpp \
@@ -39,7 +45,8 @@ SOURCES = \
 	renderEngine/EntityRenderer.cpp \
 	renderEngine/Loader.cpp \
 	renderEngine/MasterRenderer.cpp \
-	renderEngine/OBJFileLoader.cpp \
+	shaders/ShaderProgram.cpp \
+	shaders/StaticShader.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
 	terrains/Terrain.cpp \
@@ -49,22 +56,13 @@ SOURCES = \
 	terrains/TerrainTexturePack.cpp \
 	textures/ModelTexture.cpp \
 	textures/TextureData.cpp \
+	toolbox/Maths.cpp \
+	toolbox/MousePicker.cpp \
+	toolbox/Utils.cpp \
 	water/WaterFrameBuffers.cpp \
 	water/WaterRenderer.cpp \
 	water/WaterShader.cpp \
-	water/WaterTile.cpp \
-	Keyboard.cpp \
-	MainGameLoop.cpp \
-	Maths.cpp \
-	ModelData.cpp \
-	Mouse.cpp \
-	MousePicker.cpp \
-	ShaderProgram.cpp \
-	StaticShader.cpp \
-	Utils.cpp \
-	Vertex.cpp
-
-
+	water/WaterTile.cpp
 
 TARGET  = main
 OBJECTS = $(SOURCES:.cpp=.o)

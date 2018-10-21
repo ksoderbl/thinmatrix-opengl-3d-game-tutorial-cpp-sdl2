@@ -1,7 +1,7 @@
 #include "../models/RawModel.h"
 #include "ParticleRenderer.h"
 #include "../renderEngine/DisplayManager.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 ParticleRenderer::ParticleRenderer(Loader& loader, glm::mat4& projectionMatrix)
 {
@@ -71,7 +71,9 @@ void ParticleRenderer::prepare()
 	glBindVertexArray(quad->getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//additive blending
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glDepthMask(GL_FALSE);
 
 }

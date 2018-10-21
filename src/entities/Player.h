@@ -3,7 +3,7 @@
 
 #include "../Headers.h"
 #include "Entity.h"
-#include "../Keyboard.h"
+#include "../input/Keyboard.h"
 #include "../renderEngine/DisplayManager.h"
 #include "../terrains/Terrain.h"
 #include "../water/WaterTile.h"

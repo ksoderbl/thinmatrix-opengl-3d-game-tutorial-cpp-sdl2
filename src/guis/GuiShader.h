@@ -1,7 +1,7 @@
 #ifndef GUISHADER_H
 #define GUISHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 
 class GuiShader: public ShaderProgram
 {

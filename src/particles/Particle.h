@@ -38,6 +38,9 @@ private:
 	GLfloat elapsedTime = 0.0f;
 
 	ParticleTexture* texture;
+
+	glm::vec2 texOffset1;
+	glm::vec2 texOffset2;
 };
 
 #endif

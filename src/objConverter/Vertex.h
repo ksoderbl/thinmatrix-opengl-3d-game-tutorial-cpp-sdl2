@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class Vertex {
 public:

@@ -2,9 +2,9 @@
 #define OBJFILELOADER_H
 
 #include "../Headers.h"
-#include "Loader.h"
-#include "../Vertex.h"
-#include "../ModelData.h"
+#include "../renderEngine/Loader.h"
+#include "Vertex.h"
+#include "ModelData.h"
 
 class OBJFileLoader {
 public:

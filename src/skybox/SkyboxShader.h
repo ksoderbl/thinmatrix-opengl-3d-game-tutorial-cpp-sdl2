@@ -1,7 +1,7 @@
 #ifndef SKYBOXSHADER_H
 #define SKYBOXSHADER_H
 
-#include "../ShaderProgram.h"
+#include "../shaders/ShaderProgram.h"
 #include "../entities/Camera.h"
 
 class SkyboxShader: public ShaderProgram

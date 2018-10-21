@@ -1,5 +1,5 @@
 #include "StaticShader.h"
-#include "Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "shaders/vertexShader.glsl";
 const string FRAGMENT_FILE = "shaders/fragmentShader.glsl";

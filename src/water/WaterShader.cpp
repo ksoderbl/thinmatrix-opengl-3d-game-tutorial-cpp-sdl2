@@ -1,5 +1,5 @@
 #include "WaterShader.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "water/waterVertex.glsl";
 const string FRAGMENT_FILE = "water/waterFragment.glsl";

@@ -1,5 +1,5 @@
 #include "SkyboxShader.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "skybox/skyboxVertexShader.glsl";
 const string FRAGMENT_FILE = "skybox/skyboxFragmentShader.glsl";

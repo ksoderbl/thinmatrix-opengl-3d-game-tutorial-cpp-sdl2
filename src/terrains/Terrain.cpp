@@ -1,5 +1,5 @@
 #include "Terrain.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 Terrain::Terrain(int gridX, int gridZ, Loader &loader,
 	TerrainTexturePack &texturePack, TerrainTexture& blendMap, string heightMap)

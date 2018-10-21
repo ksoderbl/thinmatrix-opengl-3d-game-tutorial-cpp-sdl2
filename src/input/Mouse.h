@@ -1,7 +1,7 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class Mouse {
 public:

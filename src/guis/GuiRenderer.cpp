@@ -1,5 +1,5 @@
 #include "GuiRenderer.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 GuiRenderer::GuiRenderer(Loader& loader) : loader(loader)
 {

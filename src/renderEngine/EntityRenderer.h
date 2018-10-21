@@ -4,7 +4,7 @@
 #include "../Headers.h"
 #include "../models/TexturedModel.h"
 #include "../entities/Entity.h"
-#include "../StaticShader.h"
+#include "../shaders/StaticShader.h"
 
 class EntityRenderer {
 public:

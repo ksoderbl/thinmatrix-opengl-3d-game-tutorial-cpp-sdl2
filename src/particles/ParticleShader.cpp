@@ -1,5 +1,5 @@
 #include "ParticleShader.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "particles/particleVShader.glsl";
 const string FRAGMENT_FILE = "particles/particleFShader.glsl";

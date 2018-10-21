@@ -2,7 +2,7 @@
 #include "NormalMappingRenderer.h"
 #include "../renderEngine/DisplayManager.h"
 #include "../renderEngine/MasterRenderer.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 NormalMappingRenderer::NormalMappingRenderer(glm::mat4& projectionMatrix)
 {

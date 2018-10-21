@@ -1,5 +1,5 @@
 #include "TerrainShader.h"
-#include "../Maths.h"
+#include "../toolbox/Maths.h"
 
 const string VERTEX_FILE = "terrains/terrainVertexShader.glsl";
 const string FRAGMENT_FILE = "terrains/terrainFragmentShader.glsl";
