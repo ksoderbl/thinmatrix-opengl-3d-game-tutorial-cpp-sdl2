@@ -467,7 +467,8 @@ int main(int argc, char *argv[])
 	playerModelTexture.setShineDamper(10);
 	playerModelTexture.setReflectivity(1);
 
-	Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/2, 5, -Terrain::SIZE/2), 0, 0, 0, 0.6f);
+	//Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/2, 5, -Terrain::SIZE/2), 0, 0, 0, 0.6f);
+	Player player(playerTexturedModel, glm::vec3(Terrain::SIZE/5, 5, -Terrain::SIZE/5), 0, 100, 0, 0.6f);
 	entities.push_back(&player);
 
 	Camera camera(player);
@@ -536,13 +537,40 @@ int main(int argc, char *argv[])
 	glm::vec4 screenClipPlane(0, -1, 0, 1000000);
 
 
-	ParticleTexture particleTexture(loader.loadTexture("particleStar"), 1);
-	ParticleSystem system(particleTexture, 1000, 150, 1.0, 10, 2);
-	system.randomizeRotation();
-	system.setDirection(glm::vec3(0, 1, 0), 0.4f);
-	system.setLifeError(0.1f);
-	system.setSpeedError(0.4f);
-	system.setScaleError(0.4f);
+	ParticleTexture particleStarTexture(loader.loadTexture("particleStar"), 1, true);
+	ParticleTexture particleAtlasTexture(loader.loadTexture("particleAtlas"), 4, true);
+	ParticleTexture particleCosmicTexture(loader.loadTexture("cosmic"), 4, true);
+	ParticleTexture particleSmokeTexture(loader.loadTexture("smoke"), 8, false);
+
+
+	ParticleSystem fireSystem(particleAtlasTexture, 50, 4, -0.01, 1.2, 5);
+	fireSystem.randomizeRotation();
+	fireSystem.setDirection(glm::vec3(0, 1, 0), 0.2f);
+	fireSystem.setLifeError(0.5f);
+	fireSystem.setSpeedError(0.5f);
+	fireSystem.setScaleError(0.5f);
+
+	ParticleSystem smokeSystem(particleSmokeTexture, 50, 1, -0.01f, 5, 8.0f);
+	smokeSystem.setDirection(glm::vec3(0, 1, 0), 1.0f);
+	smokeSystem.setLifeError(3.1f);
+	smokeSystem.setSpeedError(1.25f);
+	smokeSystem.setScaleError(2.5f);
+	smokeSystem.randomizeRotation();
+
+	ParticleSystem starSystem(particleStarTexture, 100, 20, 0.8f, 7, 2);
+	starSystem.setDirection(glm::vec3(0, 1, 0), 0.3f);
+	starSystem.setLifeError(0.1f);
+	starSystem.setSpeedError(0.25f);
+	starSystem.setScaleError(0.5f);
+	starSystem.randomizeRotation();
+
+	ParticleSystem cosmicSystem(particleCosmicTexture, 50, 50, 0.1f, 3, 5);
+	cosmicSystem.setDirection(glm::vec3(0, 1, 0), 0.8f);
+	cosmicSystem.setLifeError(0.1f);
+	cosmicSystem.setSpeedError(0.25f);
+	cosmicSystem.setScaleError(0.5f);
+	cosmicSystem.randomizeRotation();
+
 
 	//****************Game Loop Below*********************
 
@@ -565,10 +593,14 @@ int main(int argc, char *argv[])
 		//	glm::vec3 velocity(0, 50, 0);
 		//	Particle particle(player.getPosition(), velocity, 1, 2.5, 0, 1);
 		//}
-		//system.generateParticles(player.getPosition());
-		system.generateParticles(glm::vec3(200.0f, 10.0f, -200.0f));
+		//smokeSystem.generateParticles(player.getPosition() + glm::vec3(0, 5, 0));
+		//fireSystem.generateParticles(player.getPosition() + glm::vec3(0, 5, 0));
+		smokeSystem.generateParticles(glm::vec3(290.0f, 10.0f, -330.0f));
+		fireSystem.generateParticles(glm::vec3(350.0f, 10.0f, -300.0f));
+		starSystem.generateParticles(glm::vec3(300.0f, 20.0f, -400.0f));
+		cosmicSystem.generateParticles(glm::vec3(420.0f, 10.0f, -270.0f));
 
-		particleMaster.update();
+		particleMaster.update(camera);
 
 		entity.increaseRotation(0.0f, 1.1f, 0.0f);
 		//entity2.increaseRotation(0.0f, 1.2f, 0.0f);
@@ -605,7 +637,7 @@ int main(int argc, char *argv[])
 		display.updateDisplay();
 		loops++;
 
-		if (loops > 1000) {
+		if (loops > 100) {
 			textMaster.removeText(&text);
 			textMaster.removeText(&text2);
 		}

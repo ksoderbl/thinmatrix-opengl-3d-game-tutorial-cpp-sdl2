@@ -14,12 +14,11 @@ class ParticleMaster {
 public:
 	ParticleMaster();
 	void init(Loader& loader, glm::mat4& projectionMatrix);
-	void update();
+	void update(Camera& camera);
 	void renderParticles(Camera& camera);
 	void cleanUp();
 	void addParticle(Particle particle);
 private:
-	//vector<Particle> particles;
 	map<ParticleTexture*, vector<Particle>> particlesMap;
 	ParticleRenderer* renderer;
 };

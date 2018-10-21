@@ -14,7 +14,7 @@ void ParticleMaster::init(Loader& loader, glm::mat4& projectionMatrix)
 	renderer = new ParticleRenderer(loader, projectionMatrix);
 }
 
-void ParticleMaster::update()
+void ParticleMaster::update(Camera& camera)
 {
 	auto mit = particlesMap.begin();
 	while (mit != particlesMap.end()) {
@@ -22,13 +22,16 @@ void ParticleMaster::update()
 		auto vit = particles.begin();
 		while (vit != particles.end()) {
 			Particle& p = *vit;
-			bool stillAlive = p.update();
+			bool stillAlive = p.update(camera);
 			if (!stillAlive) {
 				vit = particles.erase(vit);
 			} else {
 				vit++;
 			}
 		}
+		// We want to paint the particle that is furthest away first.
+		// uses operator <
+		std::sort(particles.begin(), particles.end());
 		mit++;
 	}
 }

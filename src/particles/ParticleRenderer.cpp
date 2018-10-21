@@ -23,14 +23,25 @@ void ParticleRenderer::render(map<ParticleTexture*, vector<Particle>>& particles
 		ParticleTexture* texture = mit->first;
 		vector<Particle>& particles = mit->second;
 
+		if (texture->usesAdditiveBlending()) {
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		}
+		else {
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
 
 		for (auto vit = particles.begin(); vit != particles.end(); vit++) {
 			Particle& particle = *vit;
 
+			//cout << "distance = " << particle.getDistance() << endl;
+
 			updateModelViewMatrix(particle.getPosition(), particle.getRotation(),
 					      particle.getScale(), viewMatrix);
+			shader.loadTextureCoordInfo(
+				particle.getTexOffset1(), particle.getTexOffset2(),
+				texture->getNumberOfRows(), particle.getBlend());
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, quad->getVertexCount());
 		}
 	}
@@ -71,9 +82,6 @@ void ParticleRenderer::prepare()
 	glBindVertexArray(quad->getVaoID());
 	glEnableVertexAttribArray(0);
 	glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//additive blending
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glDepthMask(GL_FALSE);
 
 }

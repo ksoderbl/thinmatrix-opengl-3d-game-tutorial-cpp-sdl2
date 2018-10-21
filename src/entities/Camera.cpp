@@ -4,10 +4,10 @@
 Camera::Camera(Player& player) : player(player)
 {
 	position = glm::vec3(0, 0, 0);
-	pitch = 20.0f;
+	pitch = 10.0f;
 	yaw = 0.0f;
 	roll = 0.0f;
-	distanceFromPlayer = 35;
+	distanceFromPlayer = 5;
 	angleAroundPlayer = 0;
 }
 

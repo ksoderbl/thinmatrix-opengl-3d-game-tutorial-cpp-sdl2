@@ -10,8 +10,8 @@ class Camera {
 public:
 	static constexpr GLfloat MIN_DISTANCE_FROM_PLAYER = 5;
 	static constexpr GLfloat MAX_DISTANCE_FROM_PLAYER = 1000;
-	static constexpr GLfloat MIN_PITCH = 0;
-	static constexpr GLfloat MAX_PITCH = 90 - MIN_PITCH;
+	static constexpr GLfloat MIN_PITCH = -90;
+	static constexpr GLfloat MAX_PITCH = 90;
 	static constexpr GLfloat CAMERA_Y_OFFSET = 7;
 	static constexpr GLfloat CAMERA_PITCH_OFFSET = 0; // ThinMatrix has 4
 	static constexpr GLfloat ZOOM_LEVEL_FACTOR = 10.0f;
