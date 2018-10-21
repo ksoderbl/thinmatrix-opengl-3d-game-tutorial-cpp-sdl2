@@ -3,12 +3,12 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-#include "Headers.h"
-#include "models/RawModel.h"
-#include "renderEngine/Loader.h"
+#include "../Headers.h"
+#include "../models/RawModel.h"
+#include "../renderEngine/Loader.h"
 #include "TerrainTexturePack.h"
 #include "TerrainTexture.h"
-#include "TextureData.h"
+#include "../textures/TextureData.h"
 
 class Terrain {
 public:

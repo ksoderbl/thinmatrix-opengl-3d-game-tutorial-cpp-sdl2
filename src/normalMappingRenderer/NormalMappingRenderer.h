@@ -3,7 +3,7 @@
 
 #include "../Headers.h"
 #include "../models/TexturedModel.h"
-#include "../Entity.h"
+#include "../entities/Entity.h"
 #include "NormalMappingShader.h"
 
 class NormalMappingRenderer {

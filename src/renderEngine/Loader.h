@@ -3,7 +3,7 @@
 
 #include "../Headers.h"
 #include "../models/RawModel.h"
-#include "../TextureData.h"
+#include "../textures/TextureData.h"
 
 class Loader {
 public:

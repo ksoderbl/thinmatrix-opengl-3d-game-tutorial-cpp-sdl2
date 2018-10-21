@@ -6,6 +6,10 @@
 SHELL	= /bin/sh
 
 SOURCES = \
+	entities/Camera.cpp \
+	entities/Entity.cpp \
+	entities/Light.cpp \
+	entities/Player.cpp \
 	fontRendering/Character.cpp \
 	fontRendering/FontRenderer.cpp \
 	fontRendering/FontShader.cpp \
@@ -36,31 +40,27 @@ SOURCES = \
 	renderEngine/Loader.cpp \
 	renderEngine/MasterRenderer.cpp \
 	renderEngine/OBJFileLoader.cpp \
-	renderEngine/TerrainRenderer.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
+	terrains/Terrain.cpp \
+	terrains/TerrainRenderer.cpp \
+	terrains/TerrainShader.cpp \
+	terrains/TerrainTexture.cpp \
+	terrains/TerrainTexturePack.cpp \
+	textures/ModelTexture.cpp \
+	textures/TextureData.cpp \
 	water/WaterFrameBuffers.cpp \
 	water/WaterRenderer.cpp \
 	water/WaterShader.cpp \
 	water/WaterTile.cpp \
-	Camera.cpp \
-	Entity.cpp \
 	Keyboard.cpp \
-	Light.cpp \
 	MainGameLoop.cpp \
 	Maths.cpp \
 	ModelData.cpp \
-	ModelTexture.cpp \
 	Mouse.cpp \
 	MousePicker.cpp \
-	Player.cpp \
 	ShaderProgram.cpp \
 	StaticShader.cpp \
-	Terrain.cpp \
-	TerrainShader.cpp \
-	TerrainTexture.cpp \
-	TerrainTexturePack.cpp \
-	TextureData.cpp \
 	Utils.cpp \
 	Vertex.cpp
 
@@ -88,4 +88,4 @@ $(TARGET): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	-rm -f core \#*\# *~ */*~ $(OBJECTS) $(TARGET)
+	-rm -f core \#*\# *~ */*~ *.o */*.o $(TARGET)

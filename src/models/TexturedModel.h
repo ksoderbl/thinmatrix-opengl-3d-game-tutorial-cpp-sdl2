@@ -5,7 +5,7 @@
 
 #include "../Headers.h"
 #include "RawModel.h"
-#include "../ModelTexture.h"
+#include "../textures/ModelTexture.h"
 
 class TexturedModel {
 public:

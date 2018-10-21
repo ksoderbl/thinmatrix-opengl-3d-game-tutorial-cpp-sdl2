@@ -1,7 +1,7 @@
 #ifndef TERRAINTEXTURE_H
 #define TERRAINTEXTURE_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class TerrainTexture {
 public:

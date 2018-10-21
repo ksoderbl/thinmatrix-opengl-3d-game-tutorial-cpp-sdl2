@@ -1,7 +1,7 @@
 #ifndef TEXTUREDATA_H
 #define TEXTUREDATA_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class TextureData {
 public:

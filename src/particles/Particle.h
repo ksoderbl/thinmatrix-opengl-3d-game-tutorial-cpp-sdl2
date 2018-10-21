@@ -4,7 +4,7 @@
 #include "../Headers.h"
 #include "../models/RawModel.h"
 #include "../renderEngine/Loader.h"
-#include "../TextureData.h"
+#include "../textures/TextureData.h"
 #include "ParticleTexture.h"
 
 class Particle {

@@ -5,7 +5,7 @@
 #include "SkyboxShader.h"
 #include "../models/RawModel.h"
 #include "../renderEngine/Loader.h"
-#include "../Camera.h"
+#include "../entities/Camera.h"
 
 class SkyboxRenderer {
 public:

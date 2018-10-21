@@ -3,7 +3,7 @@
 #ifndef MODELTEXTURE_H
 #define MODELTEXTURE_H
 
-#include "Headers.h"
+#include "../Headers.h"
 
 class ModelTexture {
 public:

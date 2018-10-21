@@ -6,10 +6,10 @@
 #include "WaterShader.h"
 #include "WaterTile.h"
 #include "WaterFrameBuffers.h"
-#include "../Camera.h"
+#include "../entities/Camera.h"
 #include "../models/RawModel.h"
 #include "../renderEngine/DisplayManager.h"
-#include "../Light.h"
+#include "../entities/Light.h"
 
 class WaterRenderer {
 public:

@@ -1,12 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Headers.h"
+#include "../Headers.h"
 #include "Entity.h"
-#include "Keyboard.h"
-#include "renderEngine/DisplayManager.h"
-#include "Terrain.h"
-#include "water/WaterTile.h"
+#include "../Keyboard.h"
+#include "../renderEngine/DisplayManager.h"
+#include "../terrains/Terrain.h"
+#include "../water/WaterTile.h"
 
 class Player : public Entity
 {

@@ -3,8 +3,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "Headers.h"
-#include "models/TexturedModel.h"
+#include "../Headers.h"
+#include "../models/TexturedModel.h"
 
 class Entity {
 public:

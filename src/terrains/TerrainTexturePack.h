@@ -1,7 +1,7 @@
 #ifndef TERRAINTEXTUREPACK_H
 #define TERRAINTEXTUREPACK_H
 
-#include "Headers.h"
+#include "../Headers.h"
 #include "TerrainTexture.h"
 
 class TerrainTexturePack {

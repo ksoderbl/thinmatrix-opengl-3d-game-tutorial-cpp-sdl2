@@ -4,11 +4,11 @@
 #include "../Headers.h"
 #include "../models/RawModel.h"
 #include "../renderEngine/Loader.h"
-#include "../TextureData.h"
+#include "../textures/TextureData.h"
 #include "Particle.h"
 #include "ParticleRenderer.h"
 #include "ParticleTexture.h"
-#include "../Camera.h"
+#include "../entities/Camera.h"
 
 class ParticleMaster {
 public:

@@ -2,8 +2,8 @@
 #define WATERSHADER_H
 
 #include "../ShaderProgram.h"
-#include "../Camera.h"
-#include "../Light.h"
+#include "../entities/Camera.h"
+#include "../entities/Light.h"
 
 class WaterShader: public ShaderProgram
 {

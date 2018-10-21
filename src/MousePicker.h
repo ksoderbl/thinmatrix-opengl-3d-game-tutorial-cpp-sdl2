@@ -1,7 +1,7 @@
 #include "Headers.h"
-#include "Camera.h"
+#include "entities/Camera.h"
 #include "Mouse.h"
-#include "Terrain.h"
+#include "terrains/Terrain.h"
 
 class MousePicker
 {

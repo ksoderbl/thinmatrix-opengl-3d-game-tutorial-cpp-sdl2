@@ -1,9 +1,9 @@
 #ifndef TERRAINSHADER_H
 #define TERRAINSHADER_H
 
-#include "ShaderProgram.h"
-#include "Light.h"
-#include "Camera.h"
+#include "../ShaderProgram.h"
+#include "../entities/Light.h"
+#include "../entities/Camera.h"
 
 class TerrainShader: public ShaderProgram
 {

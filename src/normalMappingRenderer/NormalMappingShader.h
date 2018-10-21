@@ -2,8 +2,8 @@
 #define NORMALMAPPINGSHADER_H
 
 #include "../ShaderProgram.h"
-#include "../Light.h"
-#include "../Camera.h"
+#include "../entities/Light.h"
+#include "../entities/Camera.h"
 
 class NormalMappingShader: public ShaderProgram
 {

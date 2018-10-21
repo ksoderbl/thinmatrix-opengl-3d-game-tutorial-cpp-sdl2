@@ -3,7 +3,7 @@
 #define MATHS_H
 
 #include "Headers.h"
-#include "Camera.h"
+#include "entities/Camera.h"
 
 class Maths {
 public:

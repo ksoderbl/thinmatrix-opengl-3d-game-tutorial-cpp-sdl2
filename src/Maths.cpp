@@ -1,7 +1,7 @@
 //package toolbox
 
 #include "Maths.h"
-#include "Camera.h"
+#include "entities/Camera.h"
 
 void Maths::printMatrix(glm::mat4& m, string name)
 {

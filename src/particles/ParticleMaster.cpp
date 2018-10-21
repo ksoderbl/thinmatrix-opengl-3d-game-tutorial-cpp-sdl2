@@ -1,5 +1,5 @@
 #include "ParticleMaster.h"
-#include "../Player.h"
+#include "../entities/Player.h"
 #include "../Maths.h"
 #include "../renderEngine/DisplayManager.h"
 

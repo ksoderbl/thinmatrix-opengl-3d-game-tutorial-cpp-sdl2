@@ -1,10 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Headers.h"
-#include "Keyboard.h"
-#include "Player.h"
-#include "Mouse.h"
+#include "../Headers.h"
+#include "../Keyboard.h"
+#include "../entities/Player.h"
+#include "../Mouse.h"
 
 class Camera {
 public:
