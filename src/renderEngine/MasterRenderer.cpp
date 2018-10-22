@@ -13,8 +13,8 @@ MasterRenderer::MasterRenderer()
 	RED = 157.0f / 256;   //0.9444f;
 	GREEN = 197.0f / 256; //0.52f;
 	BLUE = 213.0f / 256;  //0.79f;
-	FOG_DENSITY = 0.0005f;
-	FOG_GRADIENT = 1.0f;
+	FOG_DENSITY = 0.0020f;
+	FOG_GRADIENT = 2.5f;
 }
 
 MasterRenderer::~MasterRenderer()

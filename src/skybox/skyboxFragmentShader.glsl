@@ -9,8 +9,8 @@ uniform float blendFactor;
 uniform vec3 skyColor;
 
 const float lowerLimit = 0;
-// 300 (not 30) because the FAR_PLANE variables is 10000 and not 1000
-const float upperLimit = 300.0;
+// Not 30 because the FAR_PLANE variables is 10000 and not 1000
+const float upperLimit = 1000.0;
 
 //const float levels = 10.0; // tutorial 30 cel shading
 
@@ -26,6 +26,6 @@ void main(void) {
 
         float factor = (textureCoords.y - lowerLimit) / (upperLimit - lowerLimit);
         factor = clamp(factor, 0.0, 1.0);
-        //out_Color = mix(vec4(skyColor, 1.0), finalColor, factor);
-        out_Color = finalColor;
+	out_Color = mix(vec4(skyColor, 1.0), finalColor, factor);
+	//out_Color = finalColor;
 }
