@@ -541,6 +541,7 @@ int main(int argc, char *argv[])
 	ParticleTexture particleAtlasTexture(loader.loadTexture("particleAtlas"), 4, true);
 	ParticleTexture particleCosmicTexture(loader.loadTexture("cosmic"), 4, true);
 	ParticleTexture particleSmokeTexture(loader.loadTexture("smoke"), 8, false);
+	ParticleTexture particleFireTexture(loader.loadTexture("fire"), 8, true);
 
 
 	ParticleSystem fireSystem(particleAtlasTexture, 50, 4, -0.01, 1.2, 5);
@@ -564,12 +565,19 @@ int main(int argc, char *argv[])
 	starSystem.setScaleError(0.5f);
 	starSystem.randomizeRotation();
 
-	ParticleSystem cosmicSystem(particleCosmicTexture, 50, 50, 0.1f, 3, 5);
+	ParticleSystem cosmicSystem(particleCosmicTexture, 50, 50, 0.3f, 3, 5);
 	cosmicSystem.setDirection(glm::vec3(0, 1, 0), 0.8f);
 	cosmicSystem.setLifeError(0.1f);
 	cosmicSystem.setSpeedError(0.25f);
 	cosmicSystem.setScaleError(0.5f);
 	cosmicSystem.randomizeRotation();
+
+	ParticleSystem atlasSystem(particleAtlasTexture, 50, 50, 0.4f, 6, 4);
+	atlasSystem.setDirection(glm::vec3(0, 1, 0), 0.6f);
+	atlasSystem.setLifeError(0.2f);
+	atlasSystem.setSpeedError(0.5f);
+	atlasSystem.setScaleError(0.25f);
+	atlasSystem.randomizeRotation();
 
 
 	//****************Game Loop Below*********************
@@ -599,6 +607,7 @@ int main(int argc, char *argv[])
 		fireSystem.generateParticles(glm::vec3(350.0f, 10.0f, -300.0f));
 		starSystem.generateParticles(glm::vec3(300.0f, 20.0f, -400.0f));
 		cosmicSystem.generateParticles(glm::vec3(420.0f, 10.0f, -270.0f));
+		atlasSystem.generateParticles(glm::vec3(420.0f, 10.0f, -270.0f));
 
 		particleMaster.update(camera);
 
