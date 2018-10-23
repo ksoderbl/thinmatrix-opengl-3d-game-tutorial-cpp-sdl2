@@ -13,13 +13,10 @@ public:
 	void bindAttributes();
 	void loadModelViewMatrix(glm::mat4& matrix);
 	void loadProjectionMatrix(glm::mat4& matrix);
-	void loadTextureCoordInfo(glm::vec2& offset1, glm::vec2& offset2, GLfloat numRows, GLfloat blend);
+	void loadNumberOfRows(GLfloat numRows);
 private:
-	int location_modelViewMatrix;
 	int location_projectionMatrix;
-	int location_texOffset1;
-	int location_texOffset2;
-	int location_texCoordInfo;
+	int location_numberOfRows;
 };
 
 #endif

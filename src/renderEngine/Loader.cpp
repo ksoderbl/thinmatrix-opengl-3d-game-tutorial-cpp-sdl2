@@ -53,6 +53,42 @@ RawModel *Loader::loadToVAO(
 	return new RawModel(vaoID, indices.size());
 }
 
+GLuint Loader::createEmptyVbo(vector<GLfloat>& data)
+{
+	GLuint vboID = 0;
+	glGenBuffers(1, &vboID);
+	vbos->push_back(vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(GLfloat), &data[0], GL_STREAM_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	return vboID;
+}
+
+void Loader::addInstancedAttribute(
+	GLuint vaoID,
+	GLuint vboID,
+	GLuint attribute,
+	GLint dataSize,
+	GLsizei instancedDataLength,
+	int offset)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBindVertexArray(vaoID);
+	glVertexAttribPointer(attribute, dataSize, GL_FLOAT, GL_FALSE,
+			      instancedDataLength * sizeof(GLfloat), (const void *)(offset * sizeof(GLfloat)));
+	glVertexAttribDivisor(attribute, 1);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void Loader::updateVbo(GLuint vboID, vector<GLfloat>& vboData)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ARRAY_BUFFER, vboData.size() * sizeof(GLfloat), &vboData[0], GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vboData.size() * sizeof(GLfloat), &vboData[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
 RawModel *Loader::loadToVAO(
 	vector<GLfloat>&positions,
 	int dimensions)
@@ -230,7 +266,7 @@ GLuint Loader::createVBO(GLenum target)
 void Loader::storeDataInAttributeList(int attributeNumber, int coordinateSize, vector<GLfloat>&data)
 {
 	createVBO(GL_ARRAY_BUFFER);
-	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(GLfloat), &data[0], GL_STATIC_DRAW);	
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(GLfloat), &data[0], GL_STATIC_DRAW);
 	glVertexAttribPointer(attributeNumber, coordinateSize, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

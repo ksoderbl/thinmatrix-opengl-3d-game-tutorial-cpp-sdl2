@@ -20,6 +20,12 @@ public:
 		vector<GLfloat>&normals,
 		vector<GLfloat>&tangents,
 		vector<GLuint>&indices);
+	//GLuint createEmptyVbo(int floatCount);
+	GLuint createEmptyVbo(vector<GLfloat>& data);
+	void addInstancedAttribute(
+		GLuint vaoID, GLuint vboID, GLuint attribute,
+		GLint dataSize, GLsizei instancedDataLength, int offset);
+	void updateVbo(GLuint vboID, vector<GLfloat>& vboData);
 	RawModel *loadToVAO(vector<GLfloat>&positions, int dimensions);
 	GLuint loadToVAO(vector<GLfloat>&positions, vector<GLfloat>&textureCoords);
 	GLuint loadTexture(string fileName);

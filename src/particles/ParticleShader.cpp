@@ -14,22 +14,14 @@ ParticleShader::ParticleShader() : ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
 void ParticleShader::bindAttributes()
 {
 	bindAttribute(0, "position");
+	bindAttribute(1, "modelViewMatrix");
+	bindAttribute(5, "texOffsets");
+	bindAttribute(6, "blendFactor");
 }
 
-void ParticleShader::loadTextureCoordInfo(
-	glm::vec2& offset1, glm::vec2& offset2,
-	GLfloat numRows, GLfloat blend)
+void ParticleShader::loadNumberOfRows(GLfloat numRows)
 {
-	load2DVector(location_texOffset1, offset1);
-	load2DVector(location_texOffset2, offset2);
-	glm::vec2 vec = glm::vec2(numRows, blend);
-	load2DVector(location_texCoordInfo, vec);
-}
-
-
-void ParticleShader::loadModelViewMatrix(glm::mat4& matrix)
-{
-	loadMatrix(location_modelViewMatrix, matrix);
+	loadFloat(location_numberOfRows, numRows);
 }
 
 void ParticleShader::loadProjectionMatrix(glm::mat4& matrix)
@@ -39,9 +31,6 @@ void ParticleShader::loadProjectionMatrix(glm::mat4& matrix)
 
 void ParticleShader::getAllUniformLocations()
 {
-	location_modelViewMatrix = getUniformLocation("modelViewMatrix");
 	location_projectionMatrix = getUniformLocation("projectionMatrix");
-	location_texOffset1 = getUniformLocation("texOffset1");
-	location_texOffset2 = getUniformLocation("texOffset2");
-	location_texCoordInfo = getUniformLocation("texCoordInfo");
+	location_numberOfRows = getUniformLocation("numberOfRows");
 }
