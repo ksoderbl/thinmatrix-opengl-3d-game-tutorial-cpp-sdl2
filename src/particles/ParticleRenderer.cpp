@@ -68,7 +68,7 @@ void ParticleRenderer::updateTexCoordInfo(Particle& particle, vector<GLfloat>& v
 
 void ParticleRenderer::bindTexture(ParticleTexture* texture)
 {
-	if (texture->usesAdditiveBlending()) {
+	if (texture->isAdditive()) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	} else {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

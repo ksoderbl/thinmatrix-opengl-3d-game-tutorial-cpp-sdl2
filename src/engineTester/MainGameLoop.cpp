@@ -584,6 +584,10 @@ int main(int argc, char *argv[])
 
 	int loops = 0;
 
+	//string fontFile3 = "../res/fonts/ebGaramond12AllSC.fnt";
+	//FontType font3(loader.loadFontTextureAtlas("fonts/ebGaramond12AllSC"), fontFile3);
+	//uint64_t prevUs = 0;
+
 	while (!isCloseRequested) {
 		checkEvents();
 		//TODO: pass the correct terrain to move()
@@ -650,6 +654,19 @@ int main(int argc, char *argv[])
 			textMaster.removeText(&text);
 			textMaster.removeText(&text2);
 		}
+
+
+		//uint64_t us = Utils::GetMicroSeconds();
+		//
+		//if (prevUs != 0) {
+		//	cout << "Delta: " << us - prevUs << endl;
+		//}
+		//prevUs = us;
+
+		//stringstream ss;
+		//ss << us;
+		//GUIText text3(ss.str(), 4, &font3, glm::vec2(0.1f, 0.1f), 0.5f, false);
+		//text3.setColor(1.0, 1.0, 0.0);
 	}
 
 	//*********Clean Up Below**************

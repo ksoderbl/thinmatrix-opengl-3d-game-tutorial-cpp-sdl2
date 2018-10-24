@@ -2,6 +2,7 @@
 #include "../entities/Player.h"
 #include "../toolbox/Maths.h"
 #include "../renderEngine/DisplayManager.h"
+#include "../toolbox/Utils.h"
 
 ParticleMaster particleMaster;
 
@@ -18,6 +19,7 @@ void ParticleMaster::update(Camera& camera)
 {
 	auto mit = particlesMap.begin();
 	while (mit != particlesMap.end()) {
+		ParticleTexture* texture = mit->first;
 		vector<Particle>& particles = mit->second;
 		auto vit = particles.begin();
 		while (vit != particles.end()) {
@@ -29,9 +31,13 @@ void ParticleMaster::update(Camera& camera)
 				vit++;
 			}
 		}
-		// We want to paint the particle that is furthest away first.
-		// uses operator <
-		std::sort(particles.begin(), particles.end());
+
+		if (!texture->isAdditive()) {
+			// In the case of alpha blended particles, we want to paint
+			// the particle that is furthest away first.
+			// uses operator <
+			std::sort(particles.begin(), particles.end());
+		}
 		mit++;
 	}
 }

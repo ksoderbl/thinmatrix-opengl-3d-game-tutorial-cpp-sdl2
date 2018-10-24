@@ -7,6 +7,7 @@ class Utils {
 public:
 	static double Rand();
 	static int RandInt(int modulo);
+	static uint64_t GetMicroSeconds();
 };
 
 #endif

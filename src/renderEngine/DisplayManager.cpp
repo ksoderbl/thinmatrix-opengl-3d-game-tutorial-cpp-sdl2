@@ -72,7 +72,8 @@ void DisplayManager::updateDisplay()
 	fps++;
 	time_t t = time(NULL);
 	if (t != oldt) {
-		cout << "Current FPS: " << fps << "\n";
+		cout << "Current FPS: " << fps;
+		cout << ", Avg. time per frame: " << (double) 1000 / fps << " ms" << endl;
 		oldt = t;
 		fps = 0;
 	}

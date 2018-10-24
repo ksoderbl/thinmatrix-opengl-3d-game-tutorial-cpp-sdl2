@@ -8,7 +8,7 @@ public:
 	ParticleTexture(GLuint textureID, int numberOfRows, bool additive);
 	GLuint getTextureId();
 	int getNumberOfRows();
-	bool usesAdditiveBlending();
+	bool isAdditive();
 private:
 	GLuint textureID;
 	int numberOfRows = 1;

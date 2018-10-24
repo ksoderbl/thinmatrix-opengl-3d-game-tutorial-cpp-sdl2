@@ -17,7 +17,7 @@ int ParticleTexture::getNumberOfRows()
 	return this->numberOfRows;
 }
 
-bool ParticleTexture::usesAdditiveBlending()
+bool ParticleTexture::isAdditive()
 {
 	return this->additive;
 }
