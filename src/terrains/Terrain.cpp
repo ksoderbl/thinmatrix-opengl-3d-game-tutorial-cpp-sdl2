@@ -39,37 +39,35 @@ GLfloat Terrain::getHeightOfTerrain(GLfloat worldX, GLfloat worldZ)
 
 RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 {
-	string fileName = "../res/" + heightMap + ".png";
-	TextureData* image = loader.decodeTextureFile(fileName);
-	if (!image) {
-		cerr << "generateTerrain: decodeTextureFile failed for " << fileName << "\n";
-		exit(1);
-	}
 	int stepSize = 4;
-	int VERTEX_COUNT = image->getHeight() / stepSize;
+
+	HeightsGenerator generator(loader, heightMap, stepSize);
+
+	int vertexCount = generator.getVertexCount();
 
 	// dynamically create 2 dimensional array
-	heights = new GLfloat* [VERTEX_COUNT];
-	for (int i = 0; i < VERTEX_COUNT; i++) {
-		heights[i] = new GLfloat [VERTEX_COUNT];
+	heights = new GLfloat* [vertexCount];
+	for (int i = 0; i < vertexCount; i++) {
+		heights[i] = new GLfloat [vertexCount];
 	}
-	heightsLength = VERTEX_COUNT;
+	heightsLength = vertexCount;
 
 	vector<GLfloat> verticesArray;
 	vector<GLfloat> normalsArray;
 	vector<GLfloat> textureArray;
 	vector<GLuint> indicesArray;
 
-	for (int i = 0; i < VERTEX_COUNT; i++) {
-		for (int j = 0; j < VERTEX_COUNT; j++) {
-			GLfloat s = ((GLfloat)j) / ((GLfloat)(VERTEX_COUNT - 1));
-			GLfloat t = ((GLfloat)i) / ((GLfloat)(VERTEX_COUNT - 1));
+	for (int i = 0; i < vertexCount; i++) {
+		for (int j = 0; j < vertexCount; j++) {
+			GLfloat s = ((GLfloat)j) / ((GLfloat)(vertexCount - 1));
+			GLfloat t = ((GLfloat)i) / ((GLfloat)(vertexCount - 1));
 			verticesArray.push_back(s * SIZE);
-			GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, image);
+			//GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, image);
+			GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, generator);
 			heights[j][i] = height;
 			verticesArray.push_back(height);
 			verticesArray.push_back(t * SIZE);
-			glm::vec3 normal = calculateNormal(j * stepSize, i * stepSize, stepSize, image);
+			glm::vec3 normal = calculateNormal(j * stepSize, i * stepSize, stepSize, generator);
 			normalsArray.push_back(normal.x);
 			normalsArray.push_back(normal.y);
 			normalsArray.push_back(normal.z);
@@ -78,11 +76,11 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 		}
 	}
 
-	for (int gz = 0; gz < VERTEX_COUNT - 1; gz++) {
-		for (int gx = 0; gx < VERTEX_COUNT - 1; gx++) {
-			GLuint topLeft = (gz * VERTEX_COUNT) + gx;
+	for (int gz = 0; gz < vertexCount - 1; gz++) {
+		for (int gx = 0; gx < vertexCount - 1; gx++) {
+			GLuint topLeft = (gz * vertexCount) + gx;
 			GLuint topRight = topLeft + 1;
-			GLuint bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
+			GLuint bottomLeft = ((gz + 1) * vertexCount) + gx;
 			GLuint bottomRight = bottomLeft + 1;
 			indicesArray.push_back(topLeft);
 			indicesArray.push_back(bottomLeft);
@@ -95,35 +93,18 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 	return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 }
 
-glm::vec3 Terrain::calculateNormal(int x, int z, int stepSize, TextureData* image)
+glm::vec3 Terrain::calculateNormal(int x, int z, int stepSize, HeightsGenerator& generator)
 {
-	GLfloat heightL = getHeight(x-stepSize, z, stepSize, image);
-	GLfloat heightR = getHeight(x+stepSize, z, stepSize, image);
-	GLfloat heightD = getHeight(x, z-stepSize, stepSize, image);
-	GLfloat heightU = getHeight(x, z-stepSize, stepSize, image);
+	GLfloat heightL = getHeight(x-stepSize, z, stepSize, generator);
+	GLfloat heightR = getHeight(x+stepSize, z, stepSize, generator);
+	GLfloat heightD = getHeight(x, z-stepSize, stepSize, generator);
+	GLfloat heightU = getHeight(x, z-stepSize, stepSize, generator);
 	glm::vec3 normal = glm::vec3(heightL-heightR, 2.0f * stepSize, heightD-heightU);
 	normal = glm::normalize(normal);
 	return normal;
 }
 
-GLfloat Terrain::getHeight(int x, int z, int stepSize, TextureData* image)
+GLfloat Terrain::getHeight(int x, int z, int stepSize, HeightsGenerator& generator)
 {
-	if (x < 0 || x >= image->getWidth() || z < 0 || z >= image->getHeight()) {
-		return 0;
-	}
-	//GLfloat height = image.getRBG(x, z);
-	int index = 4 * (x + z * image->getWidth());
-	int r = *(image->getBuffer() + index);
-	//int g = *(tx_data + index + 1);
-	//int b = *(tx_data + index + 2);
-
-	// r should be between 0 and 255;
-	GLfloat height = r;
-	height -= 127.5;
-	height /= 127.5; // should be between -1 and 1
-	height *= MAX_HEIGHT;
-	// get rid of 0 height terrain so it's not at the same level as water
-	if (height > -1.0 && height < 1.0)
-		height -= 2.0;
-	return height;
+	return generator.generateHeight(x, z);
 }

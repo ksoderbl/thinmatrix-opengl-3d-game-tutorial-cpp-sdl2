@@ -9,6 +9,7 @@
 #include "TerrainTexturePack.h"
 #include "TerrainTexture.h"
 #include "../textures/TextureData.h"
+#include "HeightsGenerator.h"
 
 class Terrain {
 public:
@@ -41,8 +42,9 @@ private:
 	GLfloat **heights;
 	int heightsLength;
 
-	GLfloat getHeight(int x, int z, int stepSize, TextureData* image);
-	glm::vec3 calculateNormal(int x, int z, int stepSize, TextureData* image);
+	GLfloat getHeight(int x, int z, int stepSize, HeightsGenerator& generator);
+	glm::vec3 calculateNormal(int x, int z, int stepSize, HeightsGenerator& generator);
+
 };
 
 #endif

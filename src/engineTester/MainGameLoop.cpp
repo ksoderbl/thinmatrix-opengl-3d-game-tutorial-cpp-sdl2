@@ -331,6 +331,7 @@ int main(int argc, char *argv[])
 	//TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
+	//Terrain terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
 	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");

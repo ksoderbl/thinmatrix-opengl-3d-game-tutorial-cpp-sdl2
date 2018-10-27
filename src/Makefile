@@ -49,6 +49,7 @@ SOURCES = \
 	shaders/StaticShader.cpp \
 	skybox/SkyboxRenderer.cpp \
 	skybox/SkyboxShader.cpp \
+	terrains/HeightsGenerator.cpp \
 	terrains/Terrain.cpp \
 	terrains/TerrainRenderer.cpp \
 	terrains/TerrainShader.cpp \

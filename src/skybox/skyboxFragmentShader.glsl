@@ -10,7 +10,7 @@ uniform vec3 skyColor;
 
 const float lowerLimit = 0;
 // Not 30 because the FAR_PLANE variables is 10000 and not 1000
-const float upperLimit = 1000.0;
+const float upperLimit = 400.0;
 
 //const float levels = 10.0; // tutorial 30 cel shading
 
