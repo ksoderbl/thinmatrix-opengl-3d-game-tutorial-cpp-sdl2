@@ -31,7 +31,7 @@ GLfloat HeightsGenerator::generateHeight(int x, int z)
 	height /= 127.5; // should be between -1 and 1
 	height *= MAX_HEIGHT;
 	// get rid of 0 height terrain so it's not at the same level as water
-	if (height > -1.0 && height < 1.0)
-		height -= 2.0;
+	//if (height > -1.0 && height < 1.0)
+	//	height -= 2.0;
 	return height;
 }

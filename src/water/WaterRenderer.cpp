@@ -12,12 +12,12 @@ WaterRenderer::WaterRenderer(
 {
 	moveFactor = 0;
 
-	waterTiling = 10.0f; // was 4
-	waveStrength = 0.1f; // was 0.04
-	waterReflectivity = 1.0f; // for fresnel effect, thinmatrix had 0.5
-	shineDamper = 15.0f; // for normal maps
-	reflectivity = 0.5f;
-	waveSpeed = 0.1f; // was 0.3f
+	waterTiling = 15.0f; // was 4
+	waveStrength = 0.04f; // ThinMatrix: 0.04
+	waterReflectivity = 0.5f; // for fresnel effect, ThinMatrix: 0.5
+	shineDamper = 20.0f; // ThinMatrix: 20.0
+	reflectivity = 0.5f; // ThinMatrix: 0.5
+	waveSpeed = 0.03f; // ThinMatrix: 0.03f
 
 	dudvTexture = loader.loadTexture(DUDV_MAP);
 	normalMap = loader.loadTexture(NORMAL_MAP);
@@ -38,7 +38,7 @@ void WaterRenderer::render(vector<WaterTile*>& water, Camera& camera, Light& sun
 	for (WaterTile* tile : water) {
 		glm::vec3 position(tile->getX(), tile->getHeight(), tile->getZ());
 		glm::mat4 matrix = Maths::createTransformationMatrix(
-			position, 0.0f, 0.0f, 0.0f, WaterTile::TILE_SCALE);
+			position, 0.0f, 0.0f, 0.0f, tile->getScale());
 		shader.loadTransformationMatrix(matrix);
 		glDrawArrays(GL_TRIANGLES, 0, quad->getVertexCount());
 	}
@@ -90,6 +90,6 @@ void WaterRenderer::unbind()
 void WaterRenderer::setUpVAO(Loader& loader)
 {
 	// Just x and z vertex positions, y is set in shader
-	vector<GLfloat> vertices = { -1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1 };
+	vector<GLfloat> vertices = { -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5 };
 	quad = loader.loadToVAO(vertices, 2);
 }

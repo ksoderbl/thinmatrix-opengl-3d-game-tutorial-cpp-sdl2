@@ -62,7 +62,6 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 			GLfloat s = ((GLfloat)j) / ((GLfloat)(vertexCount - 1));
 			GLfloat t = ((GLfloat)i) / ((GLfloat)(vertexCount - 1));
 			verticesArray.push_back(s * SIZE);
-			//GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, image);
 			GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, generator);
 			heights[j][i] = height;
 			verticesArray.push_back(height);
@@ -95,11 +94,11 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 
 glm::vec3 Terrain::calculateNormal(int x, int z, int stepSize, HeightsGenerator& generator)
 {
-	GLfloat heightL = getHeight(x-stepSize, z, stepSize, generator);
-	GLfloat heightR = getHeight(x+stepSize, z, stepSize, generator);
-	GLfloat heightD = getHeight(x, z-stepSize, stepSize, generator);
-	GLfloat heightU = getHeight(x, z-stepSize, stepSize, generator);
-	glm::vec3 normal = glm::vec3(heightL-heightR, 2.0f * stepSize, heightD-heightU);
+	GLfloat heightL = getHeight(x - stepSize, z, stepSize, generator);
+	GLfloat heightR = getHeight(x + stepSize, z, stepSize, generator);
+	GLfloat heightD = getHeight(x, z - stepSize, stepSize, generator);
+	GLfloat heightU = getHeight(x, z - stepSize, stepSize, generator);
+	glm::vec3 normal = glm::vec3(heightL - heightR, 2.0f * stepSize, heightD - heightU);
 	normal = glm::normalize(normal);
 	return normal;
 }

@@ -331,8 +331,8 @@ int main(int argc, char *argv[])
 	//TexturedModel toonRocksTexturedModel = TexturedModel(*toonRocksRawModel, toonRocksModelTexture);
 
 	vector<Terrain*> terrains;
-	//Terrain terrain(0, -1, loader, texturePack, blendMap, "heightmap");
-	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
+	Terrain terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+	//Terrain terrain(0, -1, loader, texturePack, blendMap, "heightMapLake");
 	//Terrain terrain2(-1, 0, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain3(-1, -1, loader, texturePack, blendMap, "heightmap");
 	//Terrain terrain4(0, -1, loader, texturePack, blendMap, "heightmap");
@@ -437,7 +437,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 2*4.6f, -Terrain::SIZE/2),
+	Entity rocks(rocksTexturedModel, glm::vec3(Terrain::SIZE/2, 0.5f, -Terrain::SIZE/2),
 		     0, 0, 0, Terrain::SIZE/2);
 	entities.push_back(&rocks);
 
@@ -520,7 +520,7 @@ int main(int argc, char *argv[])
 	}
 	WaterTile* water = waters[0];
 	*/
-	WaterTile* water = new WaterTile(Terrain::SIZE / 2, -Terrain::SIZE / 2, 0);
+	WaterTile* water = new WaterTile(Terrain::SIZE / 2, -Terrain::SIZE / 2, 0, Terrain::SIZE);
 	waters.push_back(water);
 
 	glm::vec2 refrGuiPosition(-0.7f, -0.9f);

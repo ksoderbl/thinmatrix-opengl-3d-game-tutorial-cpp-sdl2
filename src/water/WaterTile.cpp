@@ -1,10 +1,11 @@
 #include "WaterTile.h"
 
-WaterTile::WaterTile(GLfloat centerX, GLfloat centerZ, GLfloat height)
+WaterTile::WaterTile(GLfloat centerX, GLfloat centerZ, GLfloat height, GLfloat scale)
 {
 	this->x = centerX;
 	this->z = centerZ;
 	this->height = height;
+	this->scale = scale;
 }
 
 GLfloat WaterTile::getHeight()
@@ -20,4 +21,9 @@ GLfloat WaterTile::getX()
 GLfloat WaterTile::getZ()
 {
 	return z;
+}
+
+GLfloat WaterTile::getScale()
+{
+	return scale;
 }

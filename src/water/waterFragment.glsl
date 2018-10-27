@@ -18,9 +18,9 @@ uniform float moveFactor;
 uniform float waterReflectivity; // for fresnel effect
 uniform vec3 lightColor;
 
-uniform float waveStrength; // = 0.02
-uniform float shineDamper;  // = 20.0, for normal map
-uniform float reflectivity; // = 0.6.  for normal map
+uniform float waveStrength;
+uniform float shineDamper;
+uniform float reflectivity;
 
 uniform float nearPlane;
 uniform float farPlane;
@@ -88,6 +88,7 @@ void main(void) {
 
 	// make water more blue, thinmatrix had (0.0, 0.3, 0.5, 1.0), 0.2
 	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2) + vec4(specularHighlights, 0.0);
+	//out_Color += vec4(specularHighlights, 0.0);
 
 	//out_Color = normalMapColor;
 
