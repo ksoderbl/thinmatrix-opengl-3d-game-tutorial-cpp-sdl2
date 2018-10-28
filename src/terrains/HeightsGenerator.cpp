@@ -2,6 +2,8 @@
 #include "../toolbox/Maths.h"
 #include "../toolbox/Utils.h"
 
+#include <unistd.h>
+
 HeightsGenerator::HeightsGenerator(Loader &loader, string heightMap, int stepSize)
 {
 	this->stepSize = stepSize;
@@ -39,6 +41,18 @@ HeightsGenerator::HeightsGenerator(Loader &loader, string heightMap, int stepSiz
 	this->getNoiseCalls = 0;
 	this->getSmoothNoiseCalls = 0;
 	this->getInterpolatedNoiseCalls = 0;
+
+	// generate noise table
+	noiseTable = new vector<GLfloat>;
+
+	for (int z = -stepSize; z < vertexCount * stepSize + stepSize; z++) {
+		for (int x = -stepSize; x < vertexCount * stepSize + stepSize; x++) {
+			noiseTable->push_back(getNoise1(x, z));
+		}
+	}
+
+	cout << "size of noise table: " << noiseTable->size() << endl;
+	cout << "should be: " << (vertexCount + 2) * ( vertexCount + 2) * stepSize * stepSize << endl;
 }
 
 void HeightsGenerator::getInfo()
@@ -48,8 +62,11 @@ void HeightsGenerator::getInfo()
 	cout << "zmin: " << zmin << endl;
 	cout << "zmax: " << zmax << endl;
 	cout << "getNoise() calls: " << this->getNoiseCalls << endl;
+	cout << "getNoise1() calls: " << this->getNoise1Calls << endl;
 	cout << "getSmoothNoise() calls: " << this->getSmoothNoiseCalls << endl;
 	cout << "getInterpolatedNoise() calls: " << this->getInterpolatedNoiseCalls << endl;
+
+	delete noiseTable;
 }
 
 GLfloat HeightsGenerator::getHeightFromImage(int x, int z)
@@ -97,20 +114,6 @@ GLfloat HeightsGenerator::generateHeight(int x, int z)
 		total += getInterpolatedNoise(x * freq, z * freq) * amp;
 	}
 
-
-	if (x < xmin) {
-		xmin = x;
-	}
-	if (x > xmax) {
-		xmax = x;
-	}
-	if (z < zmin) {
-		zmin = z;
-	}
-	if (z > zmax) {
-		zmax = z;
-	}
-
 	GLfloat heightFromImage = getHeightFromImage(imageX, imageZ);
 
 	//cout << "generateHeight x, z = " << x << ", " << z << ", total: " << total << ", heightFromImage = " << heightFromImage << endl;
@@ -145,7 +148,6 @@ GLfloat HeightsGenerator::interpolate(GLfloat a, GLfloat b, GLfloat blend)
 
 GLfloat HeightsGenerator::getSmoothNoise(int x, int z)
 {
-
 	getSmoothNoiseCalls++;
 	GLfloat corners = (getNoise(x - 1, z - 1) + getNoise(x + 1, z - 1)
 			   + getNoise(x - 1, z + 1) + getNoise(x + 1, z + 1)) / 16.0f;
@@ -160,6 +162,46 @@ GLfloat HeightsGenerator::getSmoothNoise(int x, int z)
 GLfloat HeightsGenerator::getNoise(int x, int z)
 {
 	getNoiseCalls++;
+
+	// calculate index in noiseTable
+	int valuesPerRow = 2 * stepSize + vertexCount * stepSize;
+	int ind = x + stepSize; // -stepSize becomes 0
+	ind += (z + stepSize) * valuesPerRow;
+
+	GLfloat value = (*noiseTable)[ind];
+	/*
+	GLfloat value1 = getNoise1(x, z);
+
+	GLfloat diff = value - value1;
+	if (diff < 0) {
+		diff = -diff;
+	}
+
+	if (diff >= 0.001) {
+		cout << "getNoise x, z = " << x << ", " << z << ", value = " << value << ", getNoise1() = " << value1 << endl;
+		//sleep(1);
+	}
+	*/
+
+	return value;
+}
+
+GLfloat HeightsGenerator::getNoise1(int x, int z)
+{
+	if (x < xmin) {
+		xmin = x;
+	}
+	if (x > xmax) {
+		xmax = x;
+	}
+	if (z < zmin) {
+		zmin = z;
+	}
+	if (z > zmax) {
+		zmax = z;
+	}
+
+	getNoise1Calls++;
 	Utils::SeedRand(x * 963 + z * 13251 + seed * 31);
 	return Utils::Rand() * 2.0f - 1.0f;
 }

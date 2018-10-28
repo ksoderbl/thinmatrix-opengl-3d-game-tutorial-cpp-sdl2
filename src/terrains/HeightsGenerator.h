@@ -25,6 +25,7 @@ private:
 	GLfloat interpolate(GLfloat a, GLfloat b, GLfloat blend);
 	GLfloat getSmoothNoise(int x, int z);
 	GLfloat getNoise(int x, int z);
+	GLfloat getNoise1(int x, int z);
 	GLfloat getHeightFromImage(int x, int z);
 
 	TextureData *image;
@@ -40,8 +41,11 @@ private:
 
 	int xmin, xmax, zmin, zmax;
 	int getNoiseCalls;
+	int getNoise1Calls;
 	int getSmoothNoiseCalls;
 	int getInterpolatedNoiseCalls;
+
+	vector<GLfloat>* noiseTable;
 };
 
 #endif

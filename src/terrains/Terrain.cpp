@@ -3,6 +3,7 @@
 #include "../toolbox/Utils.h"
 
 // Terrain::Terrain: generateTerrain took 4323701 microseconds
+// Terrain::Terrain: generateTerrain took 117235 microseconds
 
 
 Terrain::Terrain(int gridX, int gridZ, Loader &loader,
