@@ -398,9 +398,6 @@ int main(int argc, char *argv[])
 	normalMapEntities.push_back(&entity3);
 	//normalMapEntities.push_back(&entity4);
 
-	GLfloat limit1 = Terrain::SIZE / 4;
-	GLfloat limit2 = Terrain::SIZE - limit1;
-
 	for (int i = 0; i < 2*240; i++) {
 		if (i % 4 == 0) {
 			GLfloat x = Utils::Rand() * Terrain::SIZE;
@@ -416,9 +413,8 @@ int main(int argc, char *argv[])
 		if (i % 3 == 0) {
 			GLfloat x = Utils::Rand() * Terrain::SIZE;
 			GLfloat z = Utils::Rand() * -Terrain::SIZE;
-			if ((x > limit1 && x < limit2) && (z < -limit1 && z > -limit2)) {
-			} else {
-				GLfloat y = terrain.getHeightOfTerrain(x, z);
+			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			if (y > 1) {
 				entities.push_back(
 					new Entity(fernTexturedModel, Utils::RandInt(4), glm::vec3(x, y, z), 
 						   0, Utils::Rand() * 360, 0, 0.9f));
@@ -427,9 +423,8 @@ int main(int argc, char *argv[])
 		if (i % 2 == 0) {
 			GLfloat x = Utils::Rand() * Terrain::SIZE;
 			GLfloat z = Utils::Rand() * -Terrain::SIZE;
-			if ((x > limit1 && x < limit2) && (z < -limit1 && z > -limit2)) {
-			} else {
-				GLfloat y = terrain.getHeightOfTerrain(x, z);
+			GLfloat y = terrain.getHeightOfTerrain(x, z);
+			if (y > 1) {
 				entities.push_back(
 					new Entity(pineTexturedModel, glm::vec3(x, y, z),
 						   0, Utils::Rand() * 360, 0, Utils::Rand() * 0.6f + 0.8f));

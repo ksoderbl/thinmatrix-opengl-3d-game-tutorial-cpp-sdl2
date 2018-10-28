@@ -15,6 +15,11 @@ int Utils::RandInt(int modulo)
 	return x;
 }
 
+void Utils::SeedRand(int seed)
+{
+	srand((unsigned int)seed);
+}
+
 uint64_t Utils::GetMicroSeconds()
 {
 	struct timeval tv;

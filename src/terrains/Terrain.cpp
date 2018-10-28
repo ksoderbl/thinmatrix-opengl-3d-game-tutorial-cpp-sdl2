@@ -1,5 +1,9 @@
 #include "Terrain.h"
 #include "../toolbox/Maths.h"
+#include "../toolbox/Utils.h"
+
+// Terrain::Terrain: generateTerrain took 4323701 microseconds
+
 
 Terrain::Terrain(int gridX, int gridZ, Loader &loader,
 	TerrainTexturePack &texturePack, TerrainTexture& blendMap, string heightMap)
@@ -8,7 +12,13 @@ Terrain::Terrain(int gridX, int gridZ, Loader &loader,
 	this->position.x = gridX * SIZE;
 	this->position.y = 0;
 	this->position.z = gridZ * SIZE;
+
+	uint64_t t1, t2;
+
+	t1 = Utils::GetMicroSeconds();
 	this->model = generateTerrain(loader, heightMap);
+	t2 = Utils::GetMicroSeconds();
+	cout << "Terrain::Terrain: generateTerrain took " << t2 - t1 << " microseconds" << endl;
 }
 
 GLfloat Terrain::getHeightOfTerrain(GLfloat worldX, GLfloat worldZ)

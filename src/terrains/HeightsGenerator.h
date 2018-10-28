@@ -16,13 +16,24 @@ public:
 	GLfloat generateHeight(int x, int z);
 	int getVertexCount() { return vertexCount; }
 	
-	static constexpr GLfloat AMPLITUDE = 70;
+	//static constexpr GLfloat AMPLITUDE = 70;
 	static constexpr GLfloat MAX_HEIGHT = 80;
 private:
-	unsigned int seed = 0;
+	GLfloat getInterpolatedNoise(GLfloat x, GLfloat z);
+	GLfloat interpolate(GLfloat a, GLfloat b, GLfloat blend);
+	GLfloat getSmoothNoise(int x, int z);
+	GLfloat getNoise(int x, int z);
+
 	TextureData *image;
 	int stepSize;
 	int vertexCount;
+
+	int seed;
+	GLfloat amplitude;
+	int octaves;
+	double roughness;
+
+
 };
 
 #endif

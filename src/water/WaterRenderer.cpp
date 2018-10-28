@@ -12,7 +12,7 @@ WaterRenderer::WaterRenderer(
 {
 	moveFactor = 0;
 
-	waterTiling = 15.0f; // was 4
+	waterTiling = 20.0f; // was 4
 	waveStrength = 0.04f; // ThinMatrix: 0.04
 	waterReflectivity = 0.5f; // for fresnel effect, ThinMatrix: 0.5
 	shineDamper = 20.0f; // ThinMatrix: 20.0
