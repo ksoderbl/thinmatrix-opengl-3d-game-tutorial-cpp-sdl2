@@ -26,6 +26,7 @@
 #include <csignal>
 #include <cstdarg>
 #include <cstdlib>
+#include <climits>
 
 using std::cout;
 using std::cin;

@@ -72,11 +72,11 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 			GLfloat s = ((GLfloat)j) / ((GLfloat)(vertexCount - 1));
 			GLfloat t = ((GLfloat)i) / ((GLfloat)(vertexCount - 1));
 			verticesArray.push_back(s * SIZE);
-			GLfloat height = getHeight(j * stepSize, i * stepSize, stepSize, generator);
+			GLfloat height = getHeight(j, i, generator);
 			heights[j][i] = height;
 			verticesArray.push_back(height);
 			verticesArray.push_back(t * SIZE);
-			glm::vec3 normal = calculateNormal(j * stepSize, i * stepSize, stepSize, generator);
+			glm::vec3 normal = calculateNormal(j, i, generator);
 			normalsArray.push_back(normal.x);
 			normalsArray.push_back(normal.y);
 			normalsArray.push_back(normal.z);
@@ -99,21 +99,26 @@ RawModel* Terrain::generateTerrain(Loader &loader, string heightMap)
 			indicesArray.push_back(bottomRight);
 		}
 	}
+
+
+	generator.getInfo();
+
 	return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
 }
 
-glm::vec3 Terrain::calculateNormal(int x, int z, int stepSize, HeightsGenerator& generator)
+glm::vec3 Terrain::calculateNormal(int x, int z, HeightsGenerator& generator)
 {
-	GLfloat heightL = getHeight(x - stepSize, z, stepSize, generator);
-	GLfloat heightR = getHeight(x + stepSize, z, stepSize, generator);
-	GLfloat heightD = getHeight(x, z - stepSize, stepSize, generator);
-	GLfloat heightU = getHeight(x, z - stepSize, stepSize, generator);
+	int stepSize = generator.getStepSize();
+	GLfloat heightL = getHeight(x - 1, z, generator);
+	GLfloat heightR = getHeight(x + 1, z, generator);
+	GLfloat heightD = getHeight(x, z - 1, generator);
+	GLfloat heightU = getHeight(x, z - 1, generator);
 	glm::vec3 normal = glm::vec3(heightL - heightR, 2.0f * stepSize, heightD - heightU);
 	normal = glm::normalize(normal);
 	return normal;
 }
 
-GLfloat Terrain::getHeight(int x, int z, int stepSize, HeightsGenerator& generator)
+GLfloat Terrain::getHeight(int x, int z, HeightsGenerator& generator)
 {
 	return generator.generateHeight(x, z);
 }

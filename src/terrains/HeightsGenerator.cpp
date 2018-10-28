@@ -7,27 +7,56 @@ HeightsGenerator::HeightsGenerator(Loader &loader, string heightMap, int stepSiz
 	this->stepSize = stepSize;
 	this->vertexCount = 256 / stepSize;
 
+	cout << "vertexCount: " << this->vertexCount << endl;
+	cout << "stepSize: " << this->stepSize << endl;
+
+	this->image = nullptr;
 	if (heightMap != "") {
 		string fileName = "../res/" + heightMap + ".png";
-		image = loader.decodeTextureFile(fileName);
-		if (!image) {
+		this->image = loader.decodeTextureFile(fileName);
+		if (!this->image) {
 			cerr << "HeightsGenerator: decodeTextureFile failed for " << fileName << "\n";
 			exit(1);
 		}
-		this->vertexCount = image->getHeight() / stepSize;
+		this->imageVertexCount = this->image->getHeight();
+		cout << "image vertexCount: " << this->imageVertexCount << endl;
+		this->imageStepSize = this->imageVertexCount / this->vertexCount;
+		if (this->imageStepSize < 1) {
+			this->imageStepSize = 1;
+		}
+		cout << "image stepSize: " << this->imageStepSize << endl;
 	}
-
-	cout << "vertexCount: " << this->vertexCount << endl;
 
 	this->seed = 431;
 	this->amplitude = 70;
 	this->octaves = 4;
 	this->roughness = 0.3;
+
+	this->xmin = INT_MAX;
+	this->xmax = INT_MIN;
+	this->zmin = INT_MAX;
+	this->zmax = INT_MIN;
+	this->getNoiseCalls = 0;
+	this->getSmoothNoiseCalls = 0;
+	this->getInterpolatedNoiseCalls = 0;
 }
 
-/*
-GLfloat HeightsGenerator::generateHeight(int x, int z)
+void HeightsGenerator::getInfo()
 {
+	cout << "xmin: " << xmin << endl;
+	cout << "xmax: " << xmax << endl;
+	cout << "zmin: " << zmin << endl;
+	cout << "zmax: " << zmax << endl;
+	cout << "getNoise() calls: " << this->getNoiseCalls << endl;
+	cout << "getSmoothNoise() calls: " << this->getSmoothNoiseCalls << endl;
+	cout << "getInterpolatedNoise() calls: " << this->getInterpolatedNoiseCalls << endl;
+}
+
+GLfloat HeightsGenerator::getHeightFromImage(int x, int z)
+{
+	if (this->image == nullptr) {
+		return 0;
+	}
 	if (x < 0 || x >= image->getWidth() || z < 0 || z >= image->getHeight()) {
 		return 0;
 	}
@@ -47,12 +76,19 @@ GLfloat HeightsGenerator::generateHeight(int x, int z)
 	//	height -= 2.0;
 	return height;
 }
-*/
 
+// public
 GLfloat HeightsGenerator::generateHeight(int x, int z)
 {
+	int imageX = x * imageStepSize;
+	int imageZ = z * imageStepSize;
+
+	x *= stepSize;
+	z *= stepSize;
+
 	GLfloat total = 0.0f;
 
+	//GLfloat d = (GLfloat) (2 << (octaves+2));
 	GLfloat d = (GLfloat) (2 << (octaves));
 
 	for (int i = 0; i < octaves; i++) {
@@ -60,12 +96,32 @@ GLfloat HeightsGenerator::generateHeight(int x, int z)
 		GLfloat amp = (GLfloat) pow(roughness, i) * amplitude;
 		total += getInterpolatedNoise(x * freq, z * freq) * amp;
 	}
-	//cout << x << ", " << z << ": " << total << endl;
+
+
+	if (x < xmin) {
+		xmin = x;
+	}
+	if (x > xmax) {
+		xmax = x;
+	}
+	if (z < zmin) {
+		zmin = z;
+	}
+	if (z > zmax) {
+		zmax = z;
+	}
+
+	GLfloat heightFromImage = getHeightFromImage(imageX, imageZ);
+
+	//cout << "generateHeight x, z = " << x << ", " << z << ", total: " << total << ", heightFromImage = " << heightFromImage << endl;
+	total += heightFromImage;
+
 	return total;
 }
 
 GLfloat HeightsGenerator::getInterpolatedNoise(GLfloat x, GLfloat z)
 {
+	getInterpolatedNoiseCalls++;
 	int intX = (int)x;
 	int intZ = (int)z;
 	float fracX = x - intX;
@@ -89,16 +145,21 @@ GLfloat HeightsGenerator::interpolate(GLfloat a, GLfloat b, GLfloat blend)
 
 GLfloat HeightsGenerator::getSmoothNoise(int x, int z)
 {
+
+	getSmoothNoiseCalls++;
 	GLfloat corners = (getNoise(x - 1, z - 1) + getNoise(x + 1, z - 1)
 			   + getNoise(x - 1, z + 1) + getNoise(x + 1, z + 1)) / 16.0f;
 	GLfloat sides   = (getNoise(x - 1, z)   + getNoise(x + 1, z)
 			   + getNoise(x, z + 1) + getNoise(x, z + 1)) / 8.0f;
 	GLfloat center  = getNoise(x, z) / 4.0f;
-	return corners + sides + center;
+	GLfloat result = corners + sides + center;
+	//cout << "getSmoothNoise x, z = " << x << ", " << z << ", result = " << result << endl;
+	return result;
 }
 
 GLfloat HeightsGenerator::getNoise(int x, int z)
 {
+	getNoiseCalls++;
 	Utils::SeedRand(x * 963 + z * 13251 + seed * 31);
 	return Utils::Rand() * 2.0f - 1.0f;
 }

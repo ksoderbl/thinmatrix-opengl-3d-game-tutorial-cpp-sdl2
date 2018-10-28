@@ -42,8 +42,8 @@ private:
 	GLfloat **heights;
 	int heightsLength;
 
-	GLfloat getHeight(int x, int z, int stepSize, HeightsGenerator& generator);
-	glm::vec3 calculateNormal(int x, int z, int stepSize, HeightsGenerator& generator);
+	GLfloat getHeight(int x, int z, HeightsGenerator& generator);
+	glm::vec3 calculateNormal(int x, int z, HeightsGenerator& generator);
 
 };
 
