@@ -157,7 +157,7 @@ GLuint Loader::loadCubeMap(vector<string>& textureFiles)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	int i = 0;
 	for (string fileName : textureFiles) {
-		TextureData* data = decodeTextureFile("../res/" + fileName + ".png");
+		TextureData* data = decodeTextureFile(RES_LOC + fileName + ".png");
 		glTexImage2D(target + i, 0, GL_RGBA,
 			data->getWidth(), data->getHeight(), 0,
 			GL_RGBA, GL_UNSIGNED_BYTE, data->getBuffer());
@@ -190,7 +190,7 @@ GLuint Loader::loadTexture(string fileName, GLfloat lodBias)
 	GLenum tx_fmt;    /* format: RGB or RGBA */
 	GLubyte *tx_data; /* image data */
 	
-	fileName = "../res/" + fileName + ".png";
+	fileName = RES_LOC + fileName + ".png";
 
 	tx_data = LoadPNGImage(fileName, &tx_w, &tx_h, &tx_fmt);
 	if (!tx_data) {

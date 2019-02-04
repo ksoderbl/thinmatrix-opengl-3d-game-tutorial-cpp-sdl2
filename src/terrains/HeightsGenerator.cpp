@@ -14,7 +14,7 @@ HeightsGenerator::HeightsGenerator(Loader &loader, string heightMap, int stepSiz
 
 	this->image = nullptr;
 	if (heightMap != "") {
-		string fileName = "../res/" + heightMap + ".png";
+		string fileName = RES_LOC + heightMap + ".png";
 		this->image = loader.decodeTextureFile(fileName);
 		if (!this->image) {
 			cerr << "HeightsGenerator: decodeTextureFile failed for " << fileName << "\n";

@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
 		"cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
 		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
 
-	string fontFile = "../res/fonts/candara.fnt";
+	string fontFile = RES_LOC + "fonts/candara.fnt";
 	FontType font(loader.loadFontTextureAtlas("fonts/candara"), fontFile);
 	//string fontFile = "../res/fonts/harrington.fnt";
 	//FontType font(loader.loadFontTextureAtlas("fonts/harrington"), fontFile);
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
 	//string fontFile2 = "../res/fonts/segoe.fnt";
 	//FontType font2(loader.loadFontTextureAtlas("fonts/segoe"), fontFile2);
 
-	string fontFile2 = "../res/fonts/ebGaramond12AllSC.fnt";
+	string fontFile2 = RES_LOC + "fonts/ebGaramond12AllSC.fnt";
 	FontType font2(loader.loadFontTextureAtlas("fonts/ebGaramond12AllSC"), fontFile2);
 	GUIText text2(sampleText2, 3, &font2, glm::vec2(0.0f, 0.2f), 1.0f, true);
 	text2.setColor(1.0, 1.0, 1.0);

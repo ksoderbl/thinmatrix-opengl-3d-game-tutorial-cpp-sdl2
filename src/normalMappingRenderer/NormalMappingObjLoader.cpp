@@ -2,7 +2,6 @@
 
 RawModel *NormalMappingObjLoader::loadOBJ(string objFileName, Loader& loader)
 {
-	string RES_LOC = "../res/";
 	string fileName = RES_LOC + objFileName + ".obj";
 	ifstream inFile(fileName, ios::in);
 

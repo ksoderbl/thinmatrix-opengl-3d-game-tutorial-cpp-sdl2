@@ -45,4 +45,6 @@ using std::map;
 using std::pair;
 using std::stringstream;
 
+#include "toolbox/Const.h"
+
 #endif

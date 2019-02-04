@@ -3,10 +3,10 @@
 
 ShaderProgram::ShaderProgram(string vertexFile, string fragmentFile)
 {
-	this->vertexFile = vertexFile;
-	this->fragmentFile = fragmentFile;
-	vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
-	fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
+	this->vertexFile = SRC_LOC + vertexFile;
+	this->fragmentFile = SRC_LOC + fragmentFile;
+	vertexShaderID = loadShader(this->vertexFile, GL_VERTEX_SHADER);
+	fragmentShaderID = loadShader(this->fragmentFile, GL_FRAGMENT_SHADER);
 	programID = glCreateProgram();
 	glAttachShader(programID, vertexShaderID);
 	glAttachShader(programID, fragmentShaderID);
