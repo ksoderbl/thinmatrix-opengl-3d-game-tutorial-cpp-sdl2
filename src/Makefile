@@ -57,6 +57,7 @@ SOURCES = \
 	terrains/TerrainTexturePack.cpp \
 	textures/ModelTexture.cpp \
 	textures/TextureData.cpp \
+	toolbox/Const.cpp \
 	toolbox/Maths.cpp \
 	toolbox/MousePicker.cpp \
 	toolbox/Utils.cpp \
@@ -65,7 +66,7 @@ SOURCES = \
 	water/WaterShader.cpp \
 	water/WaterTile.cpp
 
-TARGET  = main
+TARGET  = ../main
 OBJECTS = $(SOURCES:.cpp=.o)
 
 CC	= g++
