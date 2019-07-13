@@ -17,7 +17,7 @@ Particle::Particle(ParticleTexture* texture, glm::vec3& position, glm::vec3& vel
 	particleMaster.addParticle(*this);
 }
 
-bool Particle::operator < (const Particle& r)
+bool Particle::operator < (const Particle& r) const
 {
 	return this->distance > r.distance;
 }

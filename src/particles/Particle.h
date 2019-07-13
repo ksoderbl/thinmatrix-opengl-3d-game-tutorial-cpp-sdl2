@@ -14,7 +14,7 @@ public:
 		 GLfloat lifeLength, GLfloat rotation, GLfloat scale);
 
 	// used with std::sort
-	bool operator < (const Particle& r);
+	bool operator < (const Particle& r) const;
 
 	ParticleTexture* getTexture() {
 		return texture;
