@@ -125,16 +125,19 @@ void checkEvents(void)
 int main(int argc, char *argv[])
 {
 	DisplayManager manager;
-	Loader loader;
-	Renderer renderer;
-	StaticShader shader;
-	
+
 	srand(time(NULL));
   
 	manager.createDisplay();
 	
 	cout << "createDisplay OK"  << endl;
 	
+	// These have to be constructed after the createDisplay(), otherwise
+	// OpenGL etc. has not been initialized properly.
+	Loader loader;
+	Renderer renderer;
+	StaticShader shader;
+
 	vector<GLfloat> vertices = {
 		-0.5f, 0.5f, 0.0f,  // V0
 		-0.5f, -0.5f, 0.0f, // V1
@@ -142,37 +145,29 @@ int main(int argc, char *argv[])
 		0.5f, 0.5f, 0.0f    // V3
 	};
 
-	//  V0     V3
-	//
-	//  V1     V2
-
 	vector<GLuint> indices = {
 		0, 1, 3, // Top left triangle
 		3, 1, 2  // Bottom right triangle
 	};
-
-
-
-
-
-	shader.LoadShaders();
         
 	RawModel* model = loader.loadToVAO(vertices, indices);
     
 	cout << "loadToVao OK"  << endl;
     
 	while (!isCloseRequested) {
-		renderer.prepare();
-		
 		// game logic
 		checkEvents();
 		
-		renderer.render(model, shader.getShaderProgram());
+		renderer.prepare();
+		shader.start();
+		renderer.render(model);
+		shader.stop();
+
 		manager.updateDisplay();
 	}
 
+	shader.cleanUp();
 	loader.cleanUp();
-
 	manager.closeDisplay();
 	
 	return 0;

@@ -6,9 +6,6 @@ class ShaderProgram
 public:
 	ShaderProgram(string vertexFile, string fragmentFile);
 	
-	void LoadShaders();
-
-	
 	void start();
 	void stop();
 	void cleanUp();
@@ -21,7 +18,7 @@ public:
 
 private:
 	int loadShader(string fileName, GLenum type);
-	string ReadShaderSource(string fileName);
+	string readShaderSource(string fileName);
 	
 	int programID;
 	int vertexShaderID;

@@ -3,7 +3,25 @@
 
 ShaderProgram::ShaderProgram(string vertexFile, string fragmentFile)
 {
-	
+	vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
+	fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
+	programID = glCreateProgram();
+	glAttachShader(programID, vertexShaderID);
+	glAttachShader(programID, fragmentShaderID);
+	bindAttributes();
+	glLinkProgram(programID);
+	glValidateProgram(programID);
+	GLint status;
+	glGetProgramiv(programID, GL_LINK_STATUS, &status);
+	if (status != GL_TRUE) {
+		GLchar infoLog[1024];
+		GLsizei length;
+		glGetShaderInfoLog(programID, sizeof(infoLog), &length, infoLog);
+		string s(infoLog);
+		cerr << s << endl;
+		cerr << "Could not link shader program" << endl;
+		exit(1);
+	}
 }
 
 void ShaderProgram::start()
@@ -40,27 +58,13 @@ void ShaderProgram::bindAttributes()
 
 int ShaderProgram::loadShader(string fileName, GLenum type)
 {
-	ifstream inFile(fileName, ios::in);
+	string src = readShaderSource(fileName);
 	
-	if (!inFile) {
-		cerr << "File " << fileName << " could not be opened" << endl;
-		exit(1);
-	}
-
-	string shaderSource, line;
-
-	while ( !inFile.eof() ) {
-		getline(inFile, line);
-		shaderSource += line + "\n";
-	}
+	const char *shaderSource = src.c_str();
 	
 	GLuint shaderID = glCreateShader(type);
-	
-	const GLchar *shader = shaderSource.c_str();
-	
-	glShaderSource(shaderID, 1, &shader, NULL);
+	glShaderSource(shaderID, 1, &shaderSource, NULL);
 	glCompileShader(shaderID);
-	
 	GLint status;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &status);
 	if (status != GL_TRUE) {
@@ -76,7 +80,7 @@ int ShaderProgram::loadShader(string fileName, GLenum type)
 	return shaderID;
 }
 
-string ShaderProgram::ReadShaderSource(string fileName)
+string ShaderProgram::readShaderSource(string fileName)
 {
 	ifstream inFile(fileName, ios::in);
 	
@@ -95,24 +99,3 @@ string ShaderProgram::ReadShaderSource(string fileName)
 	return shaderSource;	
 }
 
-void ShaderProgram::LoadShaders()
-{
-	string vsrc = ReadShaderSource("vertexShader.glsl");
-	const char* vertex_shader = vsrc.c_str();
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, NULL);
-	glCompileShader(vs);
-	
-	string fsrc = ReadShaderSource("fragmentShader.glsl");
-	const char* fragment_shader = fsrc.c_str();
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, NULL);
-	glCompileShader(fs);
-    
-	GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, fs);
-	glAttachShader(shaderProgram, vs);
-	glLinkProgram(shaderProgram);
-    
-	programID = shaderProgram;
-}

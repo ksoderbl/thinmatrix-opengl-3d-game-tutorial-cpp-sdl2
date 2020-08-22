@@ -6,7 +6,7 @@
 class Renderer {
 public:
 	void prepare();
-	void render(RawModel *model, GLuint shaderProgram);
+	void render(RawModel *model);
 private:
 	
 };
