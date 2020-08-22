@@ -16,7 +16,7 @@ CC	= g++
 SDL_CFLAGS := $(shell sdl2-config --cflags)
 SDL_LDFLAGS := $(shell sdl2-config --libs)
 CFLAGS	= -O2 -Wall -std=c++11 $(SDL_CFLAGS)
-LDFLAGS	= -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS) -lpng
+LDFLAGS	= -lGLEW -lGLU -lGL -lm $(SDL_LDFLAGS)
 
 
 all: $(TARGET)

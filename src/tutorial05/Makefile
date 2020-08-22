@@ -8,7 +8,7 @@ SHELL	= /bin/sh
 
 SOURCES = MainGameLoop.cpp DisplayManager.cpp RawModel.cpp Loader.cpp \
 	Renderer.cpp ShaderProgram.cpp StaticShader.cpp
-TARGET  = main
+TARGET  = tutorial05
 OBJECTS = $(SOURCES:.cpp=.o)
 
 CC	= g++
